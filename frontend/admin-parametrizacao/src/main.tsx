@@ -1,10 +1,15 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.tsx";
+import { BrowserRouter as Router } from "react-router";
 
-createRoot(document.getElementById('root')!).render(
+const basename: string = import.meta.env.BASE_URL;
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <Router basename={basename}>
+      <App />
+    </Router>
   </StrictMode>,
-)
+);
