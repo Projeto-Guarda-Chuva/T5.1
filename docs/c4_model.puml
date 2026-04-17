@@ -1,0 +1,33 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' Estética minimalista
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultTextAlignment center
+
+title Diagrama de Container (C4 Nível 2) - Sistema do Robô de Vídeos
+
+Person(user_mobile, "Usuário do Robô", "Cliente acessando o app via navegador web (mobile) através do QR Code.")
+Person(admin, "Administrador", "Equipe acessando o painel web para configurar o sistema.")
+
+System_Ext(central_op, "Central de Operação", "Sistema embarcado no robô que processa as gravações e envia para a nuvem.")
+
+System_Boundary(c1, "Plataforma de Vídeos") {
+    Container(app_cliente, "App Meus Vídeos", "React JS", "Aplicação web otimizada para mobile. Autentica via QR Code e exibe as mídias.")
+    Container(app_admin, "App Parametrização", "React JS", "Aplicação web de retaguarda (backoffice) para configuração técnica.")
+    
+    Container(api, "Application Server", "Python, FastAPI", "API unificada que processa regras de negócio, autenticações e roteamento.")
+    
+    ContainerDb(db, "Banco de Dados", "MongoDB", "Único repositório para metadados, parâmetros do robô e arquivos de vídeo (GridFS).")
+}
+
+Rel(user_mobile, app_cliente, "Visualiza seus vídeos usando")
+Rel(admin, app_admin, "Configura os robôs usando")
+
+Rel(app_cliente, api, "Solicita vídeos e dados do usuário", "JSON/HTTPS")
+Rel(app_admin, api, "Lê e atualiza parâmetros", "JSON/HTTPS")
+Rel(central_op, api, "Envia as mídias e telemetria", "JSON/HTTPS")
+
+Rel(api, db, "Persiste e consulta todas as informações", "MongoDB Driver")
+@enduml
