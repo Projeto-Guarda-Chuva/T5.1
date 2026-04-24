@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ROUTES } from "../../utils/routes";
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<"login" | "cadastro">("login");
@@ -191,7 +193,14 @@ export default function AuthPage() {
                     }}
                   />
                   <label className="form-check-label" htmlFor="consentimento">
-                    Aceito o termo de consentimento
+                    Aceito o{" "}
+                    <Link
+                      to={ROUTES.TERMS}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      termo de consentimento
+                    </Link>
                   </label>
                   {errors.regConsentimento && (
                     <div className="invalid-feedback">

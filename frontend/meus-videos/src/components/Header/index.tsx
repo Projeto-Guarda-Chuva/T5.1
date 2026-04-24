@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
+import { FaPlayCircle } from "react-icons/fa";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,8 +14,12 @@ export default function Header() {
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div className="container">
-          <Link className="navbar-brand fw-bold text-primary" to={ROUTES.ABOUT}>
-            Sobre
+          <Link
+            className="navbar-brand fw-bold text-primary d-flex align-items-center gap-2"
+            to={ROUTES.LOGIN}
+          >
+            <FaPlayCircle size={24} />
+            Meus Vídeos
           </Link>
 
           <button
@@ -34,10 +39,10 @@ export default function Header() {
               <li className="nav-item">
                 <Link
                   className="nav-link"
-                  to={ROUTES.HOME}
+                  to={ROUTES.ABOUT}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Início
+                  Sobre
                 </Link>
               </li>
               <li className="nav-item">
