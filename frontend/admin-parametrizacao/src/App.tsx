@@ -1,5 +1,11 @@
+import MainRoutes from "./MainRoutes";
+
 const App = () => {
-  return <button className="btn btn-primary">Botao</button>;
+  return (
+    <>
+      <MainRoutes />
+    </>
+  );
 };
 
 export default App;

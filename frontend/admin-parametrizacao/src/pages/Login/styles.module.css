@@ -1,0 +1,22 @@
+/* Login.module.css */
+
+.loginPageBg {
+  background-color: #f4f5f7;
+}
+
+.loginContainer {
+  max-width: 420px;
+  width: 100%;
+  padding: 15px;
+}
+
+.loginCard {
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.logoIcon {
+  font-size: 3.5rem;
+  color: var(--bs-primary);
+  line-height: 1;
+}

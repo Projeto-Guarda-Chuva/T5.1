@@ -1,0 +1,9 @@
+.customRounded {
+  border-radius: 0.75rem;
+}
+
+.btnLogin {
+  border-radius: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
