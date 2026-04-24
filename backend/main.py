@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+app = FastAPI(title="T5.1 API")
 
-print("hello")
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "T5.1 API running"}
