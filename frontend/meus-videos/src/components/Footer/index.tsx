@@ -18,6 +18,12 @@ export default function Footer() {
           >
             Termos de Uso
           </Link>
+          <Link
+            to={ROUTES.ABOUT}
+            className="text-decoration-none text-muted small"
+          >
+            Sobre
+          </Link>
         </div>
       </div>
     </footer>

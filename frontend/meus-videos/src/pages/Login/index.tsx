@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
 import { FaGoogle } from "react-icons/fa";
 
 export default function AuthPage() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"login" | "cadastro">("login");
 
   const [loginEmail, setLoginEmail] = useState("");
@@ -27,6 +28,22 @@ export default function AuthPage() {
     if (!loginEmail) newErrors.loginEmail = "O e-mail é obrigatório.";
     if (!loginPassword) newErrors.loginPassword = "A senha é obrigatória.";
     setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      // Simulando o login com dados salvos no localStorage
+      const users = JSON.parse(localStorage.getItem("mock_users") || "[]");
+      const user = users.find(
+        (u: any) => u.email === loginEmail && u.password === loginPassword,
+      );
+
+      if (user) {
+        alert(`Bem-vindo(a), ${user.nome}!`);
+        localStorage.setItem("logged_user", JSON.stringify(user));
+        navigate(ROUTES.ABOUT); // Redireciona para a página "Sobre" após o login mockado
+      } else {
+        setErrors({ loginPassword: "E-mail ou senha incorretos." });
+      }
+    }
   };
 
   const handleCadastro = (e: React.FormEvent) => {
@@ -39,6 +56,25 @@ export default function AuthPage() {
       newErrors.regConsentimento =
         "Você deve aceitar o termo de consentimento.";
     setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      // Simulando o cadastro salvando os dados no localStorage
+      const users = JSON.parse(localStorage.getItem("mock_users") || "[]");
+
+      if (users.find((u: any) => u.email === regEmail)) {
+        setErrors({ regEmail: "Este e-mail já está em uso." });
+        return;
+      }
+
+      const newUser = { nome: regNome, email: regEmail, password: regPassword };
+      users.push(newUser);
+      localStorage.setItem("mock_users", JSON.stringify(users));
+
+      alert("Cadastro realizado com sucesso! Por favor, faça login.");
+      setLoginEmail(regEmail); // Preenche o e-mail no login
+      setLoginPassword(""); // Limpa o campo de senha no login
+      setActiveTab("login"); // Troca para a aba de login
+    }
   };
 
   return (
