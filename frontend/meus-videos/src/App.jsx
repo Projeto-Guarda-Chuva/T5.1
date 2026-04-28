@@ -1,5 +1,11 @@
+import StatusGravacao from "./StatusGravacao";
+
 const App = () => {
-  return <button className="btn btn-primary">Hello Bootstrap</button>;
+  return (
+    <div>
+      <StatusGravacao />
+    </div>
+  );
 };
 
 export default App;
