@@ -39,7 +39,7 @@ export default function AuthPage() {
       if (user) {
         alert(`Bem-vindo(a), ${user.nome}!`);
         localStorage.setItem("logged_user", JSON.stringify(user));
-        navigate(ROUTES.ABOUT); // Redireciona para a página "Sobre" após o login mockado
+        navigate(ROUTES.HOME); // Redireciona para a página "Sobre" após o login mockado
       } else {
         setErrors({ loginPassword: "E-mail ou senha incorretos." });
       }
