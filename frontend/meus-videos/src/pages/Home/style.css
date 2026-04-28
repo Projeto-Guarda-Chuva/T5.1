@@ -20,8 +20,8 @@
 
 .featured-video {
   width: 100%;
-  max-height: 560px;
-  object-fit: cover;
+  max-height: 70vh;
+  object-fit: contain;
   display: block;
 }
 
@@ -87,6 +87,8 @@
   aspect-ratio: 16 / 9;
   object-fit: cover;
   display: block;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
 }
 
 .thumb-overlay {
@@ -101,6 +103,10 @@
 }
 
 .video-item:hover .thumb-overlay {
+  opacity: 1;
+}
+
+.video-item:hover .thumb-wrapper img {
   opacity: 1;
 }
 

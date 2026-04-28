@@ -1,6 +1,6 @@
 // Home.tsx
 import { useMemo, useState } from "react";
-import { FaPlay, FaRegCalendarAlt } from "react-icons/fa";
+import { FaPlay, FaRegCalendarAlt, FaVideoSlash } from "react-icons/fa";
 import "./style.css";
 
 const MOCK_VIDEOS = [
@@ -49,6 +49,26 @@ export default function Home() {
     });
   };
 
+  if (videos.length === 0) {
+    return (
+      <div className="video-page d-flex flex-column align-items-center justify-content-center">
+        <div className="text-center p-4 p-md-5">
+          <div
+            className="bg-primary rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-4"
+            style={{ width: "100px", height: "100px" }}
+          >
+            <FaVideoSlash size={40} className="text-white" />
+          </div>
+          <h3 className="fw-bold text-dark mb-3">Nenhum vídeo por aqui</h3>
+          <p className="text-muted mb-4 mx-auto" style={{ maxWidth: "400px" }}>
+            Você ainda não possui nenhum vídeo salvo. Que tal ir até o projeto e
+            registrar as suas experiências?
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="video-page">
       <div className="container-fluid px-3 px-lg-4">
@@ -76,7 +96,7 @@ export default function Home() {
 
         {/* Separação */}
         <div className="video-divider">
-          <span>Outros vídeos</span>
+          <span>Meus outros vídeos</span>
         </div>
 
         {/* Lista */}
