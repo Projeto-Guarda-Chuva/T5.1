@@ -139,6 +139,17 @@
   }
 
   .video-grid {
-    gap: 1.2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .play-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .video-date {
+    font-size: 0.85rem;
   }
 }
