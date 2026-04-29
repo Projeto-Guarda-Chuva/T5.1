@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.repositories.configuration_repository import ConfigurationRepository
 from app.schemas.configuration import (
+    ConfigurationCreateRequest,
     ConfigurationDetail,
     ConfigurationListResponse,
 )
@@ -32,6 +33,31 @@ async def list_configurations() -> ConfigurationListResponse:
         and a message describing the result.
     """
     return configuration_service.list_configurations()
+
+@router.post(
+    "/configurations",
+    response_model=ConfigurationDetail,
+    status_code=status.HTTP_201_CREATED,
+)
+@router.post(
+    "/configuracoes",
+    response_model=ConfigurationDetail,
+    status_code=status.HTTP_201_CREATED,
+    include_in_schema=False,
+)
+async def create_configuration(
+    configuration_data: ConfigurationCreateRequest,
+) -> ConfigurationDetail:
+    """
+    Create a new configuration and persist it in the system.
+
+    Args:
+        configuration_data (ConfigurationCreateRequest): The required configuration payload.
+
+    Returns:
+        ConfigurationDetail: The saved configuration including generated metadata.
+    """
+    return configuration_service.create_configuration(configuration_data)
 
 @router.get(
     "/configurations/{configuration_id}",

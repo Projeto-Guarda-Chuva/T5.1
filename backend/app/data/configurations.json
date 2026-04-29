@@ -26,5 +26,19 @@
       "video_capture_enabled": true,
       "audio_capture_enabled": false
     }
+  },
+  {
+    "id": "cfg-003",
+    "name": "Basic Program - New Operation",
+    "description": "Configuration for a new operation.",
+    "is_active": false,
+    "created_at": "2026-04-29T16:06:29",
+    "updated_at": "2026-04-29T16:06:29",
+    "parameters": {
+      "movement_speed": 0.7,
+      "movement_duration_seconds": 20,
+      "video_capture_enabled": true,
+      "audio_capture_enabled": false
+    }
   }
 ]
