@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from app.schemas.configuration import (
+    ConfigurationCreateRequest,
     ConfigurationDetail,
     ConfigurationListResponse,
     ConfigurationSummary,
@@ -71,3 +74,58 @@ class ConfigurationService:
             return None
 
         return ConfigurationDetail(**configuration)
+
+    def create_configuration(
+        self,
+        configuration_data: ConfigurationCreateRequest,
+    ) -> ConfigurationDetail:
+        """
+        Create and persist a new configuration record.
+
+        Args:
+            configuration_data (ConfigurationCreateRequest): Validated payload received by the API.
+
+        Returns:
+            ConfigurationDetail: The newly created configuration with generated metadata.
+        """
+        existing_configurations = self._repository.list_all()
+        configuration_id = self._generate_next_id(existing_configurations)
+        timestamp = datetime.utcnow().replace(microsecond=0).isoformat()
+
+        new_configuration = {
+            "id": configuration_id,
+            "name": configuration_data.name,
+            "description": configuration_data.description,
+            "is_active": False,
+            "created_at": timestamp,
+            "updated_at": timestamp,
+            "parameters": configuration_data.parameters.model_dump(),
+        }
+
+        saved_configuration = self._repository.create(new_configuration)
+        return ConfigurationDetail(**saved_configuration)
+
+    def _generate_next_id(self, configurations: list[dict]) -> str:
+        """
+        Generate the next sequential configuration identifier.
+
+        Args:
+            configurations (list[dict]): Existing configuration records.
+
+        Returns:
+            str: The next identifier in the cfg-XXX format.
+        """
+        highest_number = 0
+
+        for configuration in configurations:
+            configuration_id = configuration.get("id", "")
+
+            if not configuration_id.startswith("cfg-"):
+                continue
+
+            suffix = configuration_id.removeprefix("cfg-")
+
+            if suffix.isdigit():
+                highest_number = max(highest_number, int(suffix))
+
+        return f"cfg-{highest_number + 1:03d}"

@@ -64,7 +64,10 @@ Ao implementar uma nova história no backend, o ideal é seguir este padrão:
 
 ## Exemplo atual
 
-Hoje existe a implementação da história `OA-11 (1.2.1) - Visualizar configurações existentes`.
+Hoje existe a implementação das histórias:
+
+- `OA-11 (1.2.1) - Visualizar configurações existentes`
+- `OA-12 (1.2.2) - Criar nova configuração básica`
 
 Arquivos envolvidos:
 
@@ -77,11 +80,13 @@ Arquivos envolvidos:
 Rotas disponíveis:
 
 - `GET /configurations`
+- `POST /configurations`
 - `GET /configurations/{configuration_id}`
 
 Aliases de compatibilidade:
 
 - `GET /configuracoes`
+- `POST /configuracoes`
 - `GET /configuracoes/{configuration_id}`
 
 Exemplo de resposta da listagem:
@@ -122,7 +127,23 @@ Exemplo de resposta do detalhe:
 }
 ```
 
+Exemplo de criação:
+
+```json
+{
+  "name": "Basic Program - New Operation",
+  "description": "Configuration for a new operation.",
+  "parameters": {
+    "movement_speed": 0.7,
+    "movement_duration_seconds": 20,
+    "video_capture_enabled": true,
+    "audio_capture_enabled": false
+  }
+}
+```
+
 Se a configuração não existir, a API responde com `404`.
+Se faltar campo obrigatório na criação, a API impede o salvamento e responde com erro de validação.
 
 ## Integração local com o frontend
 

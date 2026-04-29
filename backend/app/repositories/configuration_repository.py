@@ -54,3 +54,22 @@ class ConfigurationRepository:
                 return configuration
 
         return None
+
+    def create(self, configuration_data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Persist a new configuration record in the JSON file.
+
+        Args:
+            configuration_data (dict[str, Any]): The configuration payload to save.
+
+        Returns:
+            dict[str, Any]: The saved configuration payload.
+        """
+        configurations = self.list_all()
+        configurations.append(configuration_data)
+
+        with self._data_file.open("w", encoding="utf-8") as file:
+            json.dump(configurations, file, indent=2, ensure_ascii=False)
+            file.write("\n")
+
+        return configuration_data
