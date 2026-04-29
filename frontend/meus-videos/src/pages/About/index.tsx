@@ -16,53 +16,49 @@ const About = () => {
                   Sobre o Projeto Guarda-Chuva
                 </h1>
                 <p className="text-muted mt-3 mb-0">
-                  Tecnologia pensada para aproximar pessoas, facilitar a rotina
-                  e transformar mobilidade em uma experiência mais inteligente.
+                  Uma interação mágica e surpreendente entre você e a
+                  inteligência artificial.
                 </p>
               </div>
 
               <div className="mb-5">
                 <h3 className="fw-bold mb-3">Nossa proposta</h3>
                 <p className="text-muted">
-                  O Projeto Guarda-Chuva nasceu com a missão de criar soluções
-                  inovadoras que unem praticidade, segurança e interação. Mais
-                  do que um sistema tecnológico, ele representa uma nova forma
-                  de conectar mobilidade e assistência no dia a dia.
-                </p>
-                <p className="text-muted mb-0">
-                  Nosso foco está em oferecer uma experiência intuitiva para o
-                  usuário, com recursos que tornam a utilização simples,
-                  acessível e eficiente.
+                  Imagine um guarda-chuva robótico que se move como uma
+                  água-viva. Equipado com uma câmera e IA, ele reconhece sua
+                  presença e reage aos seus movimentos, criando uma dança lúdica
+                  entre pessoa e máquina. Além da interação, o sistema grava
+                  esse momento único para você!
                 </p>
               </div>
 
               <div className="row g-4 mb-5">
                 <div className="col-12 col-md-4">
                   <div className="p-4 rounded-4 bg-light h-100">
-                    <h5 className="fw-semibold">Facilidade</h5>
+                    <h5 className="fw-semibold">Interação</h5>
                     <p className="text-muted small mb-0">
-                      Interfaces simples e acessíveis para que qualquer pessoa
-                      possa utilizar a plataforma sem dificuldades.
+                      A tecnologia responde diretamente à sua presença com
+                      movimentos guiados por IA.
                     </p>
                   </div>
                 </div>
 
                 <div className="col-12 col-md-4">
                   <div className="p-4 rounded-4 bg-light h-100">
-                    <h5 className="fw-semibold">Conexão</h5>
+                    <h5 className="fw-semibold">Arte e Design</h5>
                     <p className="text-muted small mb-0">
-                      Recursos pensados para aproximar tecnologia e pessoas,
-                      promovendo interações mais humanas e naturais.
+                      Um visual lúdico inspirado em águas-vivas, misturando
+                      robótica com formas da natureza.
                     </p>
                   </div>
                 </div>
 
                 <div className="col-12 col-md-4">
                   <div className="p-4 rounded-4 bg-light h-100">
-                    <h5 className="fw-semibold">Inovação</h5>
+                    <h5 className="fw-semibold">Recordação</h5>
                     <p className="text-muted small mb-0">
-                      Evolução constante para entregar soluções modernas e
-                      alinhadas às necessidades reais dos usuários.
+                      O guarda-chuva interage e captura em vídeo para você rever
+                      e compartilhar.
                     </p>
                   </div>
                 </div>
@@ -77,10 +73,10 @@ const About = () => {
               >
                 <h3 className="fw-bold mb-3">Nosso compromisso</h3>
                 <p className="text-muted mb-0">
-                  Colocar o usuário no centro de cada decisão. Cada
-                  funcionalidade foi planejada para gerar valor real, trazendo
-                  praticidade, confiança e uma experiência agradável em todos os
-                  momentos.
+                  Proporcionar um momento inesquecível de conexão. Queremos
+                  mostrar que a tecnologia pode ser divertida, orgânica e
+                  surpreendente, transformando o simples ato de parar sob um
+                  guarda-chuva em uma experiência memorável.
                 </p>
               </div>
 
