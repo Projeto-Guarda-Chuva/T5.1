@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
 import { FaGoogle } from "react-icons/fa";
@@ -16,6 +16,50 @@ export default function AuthPage() {
   const [regConsentimento, setRegConsentimento] = useState(false);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    // Inicializa dados mockados para facilitar os testes de diferentes cenários
+    const users = localStorage.getItem("mock_users");
+    if (!users) {
+      const initialUsers = [
+        { nome: "Com Vídeos", email: "comvideos@teste.com", password: "123" },
+        { nome: "Sem Vídeos", email: "semvideos@teste.com", password: "123" },
+      ];
+      localStorage.setItem("mock_users", JSON.stringify(initialUsers));
+
+      const mockVideos = [
+        {
+          id: "1",
+          date: "28 Abr 2026 às 14:30",
+          thumbnail: "https://picsum.photos/seed/vid1/1280/720",
+          src: "https://www.w3schools.com/html/mov_bbb.mp4",
+        },
+        {
+          id: "2",
+          date: "25 Abr 2026 às 09:15",
+          thumbnail: "https://picsum.photos/seed/vid2/640/360",
+          src: "https://www.w3schools.com/html/movie.mp4",
+        },
+        {
+          id: "3",
+          date: "20 Abr 2026 às 18:45",
+          thumbnail: "https://picsum.photos/seed/vid3/640/360",
+          src: "https://www.w3schools.com/html/mov_bbb.mp4",
+        },
+        {
+          id: "4",
+          date: "15 Abr 2026 às 10:00",
+          thumbnail: "https://picsum.photos/seed/vid4/640/360",
+          src: "https://www.w3schools.com/html/movie.mp4",
+        },
+      ];
+      localStorage.setItem(
+        "videos_comvideos@teste.com",
+        JSON.stringify(mockVideos),
+      );
+      localStorage.setItem("videos_semvideos@teste.com", JSON.stringify([]));
+    }
+  }, []);
 
   const handleTabSwitch = (tab: "login" | "cadastro") => {
     setActiveTab(tab);
@@ -69,6 +113,8 @@ export default function AuthPage() {
       const newUser = { nome: regNome, email: regEmail, password: regPassword };
       users.push(newUser);
       localStorage.setItem("mock_users", JSON.stringify(users));
+      // Certifica que o usuário novo comece com o estado de vídeos vazio
+      localStorage.setItem(`videos_${regEmail}`, JSON.stringify([]));
 
       alert("Cadastro realizado com sucesso! Por favor, faça login.");
       setLoginEmail(regEmail); // Preenche o e-mail no login

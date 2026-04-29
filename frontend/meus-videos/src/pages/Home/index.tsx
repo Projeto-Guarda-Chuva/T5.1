@@ -1,37 +1,35 @@
 // Home.tsx
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { FaPlay, FaRegCalendarAlt, FaVideoSlash } from "react-icons/fa";
 import "./style.css";
+import Form from "../../components/Form";
 
-const MOCK_VIDEOS = [
-  {
-    id: "1",
-    date: "28 Abr 2026 às 14:30",
-    thumbnail: "https://picsum.photos/seed/vid1/1280/720",
-    src: "https://www.w3schools.com/html/mov_bbb.mp4",
-  },
-  {
-    id: "2",
-    date: "25 Abr 2026 às 09:15",
-    thumbnail: "https://picsum.photos/seed/vid2/640/360",
-    src: "https://www.w3schools.com/html/movie.mp4",
-  },
-  {
-    id: "3",
-    date: "20 Abr 2026 às 18:45",
-    thumbnail: "https://picsum.photos/seed/vid3/640/360",
-    src: "https://www.w3schools.com/html/mov_bbb.mp4",
-  },
-  {
-    id: "4",
-    date: "15 Abr 2026 às 10:00",
-    thumbnail: "https://picsum.photos/seed/vid4/640/360",
-    src: "https://www.w3schools.com/html/movie.mp4",
-  },
-];
+interface Video {
+  id: string;
+  date: string;
+  thumbnail: string;
+  src: string;
+}
 
 export default function Home() {
-  const [videos, setVideos] = useState(MOCK_VIDEOS);
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [initialLatestId, setInitialLatestId] = useState<string | null>(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  useEffect(() => {
+    const loggedUserStr = localStorage.getItem("logged_user");
+    if (loggedUserStr) {
+      const user = JSON.parse(loggedUserStr);
+      const userVideosStr = localStorage.getItem(`videos_${user.email}`);
+      if (userVideosStr) {
+        const parsedVideos = JSON.parse(userVideosStr);
+        setVideos(parsedVideos);
+        if (parsedVideos.length > 0) {
+          setInitialLatestId(parsedVideos[0].id);
+        }
+      }
+    }
+  }, []);
 
   const latestVideo = useMemo(() => videos[0], [videos]);
   const otherVideos = useMemo(() => videos.slice(1), [videos]);
@@ -51,21 +49,43 @@ export default function Home() {
 
   if (videos.length === 0) {
     return (
-      <div className="video-page d-flex flex-column align-items-center justify-content-center">
-        <div className="text-center p-4 p-md-5">
-          <div
-            className="bg-primary rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-4"
-            style={{ width: "100px", height: "100px" }}
-          >
-            <FaVideoSlash size={40} className="text-white" />
+      <>
+        <div className="video-page d-flex flex-column align-items-center justify-content-center">
+          <div className="text-center p-4 p-md-5">
+            <div
+              className="bg-primary rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-4"
+              style={{ width: "100px", height: "100px" }}
+            >
+              <FaVideoSlash size={40} className="text-white" />
+            </div>
+            <h3 className="fw-bold text-dark mb-3">Nenhum vídeo por aqui</h3>
+            <p
+              className="text-muted mb-4 mx-auto"
+              style={{ maxWidth: "400px" }}
+            >
+              Você ainda não possui nenhum vídeo salvo. <br></br> Que tal ir até
+              o projeto e registrar a sua experiência?
+            </p>
+            <button
+              type="button"
+              className="btn btn-primary px-4"
+              onClick={() => setIsFormOpen(true)}
+            >
+              Já participei
+            </button>
           </div>
-          <h3 className="fw-bold text-dark mb-3">Nenhum vídeo por aqui</h3>
-          <p className="text-muted mb-4 mx-auto" style={{ maxWidth: "400px" }}>
-            Você ainda não possui nenhum vídeo salvo. Que tal ir até o projeto e
-            registrar as suas experiências?
-          </p>
         </div>
-      </div>
+        <Form
+          isOpen={isFormOpen}
+          onClose={() => setIsFormOpen(false)}
+          onSubmit={(time) => {
+            alert(
+              `Participação confirmada às ${time}! Em breve o vídeo estará disponível.`,
+            );
+            setIsFormOpen(false);
+          }}
+        />
+      </>
     );
   }
 
@@ -74,9 +94,20 @@ export default function Home() {
       <div className="container-fluid px-3 px-lg-4">
         {/* Vídeo Atual */}
         <section className="featured-section">
-          {latestVideo.id === MOCK_VIDEOS[0].id && (
-            <h4 className="fw-bold mb-3 text-dark">Meu último vídeo</h4>
-          )}
+          <div className="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center align-items-md-center mb-3 gap-3">
+            {latestVideo.id === initialLatestId ? (
+              <h4 className="fw-bold text-dark mb-0">Meu último vídeo</h4>
+            ) : (
+              <div></div>
+            )}
+            <button
+              type="button"
+              className="btn btn-primary px-4"
+              onClick={() => setIsFormOpen(true)}
+            >
+              Nova participação
+            </button>
+          </div>
           <div className="featured-player">
             <video
               key={latestVideo.id}
@@ -124,6 +155,16 @@ export default function Home() {
           ))}
         </section>
       </div>
+      <Form
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        onSubmit={(time) => {
+          alert(
+            `Participação confirmada às ${time}! Em breve o vídeo estará disponível.`,
+          );
+          setIsFormOpen(false);
+        }}
+      />
     </div>
   );
 }
