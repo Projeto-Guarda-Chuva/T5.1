@@ -1,9 +1,20 @@
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import styles from "./styles.module.css";
 
 import { navItems } from "./navItems";
 
+import authStorage from "../../utils/authStorage";
+import { ROUTES } from "../../utils/routes";
+
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    authStorage.removeToken();
+
+    navigate(ROUTES.LOGIN);
+  };
+
   return (
     <nav className={`navbar navbar-expand-lg navbar-dark bg-primary ${styles.customNavbar}`}>
       <div className="container">
@@ -27,7 +38,9 @@ const Navbar = () => {
             ))}
 
             <li className="mt-2 mt-lg-0 ms-lg-3">
-              <button className="btn btn-sm btn-outline-light w-100 text-white">Sair</button>
+              <button className="btn btn-sm btn-outline-light w-100 text-white" onClick={handleLogout}>
+                Sair
+              </button>
             </li>
           </ul>
         </div>
