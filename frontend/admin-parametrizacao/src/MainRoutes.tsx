@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import MainLayout from "./pages/MainLayout";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import Parameters from "./pages/Parameters";
+import VideoHistory from "./pages/VideoHistory";
 
 const MainRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const MainRoutes = () => {
         <Route element={<MainLayout />}>
           <Route path={ROUTES.HOME} element={<Home />} />
           <Route path={ROUTES.PARAMETERS} element={<Parameters />} />
+          <Route path={ROUTES.VIDEOS_HISTORY} element={<VideoHistory />} />
         </Route>
       </Route>
     </Routes>
