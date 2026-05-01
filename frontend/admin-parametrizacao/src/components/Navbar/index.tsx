@@ -1,4 +1,7 @@
+import { NavLink } from "react-router";
 import styles from "./styles.module.css";
+
+import { navItems } from "./navItems";
 
 const Navbar = () => {
   return (
@@ -15,21 +18,14 @@ const Navbar = () => {
 
         <div className="collapse navbar-collapse" id="navbarAdmin">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <a className="nav-link active" href="#">
-                Dashboard
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Parâmetros
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Histórico de Vídeos
-              </a>
-            </li>
+            {navItems.map((item) => (
+              <li key={item.label} className="nav-item">
+                <NavLink to={item.path} className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
+
             <li className="mt-2 mt-lg-0 ms-lg-3">
               <button className="btn btn-sm btn-outline-light w-100 text-white">Sair</button>
             </li>
