@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import MainLayout from "./pages/MainLayout";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import Parameters from "./pages/Parameters";
 
 const MainRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const MainRoutes = () => {
         <Route path="/" element={<Navigate to={ROUTES.HOME} replace />} />
         <Route element={<MainLayout />}>
           <Route path={ROUTES.HOME} element={<Home />} />
+          <Route path={ROUTES.PARAMETERS} element={<Parameters />} />
         </Route>
       </Route>
     </Routes>
