@@ -11,7 +11,7 @@ _auth_service = AuthService(UserRepository())
 
 @router.post("/login", response_model=TokenResponse, status_code=status.HTTP_200_OK)
 async def login(credentials: LoginRequest) -> TokenResponse:
-    token = _auth_service.authenticate(credentials.username, credentials.password)
+    token = await _auth_service.authenticate(credentials.username, credentials.password)
 
     if token is None:
         raise HTTPException(

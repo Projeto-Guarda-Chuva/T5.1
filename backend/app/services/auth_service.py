@@ -13,8 +13,8 @@ class AuthService:
     def __init__(self, repository: UserRepository) -> None:
         self._repository = repository
 
-    def authenticate(self, username: str, password: str) -> str | None:
-        user = self._repository.get_by_username(username)
+    async def authenticate(self, username: str, password: str) -> str | None:
+        user = await self._repository.get_by_username(username)
 
         if user is None or not user.get("is_active"):
             return None

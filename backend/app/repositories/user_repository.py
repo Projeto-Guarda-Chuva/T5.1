@@ -1,22 +1,16 @@
-import json
-from pathlib import Path
-from typing import Any
+from app.database import db
 
 
 class UserRepository:
-    def __init__(self, data_file: Path | None = None) -> None:
-        default_file = Path(__file__).resolve().parents[1] / "data" / "users.json"
-        self._data_file = data_file or default_file
+    def __init__(self) -> None:
+        self._collection = db["users"]
 
-    def get_by_username(self, username: str) -> dict[str, Any] | None:
-        if not self._data_file.exists():
-            return None
+    async def get_by_username(self, username: str) -> dict | None:
+        return await self._collection.find_one({"username": username}, {"_id": 0})
 
-        with self._data_file.open("r", encoding="utf-8") as file:
-            users = json.load(file)
+    async def exists_any(self) -> bool:
+        count = await self._collection.count_documents({})
+        return count > 0
 
-        for user in users:
-            if user.get("username") == username:
-                return user
-
-        return None
+    async def create(self, user: dict) -> None:
+        await self._collection.insert_one(user)
