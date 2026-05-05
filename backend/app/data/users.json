@@ -1,0 +1,8 @@
+[
+  {
+    "id": "usr-001",
+    "username": "admin",
+    "hashed_password": "$2b$12$68BHOSr2PiE3stUVEvZC1u6XlEF5LW0gbHbIFRk6WryBBQ9PJNM7K",
+    "is_active": true
+  }
+]

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.routers.auth import router as auth_router
 from app.routers.configurations import router as configurations_router
 
 app = FastAPI(title="T5.1 API")
@@ -18,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router)
 app.include_router(configurations_router)
 
 @app.get("/")

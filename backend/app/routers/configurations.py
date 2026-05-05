@@ -1,5 +1,6 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 
+from app.dependencies import get_current_user
 from app.repositories.configuration_repository import ConfigurationRepository
 from app.schemas.configuration import (
     ConfigurationCreateRequest,
@@ -8,7 +9,7 @@ from app.schemas.configuration import (
 )
 from app.services.configuration_service import ConfigurationService
 
-router = APIRouter(tags=["Configurations"])
+router = APIRouter(tags=["Configurations"], dependencies=[Depends(get_current_user)])
 
 configuration_service = ConfigurationService(ConfigurationRepository())
 
