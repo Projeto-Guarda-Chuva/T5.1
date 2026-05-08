@@ -1,0 +1,38 @@
+[
+  {
+    "id": "SESS-1042",
+    "occurred_at": "2026-05-01T14:30:00",
+    "duration_seconds": 312,
+    "participant_email": "usuario1@exemplo.com",
+    "status": "success",
+    "status_text": "Concluído",
+    "description": "Sessão finalizada com gravação e execução normal da operação."
+  },
+  {
+    "id": "SESS-1041",
+    "occurred_at": "2026-05-01T13:15:00",
+    "duration_seconds": 225,
+    "participant_email": "visitante_02@exemplo.com",
+    "status": "success",
+    "status_text": "Concluído",
+    "description": "Sessão concluída sem intercorrências operacionais."
+  },
+  {
+    "id": "SESS-1040",
+    "occurred_at": "2026-04-30T18:00:00",
+    "duration_seconds": 70,
+    "participant_email": "teste_ops@exemplo.com",
+    "status": "error",
+    "status_text": "Interrompido (Anomalia)",
+    "description": "Operação interrompida após detecção de anomalia durante o ciclo."
+  },
+  {
+    "id": "SESS-1039",
+    "occurred_at": "2026-04-30T17:20:00",
+    "duration_seconds": 240,
+    "participant_email": "maria.silva@exemplo.com",
+    "status": "success",
+    "status_text": "Concluído",
+    "description": "Sessão concluída com parâmetros padrão ativos."
+  }
+]

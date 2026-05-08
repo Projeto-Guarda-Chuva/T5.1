@@ -6,6 +6,7 @@ from passlib.context import CryptContext
 
 from app.routers.auth import router as auth_router
 from app.routers.configurations import router as configurations_router
+from app.routers.operation_logs import router as operation_logs_router
 from app.routers.participantes import router as participantes_router
 
 
@@ -44,6 +45,7 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(configurations_router)
+app.include_router(operation_logs_router)
 
 @app.get("/")
 async def read_root() -> dict[str, str]:

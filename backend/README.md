@@ -68,7 +68,8 @@ Hoje existe a implementação das histórias:
 
 - `OA-11 (1.2.1) - Visualizar configurações existentes`
 - `OA-12 (1.2.2) - Criar nova configuração básica`
-- `OA-13 - Selecionar uma configuração para uso`
+- `OA-13 (1.2.3) - Selecionar uma configuração para uso`
+- `OA-14 (1.2.4) - Visualizar log da operação`
 
 Arquivos envolvidos:
 
@@ -198,6 +199,46 @@ A regra adotada no backend para esse fallback é usar a configuração mais anti
 
 Se a configuração não existir, a API responde com `404`.
 Se faltar campo obrigatório na criação, a API impede o salvamento e responde com erro de validação.
+
+## Histórico da operação
+
+Arquivos envolvidos:
+
+- `app/routers/operation_logs.py`
+- `app/services/operation_log_service.py`
+- `app/repositories/operation_log_repository.py`
+- `app/schemas/operation_log.py`
+- `app/data/operation_logs.json`
+
+Rotas disponíveis:
+
+- `GET /operation-logs`
+
+Aliases de compatibilidade:
+
+- `GET /logs-operacao`
+
+Exemplo de resposta:
+
+```json
+{
+  "items": [
+    {
+      "id": "SESS-1042",
+      "occurred_at": "2026-05-01T14:30:00",
+      "duration_seconds": 312,
+      "participant_email": "usuario1@exemplo.com",
+      "status": "success",
+      "status_text": "Concluído",
+      "description": "Sessão finalizada com gravação e execução normal da operação."
+    }
+  ],
+  "total": 1,
+  "message": "Operation log records retrieved successfully."
+}
+```
+
+Caso não existam registros armazenados em `app/data/operation_logs.json`, a API responde com lista vazia e a mensagem `No operation log records found.`.
 
 ## Integração local com o frontend
 
