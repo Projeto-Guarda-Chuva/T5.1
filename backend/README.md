@@ -68,6 +68,7 @@ Hoje existe a implementação das histórias:
 
 - `OA-11 (1.2.1) - Visualizar configurações existentes`
 - `OA-12 (1.2.2) - Criar nova configuração básica`
+- `OA-13 - Selecionar uma configuração para uso`
 
 Arquivos envolvidos:
 
@@ -81,12 +82,16 @@ Rotas disponíveis:
 
 - `GET /configurations`
 - `POST /configurations`
+- `PATCH /configurations/{configuration_id}/activate`
+- `GET /configurations/current`
 - `GET /configurations/{configuration_id}`
 
 Aliases de compatibilidade:
 
 - `GET /configuracoes`
 - `POST /configuracoes`
+- `PATCH /configuracoes/{configuration_id}/ativar`
+- `GET /configuracoes/atual`
 - `GET /configuracoes/{configuration_id}`
 
 Exemplo de resposta da listagem:
@@ -141,6 +146,55 @@ Exemplo de criação:
   }
 }
 ```
+
+Exemplo de seleção para uso:
+
+```json
+{
+  "configuration": {
+    "id": "cfg-002",
+    "name": "Basic Program - Silent Operation",
+    "description": "Alternative configuration for environments with lower audio capture needs.",
+    "is_active": true,
+    "created_at": "2026-04-18T11:15:00",
+    "updated_at": "2026-05-08T10:15:00",
+    "parameters": {
+      "movement_speed": 0.6,
+      "movement_duration_seconds": 45,
+      "video_capture_enabled": true,
+      "audio_capture_enabled": false
+    }
+  },
+  "message": "Configuration selected successfully for operation."
+}
+```
+
+Exemplo de consulta da configuração em uso pela camada inferior:
+
+```json
+{
+  "configuration": {
+    "id": "cfg-002",
+    "name": "Basic Program - Silent Operation",
+    "description": "Alternative configuration for environments with lower audio capture needs.",
+    "is_active": true,
+    "created_at": "2026-04-18T11:15:00",
+    "updated_at": "2026-05-08T10:15:00",
+    "parameters": {
+      "movement_speed": 0.6,
+      "movement_duration_seconds": 45,
+      "video_capture_enabled": true,
+      "audio_capture_enabled": false
+    }
+  },
+  "source": "active",
+  "has_active_configuration": true,
+  "message": "Active configuration retrieved successfully."
+}
+```
+
+Se nenhuma configuração estiver ativa, `GET /configurations/current` devolve a configuração padrão de fallback.
+A regra adotada no backend para esse fallback é usar a configuração mais antiga cadastrada e informar isso no campo `message`.
 
 Se a configuração não existir, a API responde com `404`.
 Se faltar campo obrigatório na criação, a API impede o salvamento e responde com erro de validação.

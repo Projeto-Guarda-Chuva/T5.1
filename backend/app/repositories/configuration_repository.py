@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+
 class ConfigurationRepository:
     """Read configuration records from the local JSON data source."""
 
@@ -39,6 +40,19 @@ class ConfigurationRepository:
 
         return data
 
+    def replace_all(self, configurations: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """
+        Replace all stored configuration records in the JSON file.
+
+        Args:
+            configurations (list[dict[str, Any]]): The full set of configuration records.
+
+        Returns:
+            list[dict[str, Any]]: The persisted configuration records.
+        """
+        self._write_all(configurations)
+        return configurations
+
     def get_by_id(self, configuration_id: str) -> dict[str, Any] | None:
         """
         Return a single configuration record by its identifier.
@@ -67,9 +81,20 @@ class ConfigurationRepository:
         """
         configurations = self.list_all()
         configurations.append(configuration_data)
+        self._write_all(configurations)
 
+        return configuration_data
+
+    def _write_all(self, configurations: list[dict[str, Any]]) -> None:
+        """
+        Persist the provided configuration collection to the JSON file.
+
+        Args:
+            configurations (list[dict[str, Any]]): The configuration collection to persist.
+
+        Returns:
+            None.
+        """
         with self._data_file.open("w", encoding="utf-8") as file:
             json.dump(configurations, file, indent=2, ensure_ascii=False)
             file.write("\n")
-
-        return configuration_data
