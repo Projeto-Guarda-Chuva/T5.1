@@ -65,6 +65,18 @@ class AuthService:
         await self._repository.save_reset_code(email, code, expires_at)
         return code
 
+    async def change_password(
+        self, email: str, current_password: str, new_password: str
+    ) -> bool:
+        user = await self._repository.get_by_email(email)
+
+        if user is None or not _pwd_context.verify(current_password, user["hashed_password"]):
+            return False
+
+        hashed = _pwd_context.hash(new_password)
+        await self._repository.update_password(email, hashed)
+        return True
+
     async def reset_password(self, email: str, code: str, new_password: str) -> bool:
         record = await self._repository.get_reset_code(email)
 

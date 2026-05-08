@@ -4,6 +4,7 @@ from app.dependencies import get_current_user
 from app.repositories.user_repository import UserRepository
 from app.schemas.admin import AdminCreateRequest, AdminCreateResponse
 from app.schemas.auth import LoginRequest, TokenResponse
+from app.schemas.change_password import ChangePasswordRequest
 from app.schemas.password_recovery import ForgotPasswordRequest, ResetPasswordRequest
 from app.services.auth_service import AuthService
 from app.services.email_service import send_password_reset_email
@@ -72,3 +73,21 @@ async def reset_password(data: ResetPasswordRequest) -> dict:
         )
 
     return {"message": "Senha redefinida com sucesso."}
+
+
+@router.put("/change-password", status_code=status.HTTP_200_OK)
+async def change_password(
+    data: ChangePasswordRequest,
+    current_user: str = Depends(get_current_user),
+) -> dict:
+    success = await _auth_service.change_password(
+        current_user, data.current_password, data.new_password
+    )
+
+    if not success:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Senha atual incorreta.",
+        )
+
+    return {"message": "Senha alterada com sucesso."}
