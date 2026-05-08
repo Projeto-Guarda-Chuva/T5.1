@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
-import { FaGoogle } from "react-icons/fa";
+import {
+  GoogleOAuthProvider,
+  GoogleLogin,
+  CredentialResponse,
+} from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -16,6 +21,11 @@ export default function AuthPage() {
   const [regConsentimento, setRegConsentimento] = useState(false);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  interface GoogleDecodedToken {
+    name: string;
+    email: string;
+  }
 
   useEffect(() => {
     // Inicializa dados mockados para facilitar os testes de diferentes cenários
@@ -123,6 +133,38 @@ export default function AuthPage() {
     }
   };
 
+  const handleGoogleLogin = (credentialResponse: CredentialResponse) => {
+    if (!credentialResponse.credential) {
+      setErrors({
+        ...errors,
+        google: "Login com Google falhou. Tente novamente.",
+      });
+      return;
+    }
+
+    const decoded: GoogleDecodedToken = jwtDecode(
+      credentialResponse.credential,
+    );
+    const { name, email } = decoded;
+
+    const users = JSON.parse(localStorage.getItem("mock_users") || "[]");
+    let user = users.find((u: any) => u.email === email);
+
+    if (!user) {
+      // Se o usuário não existe, cadastra (simulação)
+      const newUser = { nome: name, email: email, password: "google_user" }; // A senha é um placeholder
+      users.push(newUser);
+      localStorage.setItem("mock_users", JSON.stringify(users));
+      // Garante que o novo usuário comece com uma lista de vídeos vazia
+      localStorage.setItem(`videos_${email}`, JSON.stringify([]));
+      user = newUser;
+    }
+
+    alert(`Bem-vindo(a), ${user.nome}!`);
+    localStorage.setItem("logged_user", JSON.stringify(user));
+    navigate(ROUTES.HOME);
+  };
+
   return (
     <div className="container d-flex align-items-center justify-content-center flex-grow-1">
       <style>{`
@@ -211,20 +253,6 @@ export default function AuthPage() {
                     Entrar
                   </button>
                 </form>
-
-                <div className="d-flex align-items-center my-3">
-                  <hr className="flex-grow-1 text-muted" />
-                  <span className="mx-3 text-muted small">ou</span>
-                  <hr className="flex-grow-1 text-muted" />
-                </div>
-
-                <button
-                  type="button"
-                  className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2"
-                >
-                  <FaGoogle size={18} />
-                  Entrar com o Google
-                </button>
               </>
             ) : (
               <>
@@ -318,21 +346,35 @@ export default function AuthPage() {
                     Cadastrar
                   </button>
                 </form>
-
-                <div className="d-flex align-items-center my-3">
-                  <hr className="flex-grow-1 text-muted" />
-                  <span className="mx-3 text-muted small">ou</span>
-                  <hr className="flex-grow-1 text-muted" />
-                </div>
-
-                <button
-                  type="button"
-                  className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2"
-                >
-                  <FaGoogle size={18} />
-                  Cadastrar com o Google
-                </button>
               </>
+            )}
+
+            <div className="d-flex align-items-center my-3">
+              <hr className="flex-grow-1 text-muted" />
+              <span className="mx-3 text-muted small">ou</span>
+              <hr className="flex-grow-1 text-muted" />
+            </div>
+
+            <div className="d-flex justify-content-center">
+              <GoogleOAuthProvider
+                clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ""}
+              >
+                <GoogleLogin
+                  onSuccess={handleGoogleLogin}
+                  onError={() => {
+                    setErrors({
+                      ...errors,
+                      google: "Falha no login com Google. Tente novamente.",
+                    });
+                  }}
+                  useOneTap
+                />
+              </GoogleOAuthProvider>
+            </div>
+            {errors.google && (
+              <div className="text-danger text-center mt-2 small">
+                {errors.google}
+              </div>
             )}
           </div>
         </div>
