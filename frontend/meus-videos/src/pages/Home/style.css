@@ -1,0 +1,155 @@
+/* style.css */
+
+.video-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fafafa 0%, #f3f6fb 100%);
+  padding: 2rem 0;
+}
+
+/* PLAYER PRINCIPAL */
+.featured-section {
+  margin-bottom: 3rem;
+}
+
+.featured-player {
+  background: #000;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+}
+
+.featured-video {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  display: block;
+}
+
+.featured-date {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #5f6368;
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+/* DIVISÃO */
+.video-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.video-divider::before,
+.video-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #d9dee8;
+}
+
+.video-divider span {
+  color: #6b7280;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+/* GRID */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.8rem;
+}
+
+.video-item {
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.video-item:hover {
+  transform: translateY(-4px);
+}
+
+.thumb-wrapper {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ddd;
+}
+
+.thumb-wrapper img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.video-item:hover .thumb-overlay {
+  opacity: 1;
+}
+
+.video-item:hover .thumb-wrapper img {
+  opacity: 1;
+}
+
+.play-btn {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.video-date {
+  margin-top: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.92rem;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .featured-video {
+    max-height: 320px;
+  }
+
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .play-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .video-date {
+    font-size: 0.85rem;
+  }
+}
