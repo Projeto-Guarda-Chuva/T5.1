@@ -13,10 +13,11 @@ from app.routers.participantes import router as participantes_router
 async def _seed_admin() -> None:
     from app.repositories.user_repository import UserRepository
     repo = UserRepository()
-    if not await repo.exists_any():
+    if not await repo.exists_by_email("admin@t51.com"):
         ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
         await repo.create({
-            "username": "admin",
+            "name": "Administrador",
+            "email": "admin@t51.com",
             "hashed_password": ctx.hash("admin123"),
             "is_active": True,
         })
