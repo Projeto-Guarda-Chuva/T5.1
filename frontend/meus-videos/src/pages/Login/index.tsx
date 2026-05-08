@@ -102,7 +102,6 @@ export default function AuthPage() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Simulando o cadastro salvando os dados no localStorage
       const users = JSON.parse(localStorage.getItem("mock_users") || "[]");
 
       if (users.find((u: any) => u.email === regEmail)) {
@@ -113,13 +112,18 @@ export default function AuthPage() {
       const newUser = { nome: regNome, email: regEmail, password: regPassword };
       users.push(newUser);
       localStorage.setItem("mock_users", JSON.stringify(users));
-      // Certifica que o usuário novo comece com o estado de vídeos vazio
       localStorage.setItem(`videos_${regEmail}`, JSON.stringify([]));
 
-      alert("Cadastro realizado com sucesso! Por favor, faça login.");
-      setLoginEmail(regEmail); // Preenche o e-mail no login
-      setLoginPassword(""); // Limpa o campo de senha no login
-      setActiveTab("login"); // Troca para a aba de login
+      if (regConsentimento) {
+          console.log("Simulando PATCH /participantes/123/aceite-termo", {
+              aceitou: true,
+              versao_termo: "v1.0"
+          });
+      }
+
+      localStorage.setItem("logged_user", JSON.stringify(newUser));
+      
+      navigate("/status-gravacao"); 
     }
   };
 

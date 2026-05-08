@@ -7,6 +7,7 @@ from passlib.context import CryptContext
 from app.routers.auth import router as auth_router
 from app.routers.configurations import router as configurations_router
 from app.routers.operation_logs import router as operation_logs_router
+from app.routers.participantes import router as participantes_router
 
 
 async def _seed_admin() -> None:
