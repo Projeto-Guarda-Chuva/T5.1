@@ -1,16 +1,11 @@
-import type { LoginEntry, User } from "../types/users";
+import type { LoginEntry, LoginResponse } from "../types/users";
 
 import api from "../api";
 
-const login = async (obj: LoginEntry): Promise<User | null> => {
-  const response = await api.get<User[]>("/users", {
-    params: {
-      username: obj.username,
-      password: obj.password,
-    },
-  });
+const login = async (obj: LoginEntry): Promise<LoginResponse | null> => {
+  const response = await api.post<LoginResponse>("/auth/login", obj);
 
-  return response.data[0] ?? null;
+  return response.data ?? null;
 };
 
 export default {
