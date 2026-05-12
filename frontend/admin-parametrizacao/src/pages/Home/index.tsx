@@ -1,6 +1,12 @@
+import useCurrentActiveConfiguration from "../../hooks/useCurrentActiveConfiguration";
+import ActiveConfigurationCard from "./CurrentConfigurationCard";
 import styles from "./styles.module.css";
 
 const Home = () => {
+  const { currentConfiguration } = useCurrentActiveConfiguration();
+
+  const currentConfigData = currentConfiguration?.configuration;
+
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -30,26 +36,7 @@ const Home = () => {
         </div>
 
         <div className="col-12 col-md-6">
-          <div className={`card ${styles.dashboardCard}`}>
-            <div className="card-body d-flex flex-column">
-              <h6 className="card-subtitle text-muted fw-semibold mb-3">Parametrização Ativa</h6>
-
-              <div className="d-flex align-items-center mb-3">
-                <div className={`bg-primary bg-opacity-10 text-primary ${styles.iconWrapper} me-3`}>
-                  <i className="bi bi-sliders"></i>
-                </div>
-                <div>
-                  <h6 className="mb-0 fw-bold">Perfil: Modo Interativo</h6>
-                  <small className="text-muted">Velocidade: Média | Luzes: RGB</small>
-                </div>
-              </div>
-
-              <button className="btn btn-outline-primary mt-auto py-2">
-                <i className="bi bi-pencil-square me-2"></i>
-                Ajustar Parâmetros
-              </button>
-            </div>
-          </div>
+          <ActiveConfigurationCard currentConfiguration={currentConfigData} />
         </div>
 
         <div className="col-12">
