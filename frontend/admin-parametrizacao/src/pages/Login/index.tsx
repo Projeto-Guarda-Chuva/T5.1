@@ -25,7 +25,7 @@ const Login = () => {
         return;
       }
 
-      authStorage.setToken(user.token);
+      authStorage.setToken(user.access_token);
 
       navigate(ROUTES.HOME);
     } catch (err) {
