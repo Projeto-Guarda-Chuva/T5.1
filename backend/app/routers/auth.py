@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from passlib.context import CryptContext
 
 from app.dependencies import get_current_user
 from app.repositories.user_repository import UserRepository
 from app.schemas.admin import AdminCreateRequest, AdminCreateResponse
-from app.schemas.auth import LoginRequest, TokenResponse
+from app.schemas.auth import LoginRequest, TokenResponse, RegisterRequest, RegisterResponse
 from app.schemas.change_password import ChangePasswordRequest
 from app.schemas.password_recovery import ForgotPasswordRequest, ResetPasswordRequest
 from app.services.auth_service import AuthService
@@ -12,6 +13,8 @@ from app.services.email_service import send_password_reset_email
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 _auth_service = AuthService(UserRepository())
+_user_repo = UserRepository()
+_password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 @router.post("/login", response_model=TokenResponse, status_code=status.HTTP_200_OK)
@@ -26,6 +29,32 @@ async def login(credentials: LoginRequest) -> TokenResponse:
         )
 
     return TokenResponse(access_token=token)
+
+
+@router.post("/register-participante", response_model=RegisterResponse, status_code=status.HTTP_201_CREATED)
+async def register_participante(data: RegisterRequest) -> RegisterResponse:
+    """Registra um novo participante (público, sem autenticação)"""
+    if await _user_repo.exists_by_email(data.email):
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="E-mail já cadastrado.",
+        )
+    
+    hashed_password = _password_context.hash(data.password)
+    user_data = {
+        "nome": data.nome,
+        "email": data.email,
+        "hashed_password": hashed_password,
+        "is_active": True,
+    }
+    
+    await _user_repo.create(user_data)
+    
+    return RegisterResponse(
+        email=data.email,
+        nome=data.nome,
+        message="Cadastro realizado com sucesso!"
+    )
 
 
 @router.post(
