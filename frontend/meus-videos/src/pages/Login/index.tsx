@@ -1,66 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
-import { FaGoogle } from "react-icons/fa";
+import {
+  GoogleOAuthProvider,
+  GoogleLogin,
+  CredentialResponse,
+} from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import authService from "../../services/authService";
+import participantesService from "../../services/participantesService";
 
-const SEEDED_USERS = [
-  {
-    nome: "Gabriel",
-    email: "estudogabriel2019@gmail.com",
-    password: "123",
-    participantId: "part-001",
-  },
-  {
-    nome: "Sem Vídeos do Dia",
-    email: "semvideos@teste.com",
-    password: "123",
-    participantId: "part-002",
-  },
-  {
-    nome: "Maria Silva",
-    email: "maria.silva@exemplo.com",
-    password: "123",
-    participantId: "part-003",
-  },
-];
-
-const SEEDED_VIDEOS_BY_EMAIL: Record<
-  string,
-  Array<{
-    id: string;
-    date: string;
-    thumbnail: string;
-    src: string;
-    referenceDate: string;
-  }>
-> = {
-  "estudogabriel2019@gmail.com": [
-    {
-      id: "vid-001",
-      date: "14 Mai 2026 às 14:30",
-      thumbnail: "https://picsum.photos/seed/vid1/1280/720",
-      src: "https://www.w3schools.com/html/mov_bbb.mp4",
-      referenceDate: "2026-05-14",
-    },
-    {
-      id: "vid-002",
-      date: "12 Mai 2026 às 11:15",
-      thumbnail: "https://picsum.photos/seed/vid2/640/360",
-      src: "https://www.w3schools.com/html/movie.mp4",
-      referenceDate: "2026-05-12",
-    },
-  ],
-  "semvideos@teste.com": [],
-  "maria.silva@exemplo.com": [
-    {
-      id: "vid-004",
-      date: "14 Mai 2026 às 17:20",
-      thumbnail: "https://picsum.photos/seed/vid4/640/360",
-      src: "https://www.w3schools.com/html/movie.mp4",
-      referenceDate: "2026-05-14",
-    },
-  ],
-};
+interface GoogleDecodedToken {
+  name: string;
+  email: string;
+}
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -75,55 +28,14 @@ export default function AuthPage() {
   const [regConsentimento, setRegConsentimento] = useState(false);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    const storedUsers = JSON.parse(localStorage.getItem("mock_users") || "[]");
-    const safeStoredUsers = Array.isArray(storedUsers) ? storedUsers : [];
-    const mergedUsers = [...safeStoredUsers];
-
-    SEEDED_USERS.forEach((seededUser) => {
-      const existingUserIndex = mergedUsers.findIndex(
-        (user: any) => user.email === seededUser.email,
-      );
-
-      if (existingUserIndex >= 0) {
-        mergedUsers[existingUserIndex] = {
-          ...mergedUsers[existingUserIndex],
-          ...seededUser,
-        };
-        return;
-      }
-
-      mergedUsers.push(seededUser);
-    });
-
-    localStorage.setItem("mock_users", JSON.stringify(mergedUsers));
-
-    Object.entries(SEEDED_VIDEOS_BY_EMAIL).forEach(([email, videos]) => {
-      localStorage.setItem(`videos_${email}`, JSON.stringify(videos));
-    });
-
-    const loggedUser = JSON.parse(localStorage.getItem("logged_user") || "null");
-    if (loggedUser?.email) {
-      const seededUser = SEEDED_USERS.find((user) => user.email === loggedUser.email);
-      if (seededUser) {
-        localStorage.setItem(
-          "logged_user",
-          JSON.stringify({
-            ...loggedUser,
-            ...seededUser,
-          }),
-        );
-      }
-    }
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   const handleTabSwitch = (tab: "login" | "cadastro") => {
     setActiveTab(tab);
     setErrors({});
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
     if (!loginEmail) newErrors.loginEmail = "O e-mail é obrigatório.";
@@ -131,23 +43,31 @@ export default function AuthPage() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Simulando o login com dados salvos no localStorage
-      const users = JSON.parse(localStorage.getItem("mock_users") || "[]");
-      const user = users.find(
-        (u: any) => u.email === loginEmail && u.password === loginPassword,
-      );
+      try {
+        setLoading(true);
+        const response = await authService.login({
+          email: loginEmail,
+          password: loginPassword,
+        });
 
-      if (user) {
-        alert(`Bem-vindo(a), ${user.nome}!`);
-        localStorage.setItem("logged_user", JSON.stringify(user));
-        navigate(ROUTES.HOME); // Redireciona para a página "Sobre" após o login mockado
-      } else {
-        setErrors({ loginPassword: "E-mail ou senha incorretos." });
+        localStorage.setItem("access_token", response.access_token);
+        localStorage.setItem(
+          "logged_user",
+          JSON.stringify({ email: loginEmail }),
+        );
+        alert("Login realizado com sucesso!");
+        navigate(ROUTES.HOME);
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.detail || "E-mail ou senha incorretos.";
+        setErrors({ loginPassword: errorMessage });
+      } finally {
+        setLoading(false);
       }
     }
   };
 
-  const handleCadastro = (e: React.FormEvent) => {
+  const handleCadastro = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
     if (!regNome) newErrors.regNome = "O nome é obrigatório.";
@@ -159,28 +79,82 @@ export default function AuthPage() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      const users = JSON.parse(localStorage.getItem("mock_users") || "[]");
+      try {
+        setLoading(true);
 
-      if (users.find((u: any) => u.email === regEmail)) {
-        setErrors({ regEmail: "Este e-mail já está em uso." });
-        return;
-      }
+        // Primeiro registra o participante
+        const registerResponse = await authService.register({
+          nome: regNome,
+          email: regEmail,
+          password: regPassword,
+        });
 
-      const newUser = { nome: regNome, email: regEmail, password: regPassword };
-      users.push(newUser);
-      localStorage.setItem("mock_users", JSON.stringify(users));
-      localStorage.setItem(`videos_${regEmail}`, JSON.stringify([]));
+        // Logo após cadastrar, fazemos o login automaticamente para obter o token (JWT) desse novo usuário!
+        const loginResponse = await authService.login({
+          email: regEmail,
+          password: regPassword,
+        });
 
-      if (regConsentimento) {
-          console.log("Simulando PATCH /participantes/123/aceite-termo", {
-              aceitou: true,
-              versao_termo: "v1.0"
+        // Salva o token da nova conta no localStorage (sobrescrevendo qualquer token antigo)
+        localStorage.setItem("access_token", loginResponse.access_token);
+
+        // Depois aceita o termo
+        if (regConsentimento) {
+          await participantesService.aceitarTermo(registerResponse.participant_id, {
+            aceitou: true,
+            versao_termo: "v1.0",
           });
-      }
+        }
 
-      localStorage.setItem("logged_user", JSON.stringify(newUser));
-      
-      navigate("/status-gravacao"); 
+        localStorage.setItem(
+          "logged_user",
+          JSON.stringify({
+            email: regEmail,
+            nome: regNome,
+            participantId: registerResponse.participant_id,
+          }),
+        );
+        alert("Cadastro realizado com sucesso!");
+        navigate("/status-gravacao");
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.detail ||
+          "Erro ao realizar cadastro. Tente novamente.";
+        setErrors({ regEmail: errorMessage });
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleGoogleLogin = async (credentialResponse: CredentialResponse) => {
+    if (!credentialResponse.credential) {
+      setErrors({
+        ...errors,
+        google: "Login com Google falhou. Tente novamente.",
+      });
+      return;
+    }
+
+    try {
+      const decoded: GoogleDecodedToken = jwtDecode(
+        credentialResponse.credential,
+      );
+      const { name, email } = decoded;
+
+      // Aqui você poderia fazer uma chamada ao backend para registrar o usuário do Google
+      // Por enquanto, vamos apenas fazer login local
+      localStorage.setItem(
+        "logged_user",
+        JSON.stringify({ email, nome: name }),
+      );
+      alert(`Bem-vindo(a), ${name}!`);
+      navigate(ROUTES.HOME);
+    } catch (error) {
+      setErrors({
+        ...errors,
+        google: "Falha no login com Google. Tente novamente.",
+      });
     }
   };
 
@@ -268,24 +242,14 @@ export default function AuthPage() {
                     )}
                   </div>
 
-                  <button type="submit" className="btn btn-primary w-100">
-                    Entrar
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-100"
+                    disabled={loading}
+                  >
+                    {loading ? "Entrando..." : "Entrar"}
                   </button>
                 </form>
-
-                <div className="d-flex align-items-center my-3">
-                  <hr className="flex-grow-1 text-muted" />
-                  <span className="mx-3 text-muted small">ou</span>
-                  <hr className="flex-grow-1 text-muted" />
-                </div>
-
-                <button
-                  type="button"
-                  className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2"
-                >
-                  <FaGoogle size={18} />
-                  Entrar com o Google
-                </button>
               </>
             ) : (
               <>
@@ -375,25 +339,43 @@ export default function AuthPage() {
                     )}
                   </div>
 
-                  <button type="submit" className="btn btn-success w-100">
-                    Cadastrar
+                  <button
+                    type="submit"
+                    className="btn btn-success w-100"
+                    disabled={loading}
+                  >
+                    {loading ? "Cadastrando..." : "Cadastrar"}
                   </button>
                 </form>
-
-                <div className="d-flex align-items-center my-3">
-                  <hr className="flex-grow-1 text-muted" />
-                  <span className="mx-3 text-muted small">ou</span>
-                  <hr className="flex-grow-1 text-muted" />
-                </div>
-
-                <button
-                  type="button"
-                  className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2"
-                >
-                  <FaGoogle size={18} />
-                  Cadastrar com o Google
-                </button>
               </>
+            )}
+
+            <div className="d-flex align-items-center my-3">
+              <hr className="flex-grow-1 text-muted" />
+              <span className="mx-3 text-muted small">ou</span>
+              <hr className="flex-grow-1 text-muted" />
+            </div>
+
+            <div className="d-flex justify-content-center">
+              <GoogleOAuthProvider
+                clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ""}
+              >
+                <GoogleLogin
+                  onSuccess={handleGoogleLogin}
+                  onError={() => {
+                    setErrors({
+                      ...errors,
+                      google: "Falha no login com Google. Tente novamente.",
+                    });
+                  }}
+                  useOneTap
+                />
+              </GoogleOAuthProvider>
+            </div>
+            {errors.google && (
+              <div className="text-danger text-center mt-2 small">
+                {errors.google}
+              </div>
             )}
           </div>
         </div>

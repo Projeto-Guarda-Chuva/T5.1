@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 
 import authService from "../services/auth";
-import type { LoginEntry, User } from "../types/users";
+import type { LoginEntry, LoginResponse } from "../types/users";
 
 const useLogin = () => {
-  const mutation = useMutation<User | null, Error, LoginEntry>({
+  const mutation = useMutation<LoginResponse | null, Error, LoginEntry>({
     mutationFn: authService.login,
   });
 

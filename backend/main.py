@@ -9,15 +9,17 @@ from app.routers.configurations import router as configurations_router
 from app.routers.operation_logs import router as operation_logs_router
 from app.routers.participantes import router as participantes_router
 from app.startup_seed import seed_participant_video_email_data
+from app.routers.videos import router as videos_router
 
 
 async def _seed_admin() -> None:
     from app.repositories.user_repository import UserRepository
     repo = UserRepository()
-    if not await repo.exists_any():
+    if not await repo.exists_by_email("admin@t51.com"):
         ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
         await repo.create({
-            "username": "admin",
+            "name": "Administrador",
+            "email": "admin@t51.com",
             "hashed_password": ctx.hash("admin123"),
             "is_active": True,
         })
@@ -49,7 +51,7 @@ app.include_router(auth_router)
 app.include_router(configurations_router)
 app.include_router(operation_logs_router)
 app.include_router(participantes_router)
-
+app.include_router(videos_router)
 
 @app.get("/")
 async def read_root() -> dict[str, str]:

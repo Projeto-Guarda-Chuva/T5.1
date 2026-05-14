@@ -1,8 +1,9 @@
 from datetime import datetime
 
-from fastapi import APIRouter, File, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from pydantic import BaseModel
 
+from app.dependencies import get_current_user
 from app.repositories.email_outbox_repository import EmailOutboxRepository
 from app.repositories.participant_repository import ParticipantRepository
 from app.repositories.participant_video_repository import ParticipantVideoRepository
@@ -15,6 +16,7 @@ from app.schemas.participant_video_email import (
     VideoEmailDispatchRequest,
     VideoEmailDispatchResponse,
 )
+from app.schemas.participant import ParticipantResponse
 from app.services.participant_video_email_service import (
     ParticipantEmailMissingError,
     ParticipantNotFoundError,
@@ -52,12 +54,39 @@ class AtualizarStatusParticipacao(BaseModel):
     status_gravacao: str
 
 
+@router.get("/me", response_model=ParticipantResponse)
+async def obter_participante_atual(
+    current_user_email: str = Depends(get_current_user),
+) -> ParticipantResponse:
+    participant = await ParticipantRepository().get_by_email(current_user_email)
+
+    if participant is None:
+        raise HTTPException(status_code=404, detail="Participante não encontrado.")
+
+    return ParticipantResponse(
+        id=participant["id"],
+        name=participant.get("name") or participant.get("nome") or "",
+        email=participant["email"],
+    )
+
+
 @router.patch("/{participante_id}/status")
 async def atualizar_status(participante_id: str, status: AtualizarStatusParticipacao):
     if status.status_gravacao not in ["ja_participei", "ainda_participarei"]:
         raise HTTPException(status_code=400, detail="Status inválido.")
 
-    # TODO: Integração com MongoDB
+    participant = await ParticipantRepository().update_fields(
+        participante_id,
+        {
+            "status_gravacao": status.status_gravacao,
+            "status_gravacao_atualizado_em": datetime.utcnow().replace(
+                microsecond=0
+            ).isoformat(),
+        },
+    )
+
+    if participant is None:
+        raise HTTPException(status_code=404, detail="Participante não encontrado.")
 
     return {
         "message": "Status atualizado com sucesso!",
@@ -88,7 +117,16 @@ async def registrar_aceite_termo(participante_id: str, aceite: AceiteTermo):
         }
     }
 
-    # TODO: Integração com MongoDB
+    participant = await ParticipantRepository().update_fields(
+        participante_id,
+        {
+            "consent_accepted": True,
+            "consent": registro_auditoria["termo_aceite"],
+        },
+    )
+
+    if participant is None:
+        raise HTTPException(status_code=404, detail="Participante não encontrado.")
 
     return {
         "message": "Aceite do termo registrado com sucesso!",

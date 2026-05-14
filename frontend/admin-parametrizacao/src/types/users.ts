@@ -1,11 +1,9 @@
-export interface User {
-  id: number;
-  username: string;
+export interface LoginEntry {
+  email: string;
   password: string;
-  token: string;
 }
 
-export interface LoginEntry {
-  username: string;
-  password: string;
+export interface LoginResponse {
+  access_token: string;
+  token_type: string;
 }

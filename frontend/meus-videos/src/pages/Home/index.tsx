@@ -1,23 +1,10 @@
-// Home.tsx
-import { useMemo, useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FaPlay, FaRegCalendarAlt, FaVideoSlash } from "react-icons/fa";
 import "./style.css";
 import Form from "../../components/Form";
 import { sendParticipantVideoEmail } from "../../services/participantVideos";
-
-interface Video {
-  id: string;
-  date: string;
-  thumbnail: string;
-  src: string;
-  referenceDate?: string;
-}
-
-interface LoggedUser {
-  nome: string;
-  email: string;
-  participantId?: string;
-}
+import participantesService from "../../services/participantesService";
+import videosService, { Video } from "../../services/videosService";
 
 interface EmailFeedback {
   type: "success" | "danger";
@@ -26,26 +13,37 @@ interface EmailFeedback {
 
 export default function Home() {
   const [videos, setVideos] = useState<Video[]>([]);
-  const [loggedUser, setLoggedUser] = useState<LoggedUser | null>(null);
+  const [participantId, setParticipantId] = useState<string | null>(null);
   const [initialLatestId, setInitialLatestId] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [emailFeedback, setEmailFeedback] = useState<EmailFeedback | null>(null);
 
   useEffect(() => {
-    const loggedUserStr = localStorage.getItem("logged_user");
-    if (loggedUserStr) {
-      const user = JSON.parse(loggedUserStr);
-      setLoggedUser(user);
-      const userVideosStr = localStorage.getItem(`videos_${user.email}`);
-      if (userVideosStr) {
-        const parsedVideos = JSON.parse(userVideosStr);
-        setVideos(parsedVideos);
-        if (parsedVideos.length > 0) {
-          setInitialLatestId(parsedVideos[0].id);
+    const loadPageData = async () => {
+      try {
+        setLoading(true);
+        const [fetchedVideos, participant] = await Promise.all([
+          videosService.listVideos(),
+          participantesService.getCurrentParticipant().catch(() => null),
+        ]);
+
+        setVideos(fetchedVideos);
+        setParticipantId(participant?.id ?? null);
+
+        if (fetchedVideos.length > 0) {
+          setInitialLatestId(fetchedVideos[0].id);
         }
+      } catch (error) {
+        console.error("Erro ao carregar vídeos:", error);
+        setVideos([]);
+      } finally {
+        setLoading(false);
       }
-    }
+    };
+
+    loadPageData();
   }, []);
 
   const latestVideo = useMemo(() => videos[0], [videos]);
@@ -53,23 +51,23 @@ export default function Home() {
 
   const handleVideoClick = (clickedVideoId: string) => {
     setVideos((prevVideos) => {
-      const clickedVideo = prevVideos.find((v) => v.id === clickedVideoId);
-      if (!clickedVideo) return prevVideos;
+      const clickedVideo = prevVideos.find((video) => video.id === clickedVideoId);
 
-      const remainingVideos = prevVideos
-        .filter((v) => v.id !== clickedVideoId)
-        .sort((a, b) => Number(a.id) - Number(b.id));
+      if (!clickedVideo) {
+        return prevVideos;
+      }
 
+      const remainingVideos = prevVideos.filter((video) => video.id !== clickedVideoId);
       return [clickedVideo, ...remainingVideos];
     });
   };
 
   const handleSendVideoByEmail = async () => {
-    if (!loggedUser?.participantId) {
+    if (!participantId) {
       setEmailFeedback({
         type: "danger",
         message:
-          "Este usuário ainda não está vinculado a um participante do backend.",
+          "Não foi possível identificar o participante atual para enviar o vídeo.",
       });
       return;
     }
@@ -83,30 +81,44 @@ export default function Home() {
       return;
     }
 
-    setIsSendingEmail(true);
-    setEmailFeedback(null);
-
     try {
+      setIsSendingEmail(true);
+      setEmailFeedback(null);
+
       const response = await sendParticipantVideoEmail(
-        loggedUser.participantId,
+        participantId,
         latestVideo.referenceDate,
       );
+
       setEmailFeedback({
         type: "success",
         message: response.message,
       });
-    } catch (error) {
+    } catch (error: any) {
       setEmailFeedback({
         type: "danger",
         message:
-          error instanceof Error
-            ? error.message
-            : "Não foi possível enviar o vídeo por e-mail.",
+          error?.response?.data?.detail ||
+          error?.message ||
+          "Não foi possível enviar o vídeo por e-mail.",
       });
     } finally {
       setIsSendingEmail(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="video-page d-flex flex-column align-items-center justify-content-center">
+        <div className="text-center p-4 p-md-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Carregando...</span>
+          </div>
+          <p className="text-muted mt-3">Carregando seus vídeos...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (videos.length === 0) {
     return (
@@ -153,7 +165,6 @@ export default function Home() {
   return (
     <div className="video-page">
       <div className="container-fluid px-3 px-lg-4">
-        {/* Vídeo Atual */}
         <section className="featured-section">
           <div className="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center align-items-md-center mb-3 gap-3">
             {latestVideo.id === initialLatestId ? (
@@ -161,6 +172,7 @@ export default function Home() {
             ) : (
               <div></div>
             )}
+
             <div className="d-flex flex-column flex-sm-row gap-2">
               <button
                 type="button"
@@ -170,6 +182,7 @@ export default function Home() {
               >
                 {isSendingEmail ? "Enviando..." : "Receber por e-mail"}
               </button>
+
               <button
                 type="button"
                 className="btn btn-primary px-4"
@@ -206,12 +219,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Separação */}
         <div className="video-divider">
           <span>Meus outros vídeos</span>
         </div>
 
-        {/* Lista */}
         <section className="video-grid">
           {otherVideos.map((video) => (
             <div
@@ -236,6 +247,7 @@ export default function Home() {
           ))}
         </section>
       </div>
+
       <Form
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}

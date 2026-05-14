@@ -10,13 +10,13 @@ type LoginFormProps = {
 };
 
 const LoginForm = ({ onSubmit, error, loading }: LoginFormProps) => {
-  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    onSubmit({ username, password });
+    onSubmit({ email, password });
   };
 
   return (
@@ -30,16 +30,16 @@ const LoginForm = ({ onSubmit, error, loading }: LoginFormProps) => {
 
       <div className="form-floating mb-3">
         <input
-          type="text"
+          type="email"
           className={`form-control ${styles.customRounded} ${error ? "is-invalid" : ""}`}
-          id="adminUser"
-          placeholder="nomeusuario"
+          id="adminEmail"
+          placeholder="emailusuario"
           required
-          value={username}
-          onChange={({ target }) => setUsername(target.value)}
+          value={email}
+          onChange={({ target }) => setEmail(target.value)}
           disabled={loading}
         />
-        <label htmlFor="adminUser">Usuário</label>
+        <label htmlFor="adminEmail">Email</label>
       </div>
 
       <div className="form-floating mb-3">
