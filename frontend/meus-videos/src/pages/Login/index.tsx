@@ -89,6 +89,15 @@ export default function AuthPage() {
           password: regPassword,
         });
 
+        // Logo após cadastrar, fazemos o login automaticamente para obter o token (JWT) desse novo usuário!
+        const loginResponse = await authService.login({
+          email: regEmail,
+          password: regPassword,
+        });
+
+        // Salva o token da nova conta no localStorage (sobrescrevendo qualquer token antigo)
+        localStorage.setItem("access_token", loginResponse.access_token);
+
         // Depois aceita o termo
         if (regConsentimento) {
           await participantesService.aceitarTermo("123", {
