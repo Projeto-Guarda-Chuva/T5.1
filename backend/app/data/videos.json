@@ -1,0 +1,68 @@
+[
+  {
+    "id": "vid-001",
+    "participant_email": "usuario1@exemplo.com",
+    "operation_log_id": "SESS-1042",
+    "title": "Sessão de 01/05/2026 14:30",
+    "created_at": "2026-05-01T14:35:12",
+    "duration_seconds": 312,
+    "thumbnail_url": "https://picsum.photos/seed/vid1/1280/720",
+    "video_url": "https://www.w3schools.com/html/mov_bbb.mp4",
+    "status": "available"
+  },
+  {
+    "id": "vid-002",
+    "participant_email": "visitante@teste.com",
+    "operation_log_id": "SESS-1043",
+    "title": "Sessão de 14/05/2026 14:30",
+    "created_at": "2026-05-14T14:30:00",
+    "duration_seconds": 280,
+    "thumbnail_url": "https://picsum.photos/seed/vid2/1280/720",
+    "video_url": "https://www.w3schools.com/html/movie.mp4",
+    "status": "available"
+  },
+  {
+    "id": "vid-003",
+    "participant_email": "joao@gmail.com",
+    "operation_log_id": "SESS-1044",
+    "title": "Sessão de 28 Abr 2026 às 14:30",
+    "created_at": "2026-04-28T14:30:00",
+    "duration_seconds": 450,
+    "thumbnail_url": "https://picsum.photos/seed/vid1/1280/720",
+    "video_url": "https://www.w3schools.com/html/mov_bbb.mp4",
+    "status": "available"
+  },
+  {
+    "id": "vid-004",
+    "participant_email": "joao@gmail.com",
+    "operation_log_id": "SESS-1045",
+    "title": "Sessão de 25 Abr 2026 às 09:15",
+    "created_at": "2026-04-25T09:15:00",
+    "duration_seconds": 380,
+    "thumbnail_url": "https://picsum.photos/seed/vid2/1280/720",
+    "video_url": "https://www.w3schools.com/html/movie.mp4",
+    "status": "available"
+  },
+  {
+    "id": "vid-005",
+    "participant_email": "joao@gmail.com",
+    "operation_log_id": "SESS-1046",
+    "title": "Sessão de 20 Abr 2026 às 18:45",
+    "created_at": "2026-04-20T18:45:00",
+    "duration_seconds": 520,
+    "thumbnail_url": "https://picsum.photos/seed/vid3/1280/720",
+    "video_url": "https://www.w3schools.com/html/mov_bbb.mp4",
+    "status": "available"
+  },
+  {
+    "id": "vid-006",
+    "participant_email": "joao@gmail.com",
+    "operation_log_id": "SESS-1047",
+    "title": "Sessão de 15 Abr 2026 às 10:00",
+    "created_at": "2026-04-15T10:00:00",
+    "duration_seconds": 290,
+    "thumbnail_url": "https://picsum.photos/seed/vid4/1280/720",
+    "video_url": "https://www.w3schools.com/html/movie.mp4",
+    "status": "available"
+  }
+]

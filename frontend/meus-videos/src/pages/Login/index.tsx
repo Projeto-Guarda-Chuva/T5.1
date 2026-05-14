@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
 import {
@@ -7,6 +7,8 @@ import {
   CredentialResponse,
 } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import authService from "../../services/authService";
+import participantesService from "../../services/participantesService";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -21,62 +23,19 @@ export default function AuthPage() {
   const [regConsentimento, setRegConsentimento] = useState(false);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(false);
 
   interface GoogleDecodedToken {
     name: string;
     email: string;
   }
 
-  useEffect(() => {
-    // Inicializa dados mockados para facilitar os testes de diferentes cenários
-    const users = localStorage.getItem("mock_users");
-    if (!users) {
-      const initialUsers = [
-        { nome: "Com Vídeos", email: "comvideos@teste.com", password: "123" },
-        { nome: "Sem Vídeos", email: "semvideos@teste.com", password: "123" },
-      ];
-      localStorage.setItem("mock_users", JSON.stringify(initialUsers));
-
-      const mockVideos = [
-        {
-          id: "1",
-          date: "28 Abr 2026 às 14:30",
-          thumbnail: "https://picsum.photos/seed/vid1/1280/720",
-          src: "https://www.w3schools.com/html/mov_bbb.mp4",
-        },
-        {
-          id: "2",
-          date: "25 Abr 2026 às 09:15",
-          thumbnail: "https://picsum.photos/seed/vid2/640/360",
-          src: "https://www.w3schools.com/html/movie.mp4",
-        },
-        {
-          id: "3",
-          date: "20 Abr 2026 às 18:45",
-          thumbnail: "https://picsum.photos/seed/vid3/640/360",
-          src: "https://www.w3schools.com/html/mov_bbb.mp4",
-        },
-        {
-          id: "4",
-          date: "15 Abr 2026 às 10:00",
-          thumbnail: "https://picsum.photos/seed/vid4/640/360",
-          src: "https://www.w3schools.com/html/movie.mp4",
-        },
-      ];
-      localStorage.setItem(
-        "videos_comvideos@teste.com",
-        JSON.stringify(mockVideos),
-      );
-      localStorage.setItem("videos_semvideos@teste.com", JSON.stringify([]));
-    }
-  }, []);
-
   const handleTabSwitch = (tab: "login" | "cadastro") => {
     setActiveTab(tab);
     setErrors({});
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
     if (!loginEmail) newErrors.loginEmail = "O e-mail é obrigatório.";
@@ -84,23 +43,31 @@ export default function AuthPage() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Simulando o login com dados salvos no localStorage
-      const users = JSON.parse(localStorage.getItem("mock_users") || "[]");
-      const user = users.find(
-        (u: any) => u.email === loginEmail && u.password === loginPassword,
-      );
+      try {
+        setLoading(true);
+        const response = await authService.login({
+          email: loginEmail,
+          password: loginPassword,
+        });
 
-      if (user) {
-        alert(`Bem-vindo(a), ${user.nome}!`);
-        localStorage.setItem("logged_user", JSON.stringify(user));
-        navigate(ROUTES.HOME); // Redireciona para a página "Sobre" após o login mockado
-      } else {
-        setErrors({ loginPassword: "E-mail ou senha incorretos." });
+        localStorage.setItem("access_token", response.access_token);
+        localStorage.setItem(
+          "logged_user",
+          JSON.stringify({ email: loginEmail }),
+        );
+        alert("Login realizado com sucesso!");
+        navigate(ROUTES.HOME);
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.detail || "E-mail ou senha incorretos.";
+        setErrors({ loginPassword: errorMessage });
+      } finally {
+        setLoading(false);
       }
     }
   };
 
-  const handleCadastro = (e: React.FormEvent) => {
+  const handleCadastro = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
     if (!regNome) newErrors.regNome = "O nome é obrigatório.";
@@ -112,32 +79,51 @@ export default function AuthPage() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      const users = JSON.parse(localStorage.getItem("mock_users") || "[]");
+      try {
+        setLoading(true);
 
-      if (users.find((u: any) => u.email === regEmail)) {
-        setErrors({ regEmail: "Este e-mail já está em uso." });
-        return;
-      }
+        // Primeiro registra o participante
+        const registerResponse = await authService.register({
+          nome: regNome,
+          email: regEmail,
+          password: regPassword,
+        });
 
-      const newUser = { nome: regNome, email: regEmail, password: regPassword };
-      users.push(newUser);
-      localStorage.setItem("mock_users", JSON.stringify(users));
-      localStorage.setItem(`videos_${regEmail}`, JSON.stringify([]));
+        // Logo após cadastrar, fazemos o login automaticamente para obter o token (JWT) desse novo usuário!
+        const loginResponse = await authService.login({
+          email: regEmail,
+          password: regPassword,
+        });
 
-      if (regConsentimento) {
-          console.log("Simulando PATCH /participantes/123/aceite-termo", {
-              aceitou: true,
-              versao_termo: "v1.0"
+        // Salva o token da nova conta no localStorage (sobrescrevendo qualquer token antigo)
+        localStorage.setItem("access_token", loginResponse.access_token);
+
+        // Depois aceita o termo
+        if (regConsentimento) {
+          await participantesService.aceitarTermo("123", {
+            aceitou: true,
+            versao_termo: "v1.0",
           });
-      }
+        }
 
-      localStorage.setItem("logged_user", JSON.stringify(newUser));
-      
-      navigate("/status-gravacao"); 
+        localStorage.setItem(
+          "logged_user",
+          JSON.stringify({ email: regEmail, nome: regNome }),
+        );
+        alert("Cadastro realizado com sucesso!");
+        navigate("/status-gravacao");
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.detail ||
+          "Erro ao realizar cadastro. Tente novamente.";
+        setErrors({ regEmail: errorMessage });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
-  const handleGoogleLogin = (credentialResponse: CredentialResponse) => {
+  const handleGoogleLogin = async (credentialResponse: CredentialResponse) => {
     if (!credentialResponse.credential) {
       setErrors({
         ...errors,
@@ -146,27 +132,26 @@ export default function AuthPage() {
       return;
     }
 
-    const decoded: GoogleDecodedToken = jwtDecode(
-      credentialResponse.credential,
-    );
-    const { name, email } = decoded;
+    try {
+      const decoded: GoogleDecodedToken = jwtDecode(
+        credentialResponse.credential,
+      );
+      const { name, email } = decoded;
 
-    const users = JSON.parse(localStorage.getItem("mock_users") || "[]");
-    let user = users.find((u: any) => u.email === email);
-
-    if (!user) {
-      // Se o usuário não existe, cadastra (simulação)
-      const newUser = { nome: name, email: email, password: "google_user" }; // A senha é um placeholder
-      users.push(newUser);
-      localStorage.setItem("mock_users", JSON.stringify(users));
-      // Garante que o novo usuário comece com uma lista de vídeos vazia
-      localStorage.setItem(`videos_${email}`, JSON.stringify([]));
-      user = newUser;
+      // Aqui você poderia fazer uma chamada ao backend para registrar o usuário do Google
+      // Por enquanto, vamos apenas fazer login local
+      localStorage.setItem(
+        "logged_user",
+        JSON.stringify({ email, nome: name }),
+      );
+      alert(`Bem-vindo(a), ${name}!`);
+      navigate(ROUTES.HOME);
+    } catch (error) {
+      setErrors({
+        ...errors,
+        google: "Falha no login com Google. Tente novamente.",
+      });
     }
-
-    alert(`Bem-vindo(a), ${user.nome}!`);
-    localStorage.setItem("logged_user", JSON.stringify(user));
-    navigate(ROUTES.HOME);
   };
 
   return (
@@ -253,8 +238,12 @@ export default function AuthPage() {
                     )}
                   </div>
 
-                  <button type="submit" className="btn btn-primary w-100">
-                    Entrar
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-100"
+                    disabled={loading}
+                  >
+                    {loading ? "Entrando..." : "Entrar"}
                   </button>
                 </form>
               </>
@@ -346,8 +335,12 @@ export default function AuthPage() {
                     )}
                   </div>
 
-                  <button type="submit" className="btn btn-success w-100">
-                    Cadastrar
+                  <button
+                    type="submit"
+                    className="btn btn-success w-100"
+                    disabled={loading}
+                  >
+                    {loading ? "Cadastrando..." : "Cadastrar"}
                   </button>
                 </form>
               </>
