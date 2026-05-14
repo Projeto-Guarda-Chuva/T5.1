@@ -3,23 +3,40 @@ import { useMemo, useState, useEffect } from "react";
 import { FaPlay, FaRegCalendarAlt, FaVideoSlash } from "react-icons/fa";
 import "./style.css";
 import Form from "../../components/Form";
+import { sendParticipantVideoEmail } from "../../services/participantVideos";
 
 interface Video {
   id: string;
   date: string;
   thumbnail: string;
   src: string;
+  referenceDate?: string;
+}
+
+interface LoggedUser {
+  nome: string;
+  email: string;
+  participantId?: string;
+}
+
+interface EmailFeedback {
+  type: "success" | "danger";
+  message: string;
 }
 
 export default function Home() {
   const [videos, setVideos] = useState<Video[]>([]);
+  const [loggedUser, setLoggedUser] = useState<LoggedUser | null>(null);
   const [initialLatestId, setInitialLatestId] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const [emailFeedback, setEmailFeedback] = useState<EmailFeedback | null>(null);
 
   useEffect(() => {
     const loggedUserStr = localStorage.getItem("logged_user");
     if (loggedUserStr) {
       const user = JSON.parse(loggedUserStr);
+      setLoggedUser(user);
       const userVideosStr = localStorage.getItem(`videos_${user.email}`);
       if (userVideosStr) {
         const parsedVideos = JSON.parse(userVideosStr);
@@ -45,6 +62,50 @@ export default function Home() {
 
       return [clickedVideo, ...remainingVideos];
     });
+  };
+
+  const handleSendVideoByEmail = async () => {
+    if (!loggedUser?.participantId) {
+      setEmailFeedback({
+        type: "danger",
+        message:
+          "Este usuário ainda não está vinculado a um participante do backend.",
+      });
+      return;
+    }
+
+    if (!latestVideo?.referenceDate) {
+      setEmailFeedback({
+        type: "danger",
+        message:
+          "Este vídeo ainda não possui uma data de referência compatível com o backend.",
+      });
+      return;
+    }
+
+    setIsSendingEmail(true);
+    setEmailFeedback(null);
+
+    try {
+      const response = await sendParticipantVideoEmail(
+        loggedUser.participantId,
+        latestVideo.referenceDate,
+      );
+      setEmailFeedback({
+        type: "success",
+        message: response.message,
+      });
+    } catch (error) {
+      setEmailFeedback({
+        type: "danger",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Não foi possível enviar o vídeo por e-mail.",
+      });
+    } finally {
+      setIsSendingEmail(false);
+    }
   };
 
   if (videos.length === 0) {
@@ -100,14 +161,34 @@ export default function Home() {
             ) : (
               <div></div>
             )}
-            <button
-              type="button"
-              className="btn btn-primary px-4"
-              onClick={() => setIsFormOpen(true)}
-            >
-              Nova participação
-            </button>
+            <div className="d-flex flex-column flex-sm-row gap-2">
+              <button
+                type="button"
+                className="btn btn-outline-primary px-4"
+                onClick={handleSendVideoByEmail}
+                disabled={isSendingEmail}
+              >
+                {isSendingEmail ? "Enviando..." : "Receber por e-mail"}
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary px-4"
+                onClick={() => setIsFormOpen(true)}
+              >
+                Nova participação
+              </button>
+            </div>
           </div>
+
+          {emailFeedback ? (
+            <div
+              className={`alert alert-${emailFeedback.type} video-email-feedback`}
+              role="alert"
+            >
+              {emailFeedback.message}
+            </div>
+          ) : null}
+
           <div className="featured-player">
             <video
               key={latestVideo.id}

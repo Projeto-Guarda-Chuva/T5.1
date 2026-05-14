@@ -1,0 +1,20 @@
+[
+  {
+    "id": "part-001",
+    "name": "Com Vídeos",
+    "email": "estudogabriel2019@gmail.com",
+    "registered_at": "2026-04-10T09:00:00"
+  },
+  {
+    "id": "part-002",
+    "name": "Sem Vídeos do Dia",
+    "email": "semvideos@teste.com",
+    "registered_at": "2026-04-11T10:15:00"
+  },
+  {
+    "id": "part-003",
+    "name": "Maria Silva",
+    "email": "maria.silva@exemplo.com",
+    "registered_at": "2026-04-18T16:40:00"
+  }
+]

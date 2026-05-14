@@ -3,6 +3,65 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
 import { FaGoogle } from "react-icons/fa";
 
+const SEEDED_USERS = [
+  {
+    nome: "Gabriel",
+    email: "estudogabriel2019@gmail.com",
+    password: "123",
+    participantId: "part-001",
+  },
+  {
+    nome: "Sem Vídeos do Dia",
+    email: "semvideos@teste.com",
+    password: "123",
+    participantId: "part-002",
+  },
+  {
+    nome: "Maria Silva",
+    email: "maria.silva@exemplo.com",
+    password: "123",
+    participantId: "part-003",
+  },
+];
+
+const SEEDED_VIDEOS_BY_EMAIL: Record<
+  string,
+  Array<{
+    id: string;
+    date: string;
+    thumbnail: string;
+    src: string;
+    referenceDate: string;
+  }>
+> = {
+  "estudogabriel2019@gmail.com": [
+    {
+      id: "vid-001",
+      date: "14 Mai 2026 às 14:30",
+      thumbnail: "https://picsum.photos/seed/vid1/1280/720",
+      src: "https://www.w3schools.com/html/mov_bbb.mp4",
+      referenceDate: "2026-05-14",
+    },
+    {
+      id: "vid-002",
+      date: "12 Mai 2026 às 11:15",
+      thumbnail: "https://picsum.photos/seed/vid2/640/360",
+      src: "https://www.w3schools.com/html/movie.mp4",
+      referenceDate: "2026-05-12",
+    },
+  ],
+  "semvideos@teste.com": [],
+  "maria.silva@exemplo.com": [
+    {
+      id: "vid-004",
+      date: "14 Mai 2026 às 17:20",
+      thumbnail: "https://picsum.photos/seed/vid4/640/360",
+      src: "https://www.w3schools.com/html/movie.mp4",
+      referenceDate: "2026-05-14",
+    },
+  ],
+};
+
 export default function AuthPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"login" | "cadastro">("login");
@@ -18,46 +77,44 @@ export default function AuthPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    // Inicializa dados mockados para facilitar os testes de diferentes cenários
-    const users = localStorage.getItem("mock_users");
-    if (!users) {
-      const initialUsers = [
-        { nome: "Com Vídeos", email: "comvideos@teste.com", password: "123" },
-        { nome: "Sem Vídeos", email: "semvideos@teste.com", password: "123" },
-      ];
-      localStorage.setItem("mock_users", JSON.stringify(initialUsers));
+    const storedUsers = JSON.parse(localStorage.getItem("mock_users") || "[]");
+    const safeStoredUsers = Array.isArray(storedUsers) ? storedUsers : [];
+    const mergedUsers = [...safeStoredUsers];
 
-      const mockVideos = [
-        {
-          id: "1",
-          date: "28 Abr 2026 às 14:30",
-          thumbnail: "https://picsum.photos/seed/vid1/1280/720",
-          src: "https://www.w3schools.com/html/mov_bbb.mp4",
-        },
-        {
-          id: "2",
-          date: "25 Abr 2026 às 09:15",
-          thumbnail: "https://picsum.photos/seed/vid2/640/360",
-          src: "https://www.w3schools.com/html/movie.mp4",
-        },
-        {
-          id: "3",
-          date: "20 Abr 2026 às 18:45",
-          thumbnail: "https://picsum.photos/seed/vid3/640/360",
-          src: "https://www.w3schools.com/html/mov_bbb.mp4",
-        },
-        {
-          id: "4",
-          date: "15 Abr 2026 às 10:00",
-          thumbnail: "https://picsum.photos/seed/vid4/640/360",
-          src: "https://www.w3schools.com/html/movie.mp4",
-        },
-      ];
-      localStorage.setItem(
-        "videos_comvideos@teste.com",
-        JSON.stringify(mockVideos),
+    SEEDED_USERS.forEach((seededUser) => {
+      const existingUserIndex = mergedUsers.findIndex(
+        (user: any) => user.email === seededUser.email,
       );
-      localStorage.setItem("videos_semvideos@teste.com", JSON.stringify([]));
+
+      if (existingUserIndex >= 0) {
+        mergedUsers[existingUserIndex] = {
+          ...mergedUsers[existingUserIndex],
+          ...seededUser,
+        };
+        return;
+      }
+
+      mergedUsers.push(seededUser);
+    });
+
+    localStorage.setItem("mock_users", JSON.stringify(mergedUsers));
+
+    Object.entries(SEEDED_VIDEOS_BY_EMAIL).forEach(([email, videos]) => {
+      localStorage.setItem(`videos_${email}`, JSON.stringify(videos));
+    });
+
+    const loggedUser = JSON.parse(localStorage.getItem("logged_user") || "null");
+    if (loggedUser?.email) {
+      const seededUser = SEEDED_USERS.find((user) => user.email === loggedUser.email);
+      if (seededUser) {
+        localStorage.setItem(
+          "logged_user",
+          JSON.stringify({
+            ...loggedUser,
+            ...seededUser,
+          }),
+        );
+      }
     }
   }, []);
 

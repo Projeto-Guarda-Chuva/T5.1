@@ -240,6 +240,154 @@ Exemplo de resposta:
 
 Caso não existam registros armazenados em `app/data/operation_logs.json`, a API responde com lista vazia e a mensagem `No operation log records found.`.
 
+## Envio do vídeo do dia por e-mail
+
+Arquivos envolvidos:
+
+- `app/routers/participantes.py`
+- `app/services/participant_video_email_service.py`
+- `app/services/video_email_sender.py`
+- `app/repositories/participant_repository.py`
+- `app/repositories/participant_video_repository.py`
+- `app/repositories/video_file_repository.py`
+- `app/repositories/video_email_dispatch_repository.py`
+- `app/repositories/email_outbox_repository.py`
+- `app/startup_seed.py`
+- `app/schemas/participant_video_email.py`
+- `app/data/participants.json`
+- `app/data/participant_videos.json`
+- `app/data/video_email_dispatch_logs.json`
+- `app/data/email_outbox.json`
+
+Rotas disponíveis:
+
+- `POST /participantes/{participante_id}/videos/{video_id}/arquivo`
+- `POST /participantes/{participante_id}/video-do-dia/email`
+
+Alias de compatibilidade:
+
+- `POST /participantes/{participante_id}/videos/enviar-email`
+
+Regra implementada:
+
+1. o backend localiza o participante pelo `participante_id`
+2. o arquivo do vídeo pode ser salvo explicitamente no Mongo usando `POST /participantes/{participante_id}/videos/{video_id}/arquivo`
+3. o upload grava o binário no MongoDB GridFS e atualiza o `file_id` no documento correspondente em `participant_videos`
+4. no envio por e-mail, o backend usa o e-mail cadastrado no participante
+5. procura o vídeo da data informada em `reference_date`
+6. se houver vídeo disponível, recupera o arquivo salvo no MongoDB GridFS
+7. se o arquivo existir, envia o vídeo como anexo por SMTP quando configurado
+8. se SMTP não estiver configurado, registra o e-mail na coleção Mongo `email_outbox`
+9. em caso de sucesso, grava uma auditoria na coleção Mongo `video_email_dispatch_logs`
+10. participantes e vídeos são lidos das coleções Mongo `participants` e `participant_videos`
+11. o binário do vídeo fica no bucket GridFS `videos`
+
+Bootstrap local:
+
+- os arquivos JSON em `app/data/` continuam no repositório como massa inicial
+- no startup, `app/startup_seed.py` semeia as coleções Mongo quando elas estiverem vazias
+- se `VIDEO_SEED_FILE_PATH` e `VIDEO_SEED_TARGET_VIDEO_ID` estiverem configurados juntos, o backend envia esse `.mp4` para o GridFS e vincula o `file_id` apenas ao vídeo indicado
+- depois disso, a busca e a gravação passam a acontecer no MongoDB, não mais nos arquivos JSON
+
+Fluxo recomendado sem frontend:
+
+1. subir o backend
+2. enviar o `.mp4` para um vídeo específico com `POST /participantes/{participante_id}/videos/{video_id}/arquivo`
+3. disparar `POST /participantes/{participante_id}/video-do-dia/email`
+
+Exemplo de upload do arquivo:
+
+```bash
+curl -X POST "http://127.0.0.1:8000/participantes/part-001/videos/vid-001/arquivo" \
+  -F "video=@/caminho/para/video.mp4"
+```
+
+Resposta de exemplo do upload:
+
+```json
+{
+  "participant_id": "part-001",
+  "video": {
+    "id": "vid-001",
+    "title": "Vídeo da participação - 14/05/2026",
+    "recorded_at": "2026-05-14T14:30:00",
+    "filename": "video.mp4",
+    "content_type": "video/mp4",
+    "size_bytes": 13294212
+  },
+  "message": "Arquivo do vídeo salvo no MongoDB com sucesso."
+}
+```
+
+Payload de exemplo:
+
+```json
+{
+  "reference_date": "2026-05-14"
+}
+```
+
+O campo `reference_date` é opcional. Quando ele não for enviado, o backend usa a data atual do servidor.
+
+Exemplo de resposta:
+
+```json
+{
+  "dispatch_id": "dispatch-001",
+  "sent_at": "2026-05-14T18:05:00",
+  "participant_id": "part-001",
+  "participant_email": "comvideos@teste.com",
+  "reference_date": "2026-05-14",
+  "delivery_mode": "outbox",
+  "video": {
+    "id": "vid-001",
+    "title": "Vídeo da participação - 14/05/2026",
+    "recorded_at": "2026-05-14T14:30:00",
+    "filename": "YTDown_YouTube_Art-Tech_Media_lACK3I_2VdU_001_720p.mp4",
+    "content_type": "video/mp4",
+    "size_bytes": 13294212
+  },
+  "message": "SMTP não configurado. O envio do vídeo anexado foi registrado na outbox local para validação do fluxo."
+}
+```
+
+Respostas de erro esperadas:
+
+- `404` quando o participante não existir
+- `404` quando não houver vídeo para a data pedida
+- `409` quando houver vídeo do dia, mas ele ainda não estiver disponível para envio
+- `409` quando o vídeo existir, mas o arquivo ainda não estiver salvo no banco de dados
+- `400` quando o participante não tiver e-mail válido cadastrado
+- `502` quando o SMTP estiver configurado, mas o envio falhar
+
+Variáveis opcionais para envio SMTP real:
+
+```text
+SMTP_HOST=
+SMTP_PORT=587
+SMTP_USERNAME=
+SMTP_PASSWORD=
+SMTP_FROM_EMAIL=
+SMTP_USE_STARTTLS=true
+SMTP_TIMEOUT_SECONDS=120
+VIDEO_GRIDFS_BUCKET_NAME=videos
+VIDEO_SEED_FILE_PATH=/caminho/para/video.mp4
+VIDEO_SEED_TARGET_VIDEO_ID=vid-001
+```
+
+Compatibilidade com configuração já usada pelo projeto:
+
+```text
+MAIL_SERVER=
+MAIL_PORT=
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_FROM=
+MAIL_STARTTLS=true
+```
+
+Se `MAIL_*` for usado sem `MAIL_SERVER` ou `SMTP_HOST`, o backend assume `smtp.gmail.com` quando o remetente for uma conta `@gmail.com`.
+
 ## Integração local com o frontend
 
 Para o frontend consumir essa API localmente, basta apontar a base URL para:
