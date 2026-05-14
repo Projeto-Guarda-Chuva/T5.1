@@ -1,0 +1,24 @@
+[
+  {
+    "id": "vid-001",
+    "participant_email": "usuario1@exemplo.com",
+    "operation_log_id": "SESS-1042",
+    "title": "Sess\u00e3o de 01/05/2026 14:30",
+    "created_at": "2026-05-01T14:35:12",
+    "duration_seconds": 312,
+    "thumbnail_url": "/static/thumbnails/vid-001.jpg",
+    "video_url": "/static/videos/vid-001.mp4",
+    "status": "available"
+  },
+  {
+    "id": "vid-002",
+    "participant_email": "visitante@teste.com",
+    "operation_log_id": "SESS-1043",
+    "title": "Sess\u00e3o de 14/05/2026 14:30",
+    "created_at": "2026-05-14T14:30:00",
+    "duration_seconds": 280,
+    "thumbnail_url": "/static/thumbnails/vid-002.jpg",
+    "video_url": "/static/videos/vid-002.mp4",
+    "status": "available"
+  }
+]
