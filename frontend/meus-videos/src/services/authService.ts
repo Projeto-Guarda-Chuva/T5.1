@@ -16,6 +16,7 @@ export interface RegisterRequest {
 }
 
 export interface RegisterResponse {
+  participant_id: string;
   email: string;
   nome: string;
   message: string;

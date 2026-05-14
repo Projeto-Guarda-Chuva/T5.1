@@ -8,6 +8,7 @@ from app.routers.auth import router as auth_router
 from app.routers.configurations import router as configurations_router
 from app.routers.operation_logs import router as operation_logs_router
 from app.routers.participantes import router as participantes_router
+from app.startup_seed import seed_participant_video_email_data
 from app.routers.videos import router as videos_router
 
 
@@ -27,6 +28,7 @@ async def _seed_admin() -> None:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await _seed_admin()
+    await seed_participant_video_email_data()
     yield
 
 

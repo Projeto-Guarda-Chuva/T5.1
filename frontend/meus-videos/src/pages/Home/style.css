@@ -18,6 +18,10 @@
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
 }
 
+.video-email-feedback {
+  margin-bottom: 1rem;
+}
+
 .featured-video {
   width: 100%;
   max-height: 70vh;

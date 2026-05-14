@@ -10,6 +10,11 @@ import { jwtDecode } from "jwt-decode";
 import authService from "../../services/authService";
 import participantesService from "../../services/participantesService";
 
+interface GoogleDecodedToken {
+  name: string;
+  email: string;
+}
+
 export default function AuthPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"login" | "cadastro">("login");
@@ -24,11 +29,6 @@ export default function AuthPage() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
-
-  interface GoogleDecodedToken {
-    name: string;
-    email: string;
-  }
 
   const handleTabSwitch = (tab: "login" | "cadastro") => {
     setActiveTab(tab);
@@ -100,7 +100,7 @@ export default function AuthPage() {
 
         // Depois aceita o termo
         if (regConsentimento) {
-          await participantesService.aceitarTermo("123", {
+          await participantesService.aceitarTermo(registerResponse.participant_id, {
             aceitou: true,
             versao_termo: "v1.0",
           });
@@ -108,7 +108,11 @@ export default function AuthPage() {
 
         localStorage.setItem(
           "logged_user",
-          JSON.stringify({ email: regEmail, nome: regNome }),
+          JSON.stringify({
+            email: regEmail,
+            nome: regNome,
+            participantId: registerResponse.participant_id,
+          }),
         );
         alert("Cadastro realizado com sucesso!");
         navigate("/status-gravacao");

@@ -1,5 +1,11 @@
 import api from "../api";
 
+export interface ParticipantResponse {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export interface AceiteTermo {
   aceitou: boolean;
   versao_termo: string;
@@ -28,7 +34,13 @@ const atualizarStatus = async (
   return response.data;
 };
 
+const getCurrentParticipant = async (): Promise<ParticipantResponse> => {
+  const response = await api.get<ParticipantResponse>("/participantes/me");
+  return response.data;
+};
+
 export default {
   aceitarTermo,
   atualizarStatus,
+  getCurrentParticipant,
 };

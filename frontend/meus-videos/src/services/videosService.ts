@@ -5,6 +5,7 @@ export interface Video {
   date: string;
   thumbnail: string;
   src: string;
+  referenceDate: string;
 }
 
 export interface BackendVideoResponse {
@@ -33,6 +34,7 @@ const listVideos = async (): Promise<Video[]> => {
     date: video.created_at, // Usa o created_at como date
     thumbnail: video.thumbnail_url,
     src: video.video_url,
+    referenceDate: video.created_at.slice(0, 10),
   }));
 };
 

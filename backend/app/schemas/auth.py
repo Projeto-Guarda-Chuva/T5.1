@@ -18,6 +18,7 @@ class RegisterRequest(BaseModel):
 
 
 class RegisterResponse(BaseModel):
+    participant_id: str
     email: str
     nome: str
     message: str

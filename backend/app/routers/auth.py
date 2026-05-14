@@ -1,7 +1,11 @@
+from datetime import datetime
+from uuid import uuid4
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from passlib.context import CryptContext
 
 from app.dependencies import get_current_user
+from app.repositories.participant_repository import ParticipantRepository
 from app.repositories.user_repository import UserRepository
 from app.schemas.admin import AdminCreateRequest, AdminCreateResponse
 from app.schemas.auth import LoginRequest, TokenResponse, RegisterRequest, RegisterResponse
@@ -14,6 +18,7 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 
 _auth_service = AuthService(UserRepository())
 _user_repo = UserRepository()
+_participant_repo = ParticipantRepository()
 _password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
@@ -49,8 +54,22 @@ async def register_participante(data: RegisterRequest) -> RegisterResponse:
     }
     
     await _user_repo.create(user_data)
+
+    participant = await _participant_repo.get_by_email(data.email)
+
+    if participant is None:
+        participant = await _participant_repo.create(
+            {
+                "id": f"part-{uuid4().hex[:8]}",
+                "name": data.nome,
+                "email": data.email,
+                "registered_at": datetime.utcnow().replace(microsecond=0).isoformat(),
+                "consent_accepted": False,
+            }
+        )
     
     return RegisterResponse(
+        participant_id=participant["id"],
         email=data.email,
         nome=data.nome,
         message="Cadastro realizado com sucesso!"
