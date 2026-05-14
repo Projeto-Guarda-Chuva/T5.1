@@ -3,6 +3,7 @@ import { useMemo, useState, useEffect } from "react";
 import { FaPlay, FaRegCalendarAlt, FaVideoSlash } from "react-icons/fa";
 import "./style.css";
 import Form from "../../components/Form";
+import videosService from "../../services/videosService";
 
 interface Video {
   id: string;
@@ -15,20 +16,26 @@ export default function Home() {
   const [videos, setVideos] = useState<Video[]>([]);
   const [initialLatestId, setInitialLatestId] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loggedUserStr = localStorage.getItem("logged_user");
-    if (loggedUserStr) {
-      const user = JSON.parse(loggedUserStr);
-      const userVideosStr = localStorage.getItem(`videos_${user.email}`);
-      if (userVideosStr) {
-        const parsedVideos = JSON.parse(userVideosStr);
-        setVideos(parsedVideos);
-        if (parsedVideos.length > 0) {
-          setInitialLatestId(parsedVideos[0].id);
+    const fetchVideos = async () => {
+      try {
+        setLoading(true);
+        const fetchedVideos = await videosService.listVideos();
+        setVideos(fetchedVideos);
+        if (fetchedVideos.length > 0) {
+          setInitialLatestId(fetchedVideos[0].id);
         }
+      } catch (error) {
+        console.error("Erro ao carregar vídeos:", error);
+        setVideos([]);
+      } finally {
+        setLoading(false);
       }
-    }
+    };
+
+    fetchVideos();
   }, []);
 
   const latestVideo = useMemo(() => videos[0], [videos]);
@@ -46,6 +53,19 @@ export default function Home() {
       return [clickedVideo, ...remainingVideos];
     });
   };
+
+  if (loading) {
+    return (
+      <div className="video-page d-flex flex-column align-items-center justify-content-center">
+        <div className="text-center p-4 p-md-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Carregando...</span>
+          </div>
+          <p className="text-muted mt-3">Carregando seus vídeos...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (videos.length === 0) {
     return (
