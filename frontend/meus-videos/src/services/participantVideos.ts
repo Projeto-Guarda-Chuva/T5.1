@@ -11,14 +11,25 @@ export interface VideoEmailDispatchResponse {
 }
 
 export async function sendParticipantVideoEmail(
-  participantId: string,
   referenceDate: string,
+  videoId?: string,
 ): Promise<VideoEmailDispatchResponse> {
   const response = await api.post<VideoEmailDispatchResponse>(
-    `/participantes/${participantId}/video-do-dia/email`,
+    "/participantes/me/video-do-dia/email",
     {
       reference_date: referenceDate,
+      video_id: videoId,
     },
   );
   return response.data;
+}
+
+export async function getParticipantVideoPlaybackUrl(
+  videoId: string,
+): Promise<string> {
+  const response = await api.get(`/participantes/me/videos/${videoId}/arquivo`, {
+    responseType: "blob",
+  });
+
+  return URL.createObjectURL(response.data);
 }

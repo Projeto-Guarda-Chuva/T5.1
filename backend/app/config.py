@@ -5,8 +5,6 @@ class Settings(BaseSettings):
     MONGODB_URL: str
     DATABASE_NAME: str = "t51"
     VIDEO_GRIDFS_BUCKET_NAME: str = "videos"
-    VIDEO_SEED_FILE_PATH: str | None = None
-    VIDEO_SEED_TARGET_VIDEO_ID: str | None = None
     SMTP_HOST: str | None = None
     SMTP_PORT: int = 587
     SMTP_USERNAME: str | None = None

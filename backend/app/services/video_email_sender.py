@@ -52,18 +52,27 @@ class VideoEmailSender:
         formatted_date = reference_date.strftime("%d/%m/%Y")
         formatted_recorded_at = self._format_recorded_at(video.get("recorded_at"))
         formatted_file_size = self._format_size_bytes(video_file["size_bytes"])
-        subject = f"Vídeo da sua participação - {formatted_date}"
+        participant_name = self._resolve_participant_name(participant)
+        subject = f"Projeto Guarda-Chuva | Vídeo da sua participação"
+
+        greeting = (
+            f"Olá, {participant_name}!"
+            if participant_name
+            else "Olá!"
+        )
 
         body = (
-            "Olá!\n\n"
-            "Seu vídeo da participação já está disponível e segue anexado neste e-mail.\n\n"
-            "Resumo do envio:\n"
+            f"{greeting}\n\n"
+            "Encaminhamos em anexo o vídeo da sua participação no Projeto Guarda-Chuva.\n\n"
+            "Detalhes do envio:\n"
             f"- Data da participação: {formatted_date}\n"
             f"- Horário da gravação: {formatted_recorded_at}\n"
-            f"- Identificação do vídeo: {video['id']}\n"
-            f"- Arquivo anexado: {video_file['filename']}\n"
+            f"- Referência do conteúdo: {video.get('title', 'Vídeo da sua participação')}\n"
+            "- Formato do arquivo: vídeo MP4\n"
             f"- Tamanho do arquivo: {formatted_file_size}\n\n"
-            "Se quiser, você pode guardar este e-mail para acessar o vídeo novamente depois.\n"
+            "Recomendamos guardar esta mensagem caso você queira acessar o arquivo novamente mais tarde.\n\n"
+            "Atenciosamente,\n"
+            "Equipe do Projeto Guarda-Chuva\n"
         )
 
         message = EmailMessage()
@@ -79,6 +88,10 @@ class VideoEmailSender:
             filename=video_file["filename"],
         )
         return message
+
+    def _resolve_participant_name(self, participant: dict[str, Any]) -> str:
+        raw_name = participant.get("name") or participant.get("nome") or ""
+        return str(raw_name).strip()
 
     def _smtp_is_configured(self) -> bool:
         return bool(settings.resolved_smtp_host and settings.resolved_smtp_from_email)

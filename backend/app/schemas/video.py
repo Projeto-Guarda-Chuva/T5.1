@@ -3,6 +3,7 @@ from typing import List, Optional
 
 class VideoResponse(BaseModel):
     id: str
+    participant_video_id: Optional[str] = None
     title: str
     created_at: str
     duration_seconds: int

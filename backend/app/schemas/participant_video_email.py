@@ -6,6 +6,7 @@ from pydantic import BaseModel
 
 class VideoEmailDispatchRequest(BaseModel):
     reference_date: date | None = None
+    video_id: str | None = None
 
 
 class ParticipantVideoAttachment(BaseModel):
