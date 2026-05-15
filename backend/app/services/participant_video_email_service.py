@@ -61,38 +61,69 @@ class ParticipantVideoEmailService:
                 "O participante informado não possui um e-mail válido cadastrado."
             )
 
+        selected_video = None
         reference_date = request_data.reference_date or date.today()
-        videos_of_day = await self._video_repository.list_by_participant_and_date(
-            participant_id,
-            reference_date,
-        )
 
-        if not videos_of_day:
-            raise ParticipantVideoNotFoundError(
-                "Nenhum vídeo foi encontrado para o participante na data "
-                f"{reference_date.isoformat()}."
+        if request_data.video_id:
+            selected_video = await self._video_repository.get_by_id_and_participant(
+                participant["id"],
+                request_data.video_id,
             )
 
-        available_videos = [
-            video for video in videos_of_day if video.get("status") == "available"
-        ]
+            if selected_video is None:
+                raise ParticipantVideoNotFoundError(
+                    "O vídeo selecionado não foi encontrado para o participante."
+                )
 
-        if not available_videos:
+            video_recorded_at = self._parse_sortable_datetime(
+                selected_video.get("recorded_at")
+            )
+            if request_data.reference_date and video_recorded_at.date() != reference_date:
+                raise ParticipantVideoNotFoundError(
+                    "O vídeo selecionado não corresponde à data informada."
+                )
+        else:
+            videos_of_day = await self._video_repository.list_by_participant_and_date(
+                participant["id"],
+                reference_date,
+            )
+
+            if not videos_of_day:
+                raise ParticipantVideoNotFoundError(
+                    "Nenhum vídeo foi encontrado para o participante na data "
+                    f"{reference_date.isoformat()}."
+                )
+
+            available_videos = [
+                video for video in videos_of_day if video.get("status") == "available"
+            ]
+
+            if not available_videos:
+                raise ParticipantVideoUnavailableError(
+                    "O vídeo do dia "
+                    f"{reference_date.isoformat()} ainda não está disponível para envio."
+                )
+
+            selected_video = max(
+                available_videos,
+                key=lambda video: self._parse_sortable_datetime(video.get("recorded_at")),
+            )
+
+        if selected_video.get("status") != "available":
             raise ParticipantVideoUnavailableError(
-                "O vídeo do dia "
-                f"{reference_date.isoformat()} ainda não está disponível para envio."
+                "O vídeo selecionado ainda não está disponível para envio."
             )
 
-        selected_video = max(
-            available_videos,
-            key=lambda video: self._parse_sortable_datetime(video.get("recorded_at")),
-        )
+        reference_date = self._parse_sortable_datetime(
+            selected_video.get("recorded_at")
+        ).date()
 
         file_id = str(selected_video.get("file_id", "")).strip()
 
         if not file_id:
             raise ParticipantVideoFileMissingError(
-                "O vídeo foi localizado, mas o arquivo ainda não foi salvo no banco de dados."
+                "O vídeo foi localizado, mas o arquivo ainda não foi salvo no banco de dados. "
+                "Faça o upload do vídeo do participante antes de enviar por e-mail."
             )
 
         stored_video_file = await self._video_file_repository.get_file(file_id)
@@ -100,6 +131,15 @@ class ParticipantVideoEmailService:
         if stored_video_file is None:
             raise ParticipantVideoFileMissingError(
                 "O vídeo foi localizado, mas o arquivo não pôde ser recuperado do banco de dados."
+            )
+
+        if (
+            stored_video_file.get("participant_id") != participant["id"]
+            or stored_video_file.get("video_id") != selected_video["id"]
+        ):
+            raise ParticipantVideoFileMissingError(
+                "O vídeo foi localizado, mas o arquivo salvo no banco de dados "
+                "não está vinculado a este participante e a este vídeo."
             )
 
         delivery_result = await self._email_sender.send_video_email(

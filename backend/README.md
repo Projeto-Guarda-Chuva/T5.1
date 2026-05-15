@@ -254,10 +254,6 @@ Arquivos envolvidos:
 - `app/repositories/email_outbox_repository.py`
 - `app/startup_seed.py`
 - `app/schemas/participant_video_email.py`
-- `app/data/participants.json`
-- `app/data/participant_videos.json`
-- `app/data/video_email_dispatch_logs.json`
-- `app/data/email_outbox.json`
 
 Rotas disponíveis:
 
@@ -284,10 +280,10 @@ Regra implementada:
 
 Bootstrap local:
 
-- os arquivos JSON em `app/data/` continuam no repositório como massa inicial
-- no startup, `app/startup_seed.py` semeia as coleções Mongo quando elas estiverem vazias
-- se `VIDEO_SEED_FILE_PATH` e `VIDEO_SEED_TARGET_VIDEO_ID` estiverem configurados juntos, o backend envia esse `.mp4` para o GridFS e vincula o `file_id` apenas ao vídeo indicado
-- depois disso, a busca e a gravação passam a acontecer no MongoDB, não mais nos arquivos JSON
+- o backend não semeia mais participantes, vídeos ou logs a partir de arquivos JSON
+- no startup, `app/startup_seed.py` apenas garante os índices Mongo necessários
+- o backend não vincula nenhum `.mp4` de demonstração automaticamente
+- o envio por e-mail só acontece quando o vídeo correto do participante já tiver sido salvo no MongoDB GridFS por upload explícito
 
 Fluxo recomendado sem frontend:
 
@@ -343,7 +339,7 @@ Exemplo de resposta:
     "id": "vid-001",
     "title": "Vídeo da participação - 14/05/2026",
     "recorded_at": "2026-05-14T14:30:00",
-    "filename": "YTDown_YouTube_Art-Tech_Media_lACK3I_2VdU_001_720p.mp4",
+    "filename": "video.mp4",
     "content_type": "video/mp4",
     "size_bytes": 13294212
   },
@@ -357,6 +353,7 @@ Respostas de erro esperadas:
 - `404` quando não houver vídeo para a data pedida
 - `409` quando houver vídeo do dia, mas ele ainda não estiver disponível para envio
 - `409` quando o vídeo existir, mas o arquivo ainda não estiver salvo no banco de dados
+- `409` quando existir um `file_id`, mas o arquivo salvo no GridFS não estiver vinculado ao mesmo participante e vídeo
 - `400` quando o participante não tiver e-mail válido cadastrado
 - `502` quando o SMTP estiver configurado, mas o envio falhar
 
@@ -371,8 +368,6 @@ SMTP_FROM_EMAIL=
 SMTP_USE_STARTTLS=true
 SMTP_TIMEOUT_SECONDS=120
 VIDEO_GRIDFS_BUCKET_NAME=videos
-VIDEO_SEED_FILE_PATH=/caminho/para/video.mp4
-VIDEO_SEED_TARGET_VIDEO_ID=vid-001
 ```
 
 Compatibilidade com configuração já usada pelo projeto:

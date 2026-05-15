@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, HTTPException, Response, UploadFile, status
 from pydantic import BaseModel
 
 from app.dependencies import get_current_user
@@ -67,6 +67,57 @@ async def obter_participante_atual(
         id=participant["id"],
         name=participant.get("name") or participant.get("nome") or "",
         email=participant["email"],
+    )
+
+
+@router.get("/me/videos/{video_id}/arquivo")
+async def obter_arquivo_do_video_do_participante_atual(
+    video_id: str,
+    current_user_email: str = Depends(get_current_user),
+) -> Response:
+    participant = await ParticipantRepository().get_by_email(current_user_email)
+
+    if participant is None:
+        raise HTTPException(status_code=404, detail="Participante não encontrado.")
+
+    participant_video_repository = ParticipantVideoRepository()
+    video = await participant_video_repository.get_by_id_and_participant(
+        participant["id"],
+        video_id,
+    )
+
+    if video is None:
+        raise HTTPException(status_code=404, detail="Vídeo não encontrado para o participante.")
+
+    file_id = str(video.get("file_id", "")).strip()
+    if not file_id:
+        raise HTTPException(
+            status_code=404,
+            detail="O arquivo deste vídeo ainda não foi salvo no banco de dados.",
+        )
+
+    stored_video_file = await VideoFileRepository().get_file(file_id)
+    if stored_video_file is None:
+        raise HTTPException(
+            status_code=404,
+            detail="O arquivo deste vídeo não pôde ser recuperado do banco de dados.",
+        )
+
+    if (
+        stored_video_file.get("participant_id") != participant["id"]
+        or stored_video_file.get("video_id") != video["id"]
+    ):
+        raise HTTPException(
+            status_code=409,
+            detail="O arquivo salvo no banco de dados não está vinculado a este vídeo.",
+        )
+
+    return Response(
+        content=stored_video_file["content"],
+        media_type=stored_video_file["content_type"],
+        headers={
+            "Content-Disposition": f'inline; filename="{stored_video_file["filename"]}"'
+        },
     )
 
 
@@ -172,6 +223,37 @@ async def salvar_arquivo_de_video(
         },
         message="Arquivo do vídeo salvo no MongoDB com sucesso.",
     )
+
+
+@router.post(
+    "/me/video-do-dia/email",
+    response_model=VideoEmailDispatchResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def enviar_video_do_dia_do_participante_atual_por_email(
+    envio: VideoEmailDispatchRequest,
+    current_user_email: str = Depends(get_current_user),
+) -> VideoEmailDispatchResponse:
+    participant = await ParticipantRepository().get_by_email(current_user_email)
+
+    if participant is None:
+        raise HTTPException(status_code=404, detail="Participante não encontrado.")
+
+    try:
+        return await participant_video_email_service.send_video_of_day(
+            participant["id"],
+            envio,
+        )
+    except ParticipantEmailMissingError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except ParticipantVideoNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ParticipantVideoUnavailableError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except ParticipantVideoFileMissingError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except EmailDeliveryError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
 
 
 @router.post(

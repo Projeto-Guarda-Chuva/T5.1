@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Any
 
 from bson import ObjectId
@@ -17,44 +16,6 @@ class VideoFileRepository:
         self._bucket_name = settings.VIDEO_GRIDFS_BUCKET_NAME
         self._bucket = AsyncIOMotorGridFSBucket(db, bucket_name=self._bucket_name)
         self._files_collection = db[f"{self._bucket_name}.files"]
-
-    async def ensure_file_from_path(
-        self,
-        source_path: Path,
-        *,
-        content_type: str = "video/mp4",
-    ) -> dict[str, Any]:
-        resolved_path = source_path.resolve()
-        existing_file = await self._files_collection.find_one(
-            {"metadata.source_path": str(resolved_path)},
-            {"_id": 1, "filename": 1, "length": 1, "metadata": 1},
-        )
-
-        if existing_file is not None:
-            metadata = existing_file.get("metadata") or {}
-            return {
-                "file_id": str(existing_file["_id"]),
-                "filename": existing_file["filename"],
-                "content_type": metadata.get("content_type", content_type),
-                "size_bytes": int(existing_file.get("length", 0)),
-            }
-
-        file_bytes = source_path.read_bytes()
-        file_id = await self._bucket.upload_from_stream(
-            source_path.name,
-            file_bytes,
-            metadata={
-                "source_path": str(resolved_path),
-                "content_type": content_type,
-            },
-        )
-
-        return {
-            "file_id": str(file_id),
-            "filename": source_path.name,
-            "content_type": content_type,
-            "size_bytes": len(file_bytes),
-        }
 
     async def replace_file_for_video(
         self,
@@ -113,4 +74,7 @@ class VideoFileRepository:
             "content_type": metadata.get("content_type", "application/octet-stream"),
             "size_bytes": len(file_bytes),
             "content": file_bytes,
+            "participant_id": metadata.get("participant_id"),
+            "video_id": metadata.get("video_id"),
+            "binding_key": metadata.get("binding_key"),
         }

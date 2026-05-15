@@ -1,40 +1,66 @@
 from datetime import datetime
+
 from fastapi import HTTPException
-from app.repositories import video_repository
-from app.schemas.video import VideoListResponse, VideoClaimRequest, VideoClaimResponse
 
-def list_user_videos(email: str) -> VideoListResponse:
-    videos = video_repository.get_videos_by_email(email)
+from app.repositories.participant_repository import ParticipantRepository
+from app.repositories.participant_video_repository import ParticipantVideoRepository
+from app.schemas.video import VideoClaimRequest, VideoClaimResponse, VideoListResponse
+
+
+participant_repository = ParticipantRepository()
+participant_video_repository = ParticipantVideoRepository()
+
+
+async def list_user_videos(email: str) -> VideoListResponse:
+    participant = await participant_repository.get_by_email(email)
+
+    if participant is None:
+        return VideoListResponse(
+            items=[],
+            total=0,
+            message="Nenhum vídeo encontrado.",
+        )
+
+    videos = await participant_video_repository.list_by_participant(participant["id"])
+    items = [_build_video_response(video) for video in videos]
+
     return VideoListResponse(
-        items=videos,
-        total=len(videos),
-        message="Videos retrieved successfully." if videos else "Nenhum vídeo encontrado."
+        items=items,
+        total=len(items),
+        message="Videos retrieved successfully." if items else "Nenhum vídeo encontrado.",
     )
 
-def claim_video(user_email: str, request: VideoClaimRequest) -> VideoClaimResponse:
-    unclaimed_videos = video_repository.get_unclaimed_videos()
-    
-    # O horário da requisição vem no formato "HH:MM"
-    req_hour, req_minute = map(int, request.participation_time.split(":"))
-    
-    target_video = None
-    for v in unclaimed_videos:
-        try:
-            # Exemplo de data no JSON: "2026-05-14T14:30:00"
-            video_dt = datetime.fromisoformat(v["created_at"])
-            # Procura um vídeo com o mesmo horário e minuto (simplificado para o escopo atual)
-            if video_dt.hour == req_hour and video_dt.minute == req_minute:
-                target_video = v
-                break
-        except ValueError:
-            continue
-            
-    if not target_video:
-        raise HTTPException(status_code=404, detail="Não conseguimos localizar nenhum vídeo com esse horário exato.")
-        
-    updated_video = video_repository.update_video_participant(target_video["id"], user_email)
-    
-    return VideoClaimResponse(
-        **updated_video,
-        message="Video associado à sua conta com sucesso."
+
+async def claim_video(user_email: str, request: VideoClaimRequest) -> VideoClaimResponse:
+    raise HTTPException(
+        status_code=501,
+        detail=(
+            "O fluxo antigo de associação de vídeos de teste foi desativado. "
+            "Os vídeos agora precisam ser cadastrados e armazenados no MongoDB."
+        ),
     )
+
+
+def _build_video_response(video: dict) -> dict:
+    recorded_at = _normalize_datetime_string(video.get("recorded_at"))
+
+    return {
+        "id": video["id"],
+        "participant_video_id": video["id"],
+        "title": video.get("title", "Vídeo da participação"),
+        "created_at": recorded_at,
+        "duration_seconds": int(video.get("duration_seconds", 0) or 0),
+        "thumbnail_url": str(video.get("thumbnail_url", "") or ""),
+        "video_url": "",
+        "status": str(video.get("status", "available")),
+    }
+
+
+def _normalize_datetime_string(value: str | datetime | None) -> str:
+    if isinstance(value, datetime):
+        return value.replace(microsecond=0).isoformat()
+
+    if isinstance(value, str) and value.strip():
+        return value
+
+    return datetime.utcnow().replace(microsecond=0).isoformat()

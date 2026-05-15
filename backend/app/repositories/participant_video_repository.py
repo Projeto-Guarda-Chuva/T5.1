@@ -32,6 +32,18 @@ class ParticipantVideoRepository:
             if self._matches_reference_date(video.get("recorded_at"), reference_date)
         ]
 
+    async def list_by_participant(
+        self,
+        participant_id: str,
+    ) -> list[dict[str, Any]]:
+        cursor = self._collection.find({"participant_id": participant_id}, {"_id": 0})
+        videos = [dict(video) for video in await cursor.to_list(length=None)]
+        return sorted(
+            videos,
+            key=lambda video: self._parse_sortable_datetime(video.get("recorded_at")),
+            reverse=True,
+        )
+
     async def get_by_id_and_participant(
         self,
         participant_id: str,
@@ -77,3 +89,15 @@ class ParticipantVideoRepository:
                 return recorded_at.startswith(reference_date.isoformat())
 
         return False
+
+    def _parse_sortable_datetime(self, value: Any) -> datetime:
+        if isinstance(value, datetime):
+            return value
+
+        if isinstance(value, str):
+            try:
+                return datetime.fromisoformat(value)
+            except ValueError:
+                return datetime.min
+
+        return datetime.min

@@ -2,8 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { FaPlay, FaRegCalendarAlt, FaVideoSlash } from "react-icons/fa";
 import "./style.css";
 import Form from "../../components/Form";
-import { sendParticipantVideoEmail } from "../../services/participantVideos";
-import participantesService from "../../services/participantesService";
+import {
+  getParticipantVideoPlaybackUrl,
+  sendParticipantVideoEmail,
+} from "../../services/participantVideos";
 import videosService, { Video } from "../../services/videosService";
 
 interface EmailFeedback {
@@ -13,24 +15,26 @@ interface EmailFeedback {
 
 export default function Home() {
   const [videos, setVideos] = useState<Video[]>([]);
-  const [participantId, setParticipantId] = useState<string | null>(null);
   const [initialLatestId, setInitialLatestId] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [emailFeedback, setEmailFeedback] = useState<EmailFeedback | null>(null);
+  const [featuredVideoSrc, setFeaturedVideoSrc] = useState<string>("");
+  const [featuredVideoPoster, setFeaturedVideoPoster] = useState<string>("");
+  const [isFeaturedVideoLoading, setIsFeaturedVideoLoading] = useState(false);
+  const [featuredVideoLoadError, setFeaturedVideoLoadError] = useState<string | null>(null);
+  const [videoThumbnailOverrides, setVideoThumbnailOverrides] = useState<
+    Record<string, string>
+  >({});
 
   useEffect(() => {
     const loadPageData = async () => {
       try {
         setLoading(true);
-        const [fetchedVideos, participant] = await Promise.all([
-          videosService.listVideos(),
-          participantesService.getCurrentParticipant().catch(() => null),
-        ]);
+        const fetchedVideos = await videosService.listVideos();
 
         setVideos(fetchedVideos);
-        setParticipantId(participant?.id ?? null);
 
         if (fetchedVideos.length > 0) {
           setInitialLatestId(fetchedVideos[0].id);
@@ -49,6 +53,120 @@ export default function Home() {
   const latestVideo = useMemo(() => videos[0], [videos]);
   const otherVideos = useMemo(() => videos.slice(1), [videos]);
 
+  useEffect(() => {
+    let isCancelled = false;
+
+    const loadVideoThumbnails = async () => {
+      const thumbnailEntries = await Promise.all(
+        videos.map(async (video) => {
+          if (!video.participantVideoId) {
+            return [video.id, video.thumbnail] as const;
+          }
+
+          try {
+            const playbackUrl = await getParticipantVideoPlaybackUrl(
+              video.participantVideoId,
+            );
+            const generatedPoster = await buildVideoPoster(playbackUrl);
+            URL.revokeObjectURL(playbackUrl);
+
+            if (generatedPoster) {
+              return [video.id, generatedPoster] as const;
+            }
+          } catch {
+            // Mantém o thumbnail atual como fallback.
+          }
+
+          return [video.id, video.thumbnail] as const;
+        }),
+      );
+
+      if (!isCancelled) {
+        setVideoThumbnailOverrides(Object.fromEntries(thumbnailEntries));
+      }
+    };
+
+    if (videos.length === 0) {
+      setVideoThumbnailOverrides({});
+      return;
+    }
+
+    void loadVideoThumbnails();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [videos]);
+
+  useEffect(() => {
+    if (!latestVideo) {
+      setFeaturedVideoSrc("");
+      setFeaturedVideoPoster("");
+      setIsFeaturedVideoLoading(false);
+      setFeaturedVideoLoadError(null);
+      return;
+    }
+
+    let isCancelled = false;
+    let objectUrlToRevoke: string | null = null;
+
+    setFeaturedVideoSrc("");
+    setFeaturedVideoPoster(latestVideo.thumbnail);
+    setIsFeaturedVideoLoading(true);
+    setFeaturedVideoLoadError(null);
+
+    const loadMongoBackedVideo = async () => {
+      if (!latestVideo.participantVideoId) {
+        if (!isCancelled) {
+          setIsFeaturedVideoLoading(false);
+          setFeaturedVideoLoadError(
+            "Este vídeo ainda não está vinculado ao arquivo salvo no MongoDB.",
+          );
+        }
+        return;
+      }
+
+      try {
+        const playbackUrl = await getParticipantVideoPlaybackUrl(
+          latestVideo.participantVideoId,
+        );
+
+        if (isCancelled) {
+          URL.revokeObjectURL(playbackUrl);
+          return;
+        }
+
+        objectUrlToRevoke = playbackUrl;
+        setFeaturedVideoSrc(playbackUrl);
+        const generatedPoster = await buildVideoPoster(playbackUrl);
+        if (!isCancelled && generatedPoster) {
+          setFeaturedVideoPoster(generatedPoster);
+        }
+        if (!isCancelled) {
+          setIsFeaturedVideoLoading(false);
+        }
+      } catch {
+        if (!isCancelled) {
+          setFeaturedVideoSrc("");
+          setFeaturedVideoPoster(latestVideo.thumbnail);
+          setIsFeaturedVideoLoading(false);
+          setFeaturedVideoLoadError(
+            "Não foi possível carregar o arquivo deste vídeo salvo no MongoDB.",
+          );
+        }
+      }
+    };
+
+    void loadMongoBackedVideo();
+
+    return () => {
+      isCancelled = true;
+      if (objectUrlToRevoke) {
+        URL.revokeObjectURL(objectUrlToRevoke);
+      }
+    };
+  }, [latestVideo]);
+
   const handleVideoClick = (clickedVideoId: string) => {
     setVideos((prevVideos) => {
       const clickedVideo = prevVideos.find((video) => video.id === clickedVideoId);
@@ -63,15 +181,6 @@ export default function Home() {
   };
 
   const handleSendVideoByEmail = async () => {
-    if (!participantId) {
-      setEmailFeedback({
-        type: "danger",
-        message:
-          "Não foi possível identificar o participante atual para enviar o vídeo.",
-      });
-      return;
-    }
-
     if (!latestVideo?.referenceDate) {
       setEmailFeedback({
         type: "danger",
@@ -81,13 +190,22 @@ export default function Home() {
       return;
     }
 
+    if (!latestVideo?.participantVideoId) {
+      setEmailFeedback({
+        type: "danger",
+        message:
+          "Este vídeo exibido ainda não está vinculado ao arquivo correspondente no backend.",
+      });
+      return;
+    }
+
     try {
       setIsSendingEmail(true);
       setEmailFeedback(null);
 
       const response = await sendParticipantVideoEmail(
-        participantId,
         latestVideo.referenceDate,
+        latestVideo.participantVideoId,
       );
 
       setEmailFeedback({
@@ -203,14 +321,28 @@ export default function Home() {
           ) : null}
 
           <div className="featured-player">
-            <video
-              key={latestVideo.id}
-              controls
-              poster={latestVideo.thumbnail}
-              className="featured-video"
-            >
-              <source src={latestVideo.src} type="video/mp4" />
-            </video>
+            {isFeaturedVideoLoading ? (
+              <div className="featured-video-state">
+                <div className="spinner-border text-light" role="status">
+                  <span className="visually-hidden">Carregando...</span>
+                </div>
+                <p className="featured-video-state-text">
+                  Carregando o vídeo salvo no MongoDB...
+                </p>
+              </div>
+            ) : featuredVideoLoadError ? (
+              <div className="featured-video-state">
+                <p className="featured-video-state-text">{featuredVideoLoadError}</p>
+              </div>
+            ) : (
+              <video
+                key={`${latestVideo.id}-${featuredVideoSrc}`}
+                controls
+                poster={featuredVideoPoster || latestVideo.thumbnail}
+                className="featured-video"
+                src={featuredVideoSrc}
+              />
+            )}
           </div>
 
           <div className="featured-date">
@@ -231,7 +363,10 @@ export default function Home() {
               onClick={() => handleVideoClick(video.id)}
             >
               <div className="thumb-wrapper">
-                <img src={video.thumbnail} alt={video.date} />
+                <img
+                  src={videoThumbnailOverrides[video.id] || video.thumbnail}
+                  alt={video.date}
+                />
                 <div className="thumb-overlay">
                   <div className="play-btn">
                     <FaPlay />
@@ -260,4 +395,68 @@ export default function Home() {
       />
     </div>
   );
+}
+
+async function buildVideoPoster(videoSrc: string): Promise<string | null> {
+  return await new Promise((resolve) => {
+    const tempVideo = document.createElement("video");
+    tempVideo.src = videoSrc;
+    tempVideo.muted = true;
+    tempVideo.playsInline = true;
+    tempVideo.preload = "metadata";
+
+    const cleanup = () => {
+      tempVideo.removeAttribute("src");
+      tempVideo.load();
+    };
+
+    tempVideo.addEventListener(
+      "loadeddata",
+      () => {
+        const targetTime =
+          Number.isFinite(tempVideo.duration) && tempVideo.duration > 0.2 ? 0.2 : 0;
+
+        const captureFrame = () => {
+          try {
+            const canvas = document.createElement("canvas");
+            canvas.width = tempVideo.videoWidth || 1280;
+            canvas.height = tempVideo.videoHeight || 720;
+            const context = canvas.getContext("2d");
+
+            if (!context) {
+              cleanup();
+              resolve(null);
+              return;
+            }
+
+            context.drawImage(tempVideo, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
+            cleanup();
+            resolve(dataUrl);
+          } catch {
+            cleanup();
+            resolve(null);
+          }
+        };
+
+        if (targetTime === 0) {
+          captureFrame();
+          return;
+        }
+
+        tempVideo.addEventListener("seeked", captureFrame, { once: true });
+        tempVideo.currentTime = targetTime;
+      },
+      { once: true },
+    );
+
+    tempVideo.addEventListener(
+      "error",
+      () => {
+        cleanup();
+        resolve(null);
+      },
+      { once: true },
+    );
+  });
 }
