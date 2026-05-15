@@ -5,7 +5,7 @@
     "description": "Default configuration for regular robot operation during short exhibitions.",
     "is_active": false,
     "created_at": "2026-04-17T09:00:00",
-    "updated_at": "2026-05-12T23:18:04",
+    "updated_at": "2026-05-14T22:31:01",
     "parameters": {
       "movement_speed": 0.8,
       "movement_duration_seconds": 30,
@@ -33,7 +33,7 @@
     "description": "Configuration for a new operation.",
     "is_active": false,
     "created_at": "2026-04-29T16:06:29",
-    "updated_at": "2026-05-12T23:32:53",
+    "updated_at": "2026-05-14T22:31:42",
     "parameters": {
       "movement_speed": 0.7,
       "movement_duration_seconds": 20,
@@ -87,9 +87,9 @@
     "id": "cfg-007",
     "name": "teste 2",
     "description": "teste 2",
-    "is_active": true,
+    "is_active": false,
     "created_at": "2026-05-12T22:53:14",
-    "updated_at": "2026-05-12T23:32:56",
+    "updated_at": "2026-05-14T22:30:34",
     "parameters": {
       "movement_speed": 13.0,
       "movement_duration_seconds": 15,
@@ -149,6 +149,20 @@
     "parameters": {
       "movement_speed": 11.0,
       "movement_duration_seconds": 299,
+      "video_capture_enabled": true,
+      "audio_capture_enabled": true
+    }
+  },
+  {
+    "id": "cfg-012",
+    "name": "teste 03",
+    "description": "teste",
+    "is_active": true,
+    "created_at": "2026-05-14T22:31:39",
+    "updated_at": "2026-05-14T22:31:42",
+    "parameters": {
+      "movement_speed": 10.0,
+      "movement_duration_seconds": 300,
       "video_capture_enabled": true,
       "audio_capture_enabled": true
     }
