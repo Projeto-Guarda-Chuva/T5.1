@@ -6,6 +6,7 @@ from email.message import EmailMessage
 from typing import Any
 
 from app.config import settings
+from app.time_utils import utc_now
 
 logger = logging.getLogger(__name__)
 
@@ -138,7 +139,7 @@ class VideoEmailSender:
 
         await self._outbox_repository.create(
             {
-                "queued_at": datetime.utcnow().replace(microsecond=0).isoformat(),
+                "queued_at": utc_now(),
                 "participant_id": participant["id"],
                 "participant_email": participant["email"],
                 "reference_date": reference_date.isoformat(),

@@ -20,15 +20,18 @@ class VideoFileRepository:
     async def replace_file_for_video(
         self,
         *,
-        participant_id: str,
         video_id: str,
         filename: str,
         file_bytes: bytes,
         content_type: str = "video/mp4",
     ) -> dict[str, Any]:
-        binding_key = f"{participant_id}:{video_id}"
         existing_cursor = self._files_collection.find(
-            {"metadata.binding_key": binding_key},
+            {
+                "$or": [
+                    {"metadata.binding_key": f"video:{video_id}"},
+                    {"metadata.video_id": video_id},
+                ]
+            },
             {"_id": 1},
         )
         existing_files = await existing_cursor.to_list(length=None)
@@ -40,8 +43,7 @@ class VideoFileRepository:
             filename,
             file_bytes,
             metadata={
-                "binding_key": binding_key,
-                "participant_id": participant_id,
+                "binding_key": f"video:{video_id}",
                 "video_id": video_id,
                 "content_type": content_type,
             },
@@ -78,3 +80,14 @@ class VideoFileRepository:
             "video_id": metadata.get("video_id"),
             "binding_key": metadata.get("binding_key"),
         }
+
+    async def delete_file(self, file_id: str) -> None:
+        try:
+            object_id = ObjectId(file_id)
+        except InvalidId:
+            return
+
+        try:
+            await self._bucket.delete(object_id)
+        except NoFile:
+            return

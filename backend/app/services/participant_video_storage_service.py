@@ -6,15 +6,17 @@ class ParticipantVideoUploadInvalidError(ValueError):
 
 
 class ParticipantVideoStorageService:
-    """Store participant video files in GridFS and bind them to a specific video record."""
+    """Replace the binary file of an existing canonical video linked to a participant."""
 
     def __init__(
         self,
         participant_repository,
+        participant_video_repository,
         video_repository,
         video_file_repository,
     ) -> None:
         self._participant_repository = participant_repository
+        self._participant_video_repository = participant_video_repository
         self._video_repository = video_repository
         self._video_file_repository = video_file_repository
 
@@ -32,13 +34,18 @@ class ParticipantVideoStorageService:
         if participant is None:
             raise ValueError("Participante não encontrado.")
 
-        video = await self._video_repository.get_by_id_and_participant(
+        participant_video_link = await self._participant_video_repository.get_by_id_and_participant(
             participant_id,
             video_id,
         )
 
-        if video is None:
+        if participant_video_link is None:
             raise ValueError("Vídeo não encontrado para o participante informado.")
+
+        canonical_video = await self._video_repository.get_by_id(video_id)
+
+        if canonical_video is None:
+            raise ValueError("Vídeo não encontrado no catálogo principal.")
 
         normalized_filename = filename.strip()
 
@@ -48,9 +55,7 @@ class ParticipantVideoStorageService:
             )
 
         if not file_bytes:
-            raise ParticipantVideoUploadInvalidError(
-                "O arquivo enviado está vazio."
-            )
+            raise ParticipantVideoUploadInvalidError("O arquivo enviado está vazio.")
 
         normalized_content_type = (content_type or "video/mp4").strip().lower()
 
@@ -60,21 +65,17 @@ class ParticipantVideoStorageService:
             )
 
         file_data = await self._video_file_repository.replace_file_for_video(
-            participant_id=participant_id,
             video_id=video_id,
             filename=normalized_filename,
             file_bytes=file_bytes,
             content_type=normalized_content_type,
         )
-        await self._video_repository.attach_file_to_video(
-            participant_id,
+        updated_video = await self._video_repository.update_file_metadata(
             video_id,
             file_data,
         )
 
-        video["file_id"] = file_data["file_id"]
-        video["filename"] = file_data["filename"]
-        video["content_type"] = file_data["content_type"]
-        video["size_bytes"] = file_data["size_bytes"]
+        if updated_video is None:
+            raise ValueError("Não foi possível atualizar o vídeo principal informado.")
 
-        return video
+        return updated_video

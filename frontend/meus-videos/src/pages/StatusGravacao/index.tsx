@@ -20,16 +20,18 @@ export default function StatusGravacao() {
       const loggedUser = JSON.parse(
         localStorage.getItem("logged_user") || "{}",
       );
+      const response =
+        status === "ja_participei"
+          ? await participantesService.marcarQueJaParticipou()
+          : await participantesService.marcarQueVaiParticipar();
+
       if (loggedUser.email) {
         loggedUser.status_gravacao = status;
+        loggedUser.status_gravacao_registrado_em = response.recorded_at;
         localStorage.setItem("logged_user", JSON.stringify(loggedUser));
       }
 
-      await participantesService.atualizarStatus("123", {
-        status_gravacao: status as "ja_participei" | "ainda_participarei",
-      });
-
-      alert(`Status registrado! Redirecionando...`);
+      alert(response.message);
       navigate(ROUTES.HOME);
     } catch (error: any) {
       const errorMessage =
@@ -50,7 +52,7 @@ export default function StatusGravacao() {
         <div className="card-body p-5 text-center">
           <h3 className="mb-4">Falta pouco!</h3>
           <p className="text-muted mb-4">
-            Para organizarmos seus vídeos, nos diga:
+            Para organizar corretamente seus vídeos, escolha uma das opções:
           </p>
 
           <form onSubmit={handleSubmit}>
@@ -68,7 +70,7 @@ export default function StatusGravacao() {
                 className={`btn btn-lg ${status === "ainda_participarei" ? "btn-primary" : "btn-outline-primary"}`}
                 onClick={() => setStatus("ainda_participarei")}
               >
-                Ainda participarei da gravação
+                Ainda vou participar da próxima gravação
               </button>
             </div>
 

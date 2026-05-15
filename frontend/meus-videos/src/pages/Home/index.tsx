@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaPlay, FaRegCalendarAlt, FaVideoSlash } from "react-icons/fa";
 import "./style.css";
-import Form from "../../components/Form";
 import {
   getParticipantVideoPlaybackUrl,
   sendParticipantVideoEmail,
 } from "../../services/participantVideos";
 import videosService, { Video } from "../../services/videosService";
+import { ROUTES } from "../../utils/routes";
 
 interface EmailFeedback {
   type: "success" | "danger";
@@ -14,9 +15,9 @@ interface EmailFeedback {
 }
 
 export default function Home() {
+  const navigate = useNavigate();
   const [videos, setVideos] = useState<Video[]>([]);
   const [initialLatestId, setInitialLatestId] = useState<string | null>(null);
-  const [isFormOpen, setIsFormOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [emailFeedback, setEmailFeedback] = useState<EmailFeedback | null>(null);
@@ -225,6 +226,10 @@ export default function Home() {
     }
   };
 
+  const handleGoToParticipationFlow = () => {
+    navigate(ROUTES.STATUS_GRAVACAO);
+  };
+
   if (loading) {
     return (
       <div className="video-page d-flex flex-column align-items-center justify-content-center">
@@ -260,22 +265,12 @@ export default function Home() {
             <button
               type="button"
               className="btn btn-primary px-4"
-              onClick={() => setIsFormOpen(true)}
+              onClick={handleGoToParticipationFlow}
             >
               Já participei
             </button>
           </div>
         </div>
-        <Form
-          isOpen={isFormOpen}
-          onClose={() => setIsFormOpen(false)}
-          onSubmit={(time) => {
-            alert(
-              `Participação confirmada às ${time}! Em breve o vídeo estará disponível.`,
-            );
-            setIsFormOpen(false);
-          }}
-        />
       </>
     );
   }
@@ -304,7 +299,7 @@ export default function Home() {
               <button
                 type="button"
                 className="btn btn-primary px-4"
-                onClick={() => setIsFormOpen(true)}
+                onClick={handleGoToParticipationFlow}
               >
                 Nova participação
               </button>
@@ -383,16 +378,6 @@ export default function Home() {
         </section>
       </div>
 
-      <Form
-        isOpen={isFormOpen}
-        onClose={() => setIsFormOpen(false)}
-        onSubmit={(time) => {
-          alert(
-            `Participação confirmada às ${time}! Em breve o vídeo estará disponível.`,
-          );
-          setIsFormOpen(false);
-        }}
-      />
     </div>
   );
 }
