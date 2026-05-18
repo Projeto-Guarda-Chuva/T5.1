@@ -1,8 +1,13 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
+import asyncio
+import logging
 
+from app.schemas.participant_video_email import ParticipantVideoAttachment, VideoEmailDispatchResponse
 from app.schemas.video import VideoUploadResponse
 from app.time_utils import normalize_utc_datetime, utc_now
+
+logger = logging.getLogger(__name__)
 
 
 class VideoUploadInvalidError(ValueError):
@@ -18,13 +23,70 @@ class VideoUploadService:
         video_file_repository,
         participant_recording_event_repository,
         participant_video_repository,
+        participant_repository,
+        dispatch_repository,
+        email_sender,
     ) -> None:
         self._video_repository = video_repository
         self._video_file_repository = video_file_repository
-        self._participant_recording_event_repository = (
-            participant_recording_event_repository
-        )
+        self._participant_recording_event_repository = participant_recording_event_repository
         self._participant_video_repository = participant_video_repository
+        self._participant_repository = participant_repository
+        self._dispatch_repository = dispatch_repository
+        self._email_sender = email_sender
+
+    def _is_valid_email(self, value: str) -> bool:
+        return "@" in value and not value.startswith("@") and not value.endswith("@")
+
+    async def _send_video_email_safe(
+        self,
+        participant_id: str,
+        saved_video: dict,
+        file_id: str,
+    ) -> None:
+        try:
+            participant = await self._participant_repository.get_by_id(participant_id)
+
+            if participant is None:
+                logger.warning("Participante %s não encontrado, e-mail não enviado.", participant_id)
+                return
+
+            participant_email = str(participant.get("email", "")).strip()
+
+            if not self._is_valid_email(participant_email):
+                logger.warning("Participante %s sem e-mail válido, e-mail não enviado.", participant_id)
+                return
+
+            stored_video_file = await self._video_file_repository.get_file(file_id)
+
+            if stored_video_file is None:
+                logger.warning("Arquivo do vídeo %s não encontrado, e-mail não enviado.", file_id)
+                return
+
+            reference_timestamp = normalize_utc_datetime(saved_video.get("recorded_at")) or utc_now()
+            reference_date = reference_timestamp.date()
+
+            delivery_result = await self._email_sender.send_video_email(
+                participant=participant,
+                video=saved_video,
+                video_file=stored_video_file,
+                reference_date=reference_date,
+            )
+
+            dispatch_timestamp = utc_now()
+            await self._dispatch_repository.create(
+                {
+                    "sent_at": dispatch_timestamp,
+                    "participant_id": participant["id"],
+                    "participant_email": participant_email,
+                    "reference_date": reference_date.isoformat(),
+                    "delivery_mode": delivery_result["delivery_mode"],
+                    "video_id": saved_video["id"],
+                }
+            )
+
+        except Exception:
+            logger.exception("Falha ao enviar e-mail para participante %s", participant_id)
 
     async def upload_video(
         self,
@@ -93,6 +155,16 @@ class VideoUploadService:
                 association_source="will_participate_window",
             )
         )
+
+        if associated_participant_ids:
+            for participant_id in associated_participant_ids:
+                asyncio.create_task(
+                    self._send_video_email_safe(
+                        participant_id=participant_id,
+                        saved_video=saved_video,
+                        file_id=file_data["file_id"],
+                    )
+                )
 
         return VideoUploadResponse(
             id=saved_video["id"],
