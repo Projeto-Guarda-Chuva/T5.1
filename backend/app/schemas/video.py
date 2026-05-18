@@ -1,5 +1,7 @@
-from pydantic import BaseModel
+from datetime import datetime
 from typing import List, Optional
+
+from pydantic import BaseModel
 
 class VideoResponse(BaseModel):
     id: str
@@ -20,4 +22,17 @@ class VideoClaimRequest(BaseModel):
     participation_time: str
 
 class VideoClaimResponse(VideoResponse):
+    message: str
+
+
+class VideoUploadResponse(BaseModel):
+    id: str
+    title: str
+    recorded_at: datetime
+    uploaded_at: datetime
+    filename: str
+    content_type: str
+    size_bytes: int
+    associated_participant_ids: List[str]
+    associated_participants_count: int
     message: str
