@@ -18,6 +18,7 @@ interface GoogleDecodedToken {
 export default function AuthPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"login" | "cadastro">("login");
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID?.trim() || "";
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -129,32 +130,48 @@ export default function AuthPage() {
 
   const handleGoogleLogin = async (credentialResponse: CredentialResponse) => {
     if (!credentialResponse.credential) {
-      setErrors({
-        ...errors,
+      setErrors((current) => ({
+        ...current,
         google: "Login com Google falhou. Tente novamente.",
-      });
+      }));
       return;
     }
 
     try {
+      setLoading(true);
       const decoded: GoogleDecodedToken = jwtDecode(
         credentialResponse.credential,
       );
-      const { name, email } = decoded;
+      const loginResponse = await authService.loginWithGoogle({
+        credential: credentialResponse.credential,
+      });
 
-      // Aqui você poderia fazer uma chamada ao backend para registrar o usuário do Google
-      // Por enquanto, vamos apenas fazer login local
+      const nome = loginResponse.nome || decoded.name;
+      const email = loginResponse.email || decoded.email;
+
+      localStorage.setItem("access_token", loginResponse.access_token);
       localStorage.setItem(
         "logged_user",
-        JSON.stringify({ email, nome: name }),
+        JSON.stringify({
+          email,
+          nome,
+          participantId: loginResponse.participant_id,
+          authProvider: "google",
+        }),
       );
-      alert(`Bem-vindo(a), ${name}!`);
-      navigate(ROUTES.HOME);
-    } catch (error) {
-      setErrors({
-        ...errors,
-        google: "Falha no login com Google. Tente novamente.",
-      });
+
+      alert(`Bem-vindo(a), ${nome}!`);
+      navigate(loginResponse.is_new_user ? ROUTES.STATUS_GRAVACAO : ROUTES.HOME);
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.detail ||
+        "Falha no login com Google. Tente novamente.";
+      setErrors((current) => ({
+        ...current,
+        google: errorMessage,
+      }));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -357,20 +374,26 @@ export default function AuthPage() {
             </div>
 
             <div className="d-flex justify-content-center">
-              <GoogleOAuthProvider
-                clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ""}
-              >
-                <GoogleLogin
-                  onSuccess={handleGoogleLogin}
-                  onError={() => {
-                    setErrors({
-                      ...errors,
-                      google: "Falha no login com Google. Tente novamente.",
-                    });
-                  }}
-                  useOneTap
-                />
-              </GoogleOAuthProvider>
+              {googleClientId ? (
+                <GoogleOAuthProvider clientId={googleClientId}>
+                  <GoogleLogin
+                    onSuccess={handleGoogleLogin}
+                    onError={() => {
+                      setErrors((current) => ({
+                        ...current,
+                        google: "Falha no login com Google. Tente novamente.",
+                      }));
+                    }}
+                    useOneTap
+                  />
+                </GoogleOAuthProvider>
+              ) : (
+                <div className="text-muted text-center small">
+                  Login com Google indisponível: configure
+                  {" "}
+                  <code>VITE_GOOGLE_CLIENT_ID</code>.
+                </div>
+              )}
             </div>
             {errors.google && (
               <div className="text-danger text-center mt-2 small">

@@ -14,6 +14,7 @@ export default function Header() {
   const isLoggedIn = !!localStorage.getItem("logged_user");
 
   const handleLogout = () => {
+    localStorage.removeItem("access_token");
     localStorage.removeItem("logged_user");
     setIsMenuOpen(false);
   };

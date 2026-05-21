@@ -11,6 +11,17 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
 
 
+class GoogleLoginRequest(BaseModel):
+    credential: str = Field(..., min_length=1)
+
+
+class GoogleLoginResponse(TokenResponse):
+    participant_id: str
+    email: str
+    nome: str
+    is_new_user: bool = False
+
+
 class RegisterRequest(BaseModel):
     nome: str = Field(..., min_length=1)
     email: EmailStr

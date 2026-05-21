@@ -21,6 +21,12 @@ class UserRepository:
         await self._collection.insert_one(user)
         return {k: v for k, v in user.items() if k != "_id"}
 
+    async def update_fields(self, email: str, updates: dict) -> None:
+        await self._collection.update_one(
+            {"email": email},
+            {"$set": updates},
+        )
+
     async def update_password(self, email: str, hashed_password: str) -> None:
         await self._collection.update_one(
             {"email": email},
