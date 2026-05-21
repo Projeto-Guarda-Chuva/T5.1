@@ -5,6 +5,8 @@ class Settings(BaseSettings):
     MONGODB_URL: str
     DATABASE_NAME: str = "t51"
     VIDEO_GRIDFS_BUCKET_NAME: str = "videos"
+    GOOGLE_CLIENT_ID: str | None = None
+    GOOGLE_TOKENINFO_URL: str = "https://oauth2.googleapis.com/tokeninfo"
     SMTP_HOST: str | None = None
     SMTP_PORT: int = 587
     SMTP_USERNAME: str | None = None

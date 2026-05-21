@@ -8,10 +8,22 @@ from app.dependencies import get_current_user
 from app.repositories.participant_repository import ParticipantRepository
 from app.repositories.user_repository import UserRepository
 from app.schemas.admin import AdminCreateRequest, AdminCreateResponse
-from app.schemas.auth import LoginRequest, TokenResponse, RegisterRequest, RegisterResponse
+from app.schemas.auth import (
+    GoogleLoginRequest,
+    GoogleLoginResponse,
+    LoginRequest,
+    RegisterRequest,
+    RegisterResponse,
+    TokenResponse,
+)
 from app.schemas.change_password import ChangePasswordRequest
 from app.schemas.password_recovery import ForgotPasswordRequest, ResetPasswordRequest
-from app.services.auth_service import AuthService
+from app.services.auth_service import (
+    AuthService,
+    GoogleAuthConfigurationError,
+    GoogleAuthError,
+    GoogleAuthUnavailableError,
+)
 from app.services.email_service import send_password_reset_email
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -34,6 +46,54 @@ async def login(credentials: LoginRequest) -> TokenResponse:
         )
 
     return TokenResponse(access_token=token)
+
+
+@router.post("/google", response_model=GoogleLoginResponse, status_code=status.HTTP_200_OK)
+async def login_with_google(payload: GoogleLoginRequest) -> GoogleLoginResponse:
+    try:
+        auth_result = await _auth_service.authenticate_google(payload.credential)
+    except GoogleAuthConfigurationError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=str(exc),
+        ) from exc
+    except GoogleAuthUnavailableError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=str(exc),
+        ) from exc
+    except GoogleAuthError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=str(exc),
+            headers={"WWW-Authenticate": "Bearer"},
+        ) from exc
+
+    participant = await _participant_repo.get_by_email(auth_result["email"])
+
+    if participant is None:
+        participant = await _participant_repo.create(
+            {
+                "id": f"part-{uuid4().hex[:8]}",
+                "name": auth_result["name"],
+                "email": auth_result["email"],
+                "registered_at": datetime.utcnow().replace(microsecond=0).isoformat(),
+                "consent_accepted": False,
+            }
+        )
+    elif not participant.get("name"):
+        participant = await _participant_repo.update_fields(
+            participant["id"],
+            {"name": auth_result["name"]},
+        )
+
+    return GoogleLoginResponse(
+        access_token=auth_result["access_token"],
+        participant_id=participant["id"],
+        email=auth_result["email"],
+        nome=auth_result["name"],
+        is_new_user=bool(auth_result["is_new_user"]),
+    )
 
 
 @router.post("/register-participante", response_model=RegisterResponse, status_code=status.HTTP_201_CREATED)
