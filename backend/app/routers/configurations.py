@@ -9,11 +9,18 @@ from app.schemas.configuration import (
     EffectiveConfigurationResponse,
     ConfigurationListResponse,
 )
+from app.services.programador_atuacao_service import (
+    ProgramadorAtuacaoService,
+    ProgramadorAtuacaoIntegrationError,
+)
 from app.services.configuration_service import ConfigurationService
 
 router = APIRouter(tags=["Configurations"], dependencies=[Depends(get_current_user)])
 
-configuration_service = ConfigurationService(ConfigurationRepository())
+configuration_service = ConfigurationService(
+    repository=ConfigurationRepository(),
+    programador_atuacao_service=ProgramadorAtuacaoService(),
+)
 
 
 @router.get(
@@ -69,9 +76,8 @@ async def create_configuration(
     "/configurations/{configuration_id}/activate",
     response_model=ConfigurationSelectionResponse,
     responses={
-        status.HTTP_404_NOT_FOUND: {
-            "description": "Configuration not found.",
-        }
+        status.HTTP_404_NOT_FOUND: {"description": "Configuration not found."},
+        status.HTTP_502_BAD_GATEWAY: {"description": "Could not establish a TCP connection with Programador de Atuação."},
     },
 )
 @router.patch(
@@ -85,6 +91,10 @@ async def activate_configuration(
     """
     Select a stored configuration for operation and keep it as the only active one.
 
+    The configuration is only persisted as active if the Programador de Atuação
+    external API accepts it. On integration failure, the active configuration
+    remains unchanged.
+
     Args:
         configuration_id (str): The unique identifier of the configuration to activate.
 
@@ -92,9 +102,17 @@ async def activate_configuration(
         ConfigurationSelectionResponse: The configuration selected for use and a status message.
 
     Raises:
-        HTTPException: Raised with status code 404 when the configuration is not found.
+        HTTPException: 404 when the configuration is not found.
+        HTTPException: 502 when the TCP connection with Programador de Atuação fails.
+        HTTPException: The same status returned by Programador de Atuação when it rejects the request.
     """
-    selection = configuration_service.set_active_configuration(configuration_id)
+    try:
+        selection = configuration_service.set_active_configuration(configuration_id)
+    except ProgramadorAtuacaoIntegrationError as exc:
+        raise HTTPException(
+            status_code=exc.status_code,
+            detail=str(exc),
+        ) from exc
 
     if selection is None:
         raise HTTPException(

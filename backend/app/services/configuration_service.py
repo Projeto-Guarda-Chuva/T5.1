@@ -8,22 +8,29 @@ from app.schemas.configuration import (
     ConfigurationListResponse,
     ConfigurationSummary,
 )
+from app.services.programador_atuacao_service import (
+    ProgramadorAtuacaoService,
+    ProgramadorAtuacaoIntegrationError,
+)
 
 
 class ConfigurationService:
     """Apply business rules for configuration read operations."""
 
-    def __init__(self, repository) -> None:
+    def __init__(self, repository, programador_atuacao_service: ProgramadorAtuacaoService) -> None:
         """
-        Store the repository dependency used by the service.
+        Store the repository and external integration service dependencies.
 
         Args:
             repository: Repository instance responsible for data access.
+            programador_atuacao_service (ProgramadorAtuacaoService): Service responsible
+                for communicating with the Programador de Atuação external API.
 
         Returns:
             None.
         """
         self._repository = repository
+        self._programador_atuacao_service = programador_atuacao_service
 
     def list_configurations(self) -> ConfigurationListResponse:
         """
@@ -93,34 +100,32 @@ class ConfigurationService:
         """
         Select a configuration for use and ensure it is the only active one.
 
+        The configuration is only persisted as active after the Programador de Atuação
+        external API confirms receipt with HTTP 200. Any failure interrupts the
+        process and leaves the current active configuration unchanged.
+
         Args:
             configuration_id (str): The identifier of the configuration to activate.
 
         Returns:
-            ConfigurationSelectionResponse | None: The selected configuration or None when not found.
+            ConfigurationSelectionResponse | None: The selected configuration or
+                None when the identifier is not found.
+
+        Raises:
+            ProgramadorAtuacaoIntegrationError: When the external API call fails or
+                returns a non-200 status.
         """
         configurations = self._repository.list_all()
-        timestamp = datetime.utcnow().replace(microsecond=0).isoformat()
-        selected_configuration: dict | None = None
-        updated_configurations: list[dict] = []
-
-        for configuration in configurations:
-            updated_configuration = dict(configuration)
-            should_be_active = configuration.get("id") == configuration_id
-
-            if should_be_active:
-                selected_configuration = updated_configuration
-
-            if updated_configuration.get("is_active", False) != should_be_active:
-                updated_configuration["is_active"] = should_be_active
-                updated_configuration["updated_at"] = timestamp
-
-            updated_configurations.append(updated_configuration)
+        selected_configuration = self._find_configuration_by_id(
+            configurations, configuration_id
+        )
 
         if selected_configuration is None:
             return None
 
-        self._repository.replace_all(updated_configurations)
+        self._programador_atuacao_service.send_configuration(selected_configuration)
+
+        self._persist_active_configuration(configurations, configuration_id)
 
         return ConfigurationSelectionResponse(
             configuration=ConfigurationDetail(**selected_configuration),
@@ -198,6 +203,57 @@ class ConfigurationService:
 
         saved_configuration = self._repository.create(new_configuration)
         return ConfigurationDetail(**saved_configuration)
+
+    def _find_configuration_by_id(
+        self,
+        configurations: list[dict],
+        configuration_id: str,
+    ) -> dict | None:
+        """
+        Return the configuration matching the given identifier.
+
+        Args:
+            configurations (list[dict]): Existing configuration records.
+            configuration_id (str): The identifier to look up.
+
+        Returns:
+            dict | None: The matching configuration or None when not found.
+        """
+        for configuration in configurations:
+            if configuration.get("id") == configuration_id:
+                return configuration
+
+        return None
+
+    def _persist_active_configuration(
+        self,
+        configurations: list[dict],
+        configuration_id: str,
+    ) -> None:
+        """
+        Mark the target configuration as active and deactivate all others.
+
+        Args:
+            configurations (list[dict]): Existing configuration records.
+            configuration_id (str): The identifier of the configuration to activate.
+
+        Returns:
+            None.
+        """
+        timestamp = datetime.utcnow().replace(microsecond=0).isoformat()
+        updated_configurations: list[dict] = []
+
+        for configuration in configurations:
+            updated = dict(configuration)
+            should_be_active = updated.get("id") == configuration_id
+
+            if updated.get("is_active", False) != should_be_active:
+                updated["is_active"] = should_be_active
+                updated["updated_at"] = timestamp
+
+            updated_configurations.append(updated)
+
+        self._repository.replace_all(updated_configurations)
 
     def _generate_next_id(self, configurations: list[dict]) -> str:
         """
