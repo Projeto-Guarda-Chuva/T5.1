@@ -1,59 +1,80 @@
-from datetime import datetime
-
 from app.schemas.operation_log import OperationLogEntry, OperationLogListResponse
 
 
 class OperationLogService:
-    """Apply business rules for operation log read operations."""
-
-    def __init__(self, repository) -> None:
-        self._repository = repository
+    """Orchestrate retrieval and normalization of operation log records."""
 
     def list_operation_logs(self) -> OperationLogListResponse:
         """
-        Return all stored operation logs formatted for the API response model.
+        Fetch logs from the external API, map them to the internal schema,
+        and return a normalized response.
 
         Args:
             None.
 
         Returns:
-            OperationLogListResponse: The API response containing operation log entries.
-        """
-        operation_logs = self._repository.list_all()
-        sorted_logs = sorted(
-            operation_logs,
-            key=lambda log: self._parse_sortable_datetime(log.get("occurred_at")),
-            reverse=True,
-        )
-        items = [OperationLogEntry(**log) for log in sorted_logs]
+            OperationLogListResponse: Normalized list of log entries with total
+            count and a descriptive message.
 
-        if not items:
-            return OperationLogListResponse(
-                items=[],
-                total=0,
-                message="No operation log records found.",
-            )
+        Raises:
+            ProgramadorAtuacaoIntegrationError: Propagated from the service when the
+                external API is unreachable or returns a non-200 status.
+        """
+        from app.services.programador_atuacao_service import ProgramadorAtuacaoService
+
+        raw_events = ProgramadorAtuacaoService().fetch_logs()
+        entries = [self._to_entry(event) for event in raw_events]
 
         return OperationLogListResponse(
-            items=items,
-            total=len(items),
-            message="Operation log records retrieved successfully.",
+            items=entries,
+            total=len(entries),
+            message=(
+                "Logs recuperados com sucesso."
+                if entries
+                else "Nenhum log encontrado."
+            ),
         )
 
-    def _parse_sortable_datetime(self, value: str | None) -> datetime:
+    @staticmethod
+    def _to_entry(raw_event: dict) -> OperationLogEntry:
         """
-        Convert an ISO timestamp to a sortable datetime value.
+        Convert a single raw external log event to an OperationLogEntry.
 
         Args:
-            value (str | None): ISO timestamp string.
+            raw_event (dict): A single event dict as returned by the external API.
 
         Returns:
-            datetime: Parsed datetime or datetime.min when the input is invalid.
+            OperationLogEntry: The normalized internal representation.
         """
-        if not value:
-            return datetime.min
+        payload: dict = raw_event["payload"]
+        parameters: dict = payload["parameters"]
 
-        try:
-            return datetime.fromisoformat(value)
-        except ValueError:
-            return datetime.min
+        is_active: bool = payload.get("is_active", False)
+        has_capture: bool = (
+            parameters.get("video_capture_enabled", False)
+            or parameters.get("audio_capture_enabled", False)
+        )
+
+        if is_active and has_capture:
+            status, status_text = "success", "Concluído"
+        else:
+            status, status_text = "error", "Inativo ou sem captura"
+
+        name: str = payload.get("name", payload.get("id", ""))
+        video: str = "habilitado" if parameters.get("video_capture_enabled") else "desabilitado"
+        audio: str = "habilitado" if parameters.get("audio_capture_enabled") else "desabilitado"
+
+        return OperationLogEntry(
+            id=payload["id"],
+            occurred_at=raw_event["timestamp"],
+            duration_seconds=int(parameters["movement_duration_seconds"]),
+            participant_email="",
+            status=status,
+            status_text=status_text,
+            description=(
+                f"Configuração '{name}' recebida. "
+                f"Vídeo {video}, áudio {audio}. "
+                f"Velocidade {parameters.get('movement_speed', 0)}, "
+                f"duração {parameters.get('movement_duration_seconds', 0)}s."
+            ),
+        )

@@ -1,6 +1,8 @@
 import os
+from typing import Any
 
 import httpx
+
 
 class ProgramadorAtuacaoIntegrationError(Exception):
     """Raised when the Programador de Atuação API call fails or returns a non-200 status."""
@@ -25,6 +27,7 @@ class ProgramadorAtuacaoService:
 
     _BASE_URL_ENV = "PROGRAMADOR_ATUACAO_BASE_URL"
     _PARAMETRIZAR_PATH = "/parametrizar"
+    _LOGS_PATH = "/logs"
     _CONNECTION_FAILURE_STATUS = 502
 
     def __init__(self) -> None:
@@ -76,3 +79,39 @@ class ProgramadorAtuacaoService:
                 ),
                 status_code=response.status_code,
             )
+
+    def fetch_logs(self) -> list[dict[str, Any]]:
+        """
+        Fetch operation log events from the Programador de Atuação logs endpoint.
+
+        Args:
+            None.
+
+        Returns:
+            list[dict[str, Any]]: Raw list of log event dicts as returned by the API.
+
+        Raises:
+            ProgramadorAtuacaoIntegrationError: With status 502 when the TCP connection
+                cannot be established, or with the API's own status code when it
+                rejects the request.
+        """
+        url = f"{self._base_url}{self._LOGS_PATH}"
+
+        try:
+            response = httpx.get(url)
+        except httpx.RequestError as exc:
+            raise ProgramadorAtuacaoIntegrationError(
+                message=f"Failed to reach Programador de Atuação at '{url}': {exc}",
+                status_code=self._CONNECTION_FAILURE_STATUS,
+            ) from exc
+
+        if response.status_code != httpx.codes.OK:
+            raise ProgramadorAtuacaoIntegrationError(
+                message=(
+                    f"Programador de Atuação returned an unexpected status. "
+                    f"Status: {response.status_code}. Body: {response.text}"
+                ),
+                status_code=response.status_code,
+            )
+
+        return response.json()
