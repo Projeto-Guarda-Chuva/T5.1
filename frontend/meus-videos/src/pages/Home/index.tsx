@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaPlay, FaRegCalendarAlt, FaVideoSlash } from "react-icons/fa";
 import "./style.css";
@@ -6,8 +6,8 @@ import {
   getParticipantVideoPlaybackUrl,
   sendParticipantVideoEmail,
 } from "../../services/participantVideos";
-import videosService, { Video } from "../../services/videosService";
 import { ROUTES } from "../../utils/routes";
+import { useVideos } from "../../hooks/useVideos";
 
 interface EmailFeedback {
   type: "success" | "danger";
@@ -16,40 +16,51 @@ interface EmailFeedback {
 
 export default function Home() {
   const navigate = useNavigate();
-  const [videos, setVideos] = useState<Video[]>([]);
-  const [initialLatestId, setInitialLatestId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+
+  const { data: fetchedVideos = [], isLoading } = useVideos();
+
+  const [videoOrder, setVideoOrder] = useState<string[]>([]);
+  const initialLatestIdRef = useRef<string | null>(null);
+
   const [isSendingEmail, setIsSendingEmail] = useState(false);
-  const [emailFeedback, setEmailFeedback] = useState<EmailFeedback | null>(null);
+  const [emailFeedback, setEmailFeedback] = useState<EmailFeedback | null>(
+    null,
+  );
   const [featuredVideoSrc, setFeaturedVideoSrc] = useState<string>("");
   const [featuredVideoPoster, setFeaturedVideoPoster] = useState<string>("");
   const [isFeaturedVideoLoading, setIsFeaturedVideoLoading] = useState(false);
-  const [featuredVideoLoadError, setFeaturedVideoLoadError] = useState<string | null>(null);
+  const [featuredVideoLoadError, setFeaturedVideoLoadError] = useState<
+    string | null
+  >(null);
   const [videoThumbnailOverrides, setVideoThumbnailOverrides] = useState<
     Record<string, string>
   >({});
 
   useEffect(() => {
-    const loadPageData = async () => {
-      try {
-        setLoading(true);
-        const fetchedVideos = await videosService.listVideos();
+    if (fetchedVideos.length === 0) return;
 
-        setVideos(fetchedVideos);
+    setVideoOrder((prevOrder) => {
+      const fetchedIds = fetchedVideos.map((v) => v.id);
 
-        if (fetchedVideos.length > 0) {
-          setInitialLatestId(fetchedVideos[0].id);
-        }
-      } catch (error) {
-        console.error("Erro ao carregar vídeos:", error);
-        setVideos([]);
-      } finally {
-        setLoading(false);
+      if (prevOrder.length === 0) {
+        initialLatestIdRef.current = fetchedIds[0];
+        return fetchedIds;
       }
-    };
 
-    loadPageData();
-  }, []);
+      const existingSet = new Set(prevOrder);
+      const newIds = fetchedIds.filter((id) => !existingSet.has(id));
+      if (newIds.length === 0) return prevOrder; // nothing new → stable reference
+      return [...prevOrder, ...newIds];
+    });
+  }, [fetchedVideos]);
+
+  const videos = useMemo(() => {
+    const byId = new Map(fetchedVideos.map((v) => [v.id, v]));
+    return videoOrder.flatMap((id) => {
+      const video = byId.get(id);
+      return video ? [video] : [];
+    });
+  }, [fetchedVideos, videoOrder]);
 
   const latestVideo = useMemo(() => videos[0], [videos]);
   const otherVideos = useMemo(() => videos.slice(1), [videos]);
@@ -169,15 +180,12 @@ export default function Home() {
   }, [latestVideo]);
 
   const handleVideoClick = (clickedVideoId: string) => {
-    setVideos((prevVideos) => {
-      const clickedVideo = prevVideos.find((video) => video.id === clickedVideoId);
-
-      if (!clickedVideo) {
-        return prevVideos;
-      }
-
-      const remainingVideos = prevVideos.filter((video) => video.id !== clickedVideoId);
-      return [clickedVideo, ...remainingVideos];
+    setVideoOrder((prevOrder) => {
+      if (!prevOrder.includes(clickedVideoId)) return prevOrder;
+      return [
+        clickedVideoId,
+        ...prevOrder.filter((id) => id !== clickedVideoId),
+      ];
     });
   };
 
@@ -230,7 +238,7 @@ export default function Home() {
     navigate(ROUTES.STATUS_GRAVACAO);
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="video-page d-flex flex-column align-items-center justify-content-center">
         <div className="text-center p-4 p-md-5">
@@ -280,7 +288,7 @@ export default function Home() {
       <div className="container-fluid px-3 px-lg-4">
         <section className="featured-section">
           <div className="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center align-items-md-center mb-3 gap-3">
-            {latestVideo.id === initialLatestId ? (
+            {latestVideo.id === initialLatestIdRef.current ? (
               <h4 className="fw-bold text-dark mb-0">Meu último vídeo</h4>
             ) : (
               <div></div>
@@ -327,7 +335,9 @@ export default function Home() {
               </div>
             ) : featuredVideoLoadError ? (
               <div className="featured-video-state">
-                <p className="featured-video-state-text">{featuredVideoLoadError}</p>
+                <p className="featured-video-state-text">
+                  {featuredVideoLoadError}
+                </p>
               </div>
             ) : (
               <video
@@ -377,7 +387,6 @@ export default function Home() {
           ))}
         </section>
       </div>
-
     </div>
   );
 }
@@ -399,7 +408,9 @@ async function buildVideoPoster(videoSrc: string): Promise<string | null> {
       "loadeddata",
       () => {
         const targetTime =
-          Number.isFinite(tempVideo.duration) && tempVideo.duration > 0.2 ? 0.2 : 0;
+          Number.isFinite(tempVideo.duration) && tempVideo.duration > 0.2
+            ? 0.2
+            : 0;
 
         const captureFrame = () => {
           try {
