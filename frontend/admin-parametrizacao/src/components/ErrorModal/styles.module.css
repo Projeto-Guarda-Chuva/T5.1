@@ -1,0 +1,26 @@
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1060;
+}
+
+.modalContainer {
+  z-index: 1070;
+  display: block;
+}
+
+.modalCard {
+  border-radius: 1.25rem;
+  border: none;
+  box-shadow: 0 10px 40px rgba(220, 53, 69, 0.15); /* Sombra avermelhada */
+}
+
+.iconWrapper {
+  font-size: 3.5rem;
+  line-height: 1;
+}

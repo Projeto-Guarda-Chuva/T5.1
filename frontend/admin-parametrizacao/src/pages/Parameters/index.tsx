@@ -10,12 +10,18 @@ import useDetailsConfigurations from "../../hooks/useDetailsConfigurations";
 import useCreateConfiguration from "../../hooks/useCreateConfiguration";
 import { useQueryClient } from "@tanstack/react-query";
 import useActivateConfiguration from "../../hooks/useActivateConfiguration";
+import LoadingModal from "../../components/LoadingModal";
+import ErrorModal from "../../components/ErrorModal";
+import type { AxiosError } from "axios";
 
 const Parameters = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedConfig, setSelectedConfig] = useState<Configuration | null>(null);
 
-  const { configurations } = useConfigurations();
+  const [isError, setIsError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const { configurations, isLoading } = useConfigurations();
 
   const { configurationDetail } = useDetailsConfigurations(selectedConfig?.id);
 
@@ -25,11 +31,28 @@ const Parameters = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [CONFIGURATIONS_KEY] });
     },
+    onError: () => {
+      setIsError(true);
+      setErrorMessage("Ocorreu um erro no servidor interno");
+    },
   });
 
-  const { activateConfiguration } = useActivateConfiguration({
+  const { activateConfiguration, isPending } = useActivateConfiguration({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [CONFIGURATIONS_KEY] });
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError;
+
+      const statusError = axiosError?.status;
+
+      if (statusError && statusError >= 400 && statusError <= 500) {
+        setErrorMessage("Erro no servidor interno da aplicação");
+      } else {
+        setErrorMessage("Erro no servidor externo da aplicação");
+      }
+
+      setIsError(true);
     },
   });
 
@@ -45,6 +68,10 @@ const Parameters = () => {
 
   return (
     <>
+      <LoadingModal isOpen={isLoading || isPending} />
+
+      <ErrorModal isOpen={isError} onClose={() => setIsError(false)} message={errorMessage} />
+
       <div className={`d-flex justify-content-between align-items-center mb-4`}>
         <div>
           <h3 className={styles.headerTitle}>Configurações</h3>
