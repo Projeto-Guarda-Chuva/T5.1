@@ -9,7 +9,7 @@ const getConfigurations = async (): Promise<ConfigurationResponse | undefined> =
   return response.data;
 };
 
-const getConfigurationsDetails = async (id: string): Promise<Configuration | undefined> => {
+const getConfigurationsDetails = async (id: string | undefined): Promise<Configuration | undefined> => {
   const response = await api.get(`${baseUrl}/${id}`);
 
   return response.data;

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import configurationsService from "../services/configurationsService";
 
-const useDetailsConfigurations = (id: string) => {
+const useDetailsConfigurations = (id: string | undefined) => {
   const { data, isLoading, error } = useQuery({
     queryKey: [`configuration`, id],
     queryFn: () => configurationsService.getConfigurationsDetails(id),
