@@ -39,7 +39,7 @@ const OperationLogsRow = ({ log }: OperationLogsRowProps) => {
               <span className="fw-semibold text-danger d-none d-md-inline">{log.status_text}</span>
             </>
           )}
-          <span className={`fw-semibold d-md-none ms-2 ${log.status === "success" ? "text-success" : "text-danger"}`}>{log.statusText}</span>
+          <span className={`fw-semibold d-md-none ms-2 ${log.status === "success" ? "text-success" : "text-danger"}`}>{log.status_text}</span>
         </div>
       </td>
     </tr>
