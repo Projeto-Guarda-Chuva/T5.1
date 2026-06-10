@@ -43,7 +43,7 @@ const Login = () => {
             <div className="text-center mb-4">
               <i className={`bi bi-droplet-half d-block mb-3 ${styles.logoIcon}`}></i>
               <h2 className="fw-bold mb-1">Parametrização Admin</h2>
-              <p className="text-muted small">Controle de parâmetros da Água-viva</p>
+              <p className="text-muted small">Controle de parâmetros da Água-viva :D</p>
             </div>
 
             <LoginForm onSubmit={handleSubmitLogin} loading={isPending} error={error ?? undefined} />
