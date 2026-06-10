@@ -23,18 +23,18 @@ jobs:
 
             echo "Atualiza repositório"
 
-            git fetch origin
-            git reset --hard origin/main
+            git fetch
+            git pull origin main 
 
             echo "Reinicia backend"
             sudo systemctl restart fastapi
 
             echo "Atualiza build do frontend parametrizacao"
             cd ~/T5.1/frontend/admin-parametrizacao
-            php artisan cache:clear
+            npm run build
 
             echo "Atualiza build do frontend meus videos"
             cd ~/T5.1/frontend/meus-videos
-            php artisan route:clear
+            npm run build
 
             echo "Deploy concluído!"
