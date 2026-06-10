@@ -1,0 +1,40 @@
+name: Deploy Backend and Frontend on Oracle Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy na VM Oracle Cloud
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+
+            cd ~/T5.1
+
+            echo "Atualiza repositório"
+
+            git fetch origin
+            git reset --hard origin/main
+
+            echo "Reinicia backend"
+            sudo systemctl restart fastapi
+
+            echo "Atualiza build do frontend parametrizacao"
+            cd ~/T5.1/frontend/admin-parametrizacao
+            php artisan cache:clear
+
+            echo "Atualiza build do frontend meus videos"
+            cd ~/T5.1/frontend/meus-videos
+            php artisan route:clear
+
+            echo "Deploy concluído!"
