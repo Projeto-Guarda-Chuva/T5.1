@@ -77,7 +77,7 @@ As mensagens devem ser **claras, objetivas e descritivas**, indicando exatamente
 - Cada funcionalidade deve ter sua própria branch
 - Correções de bugs devem ser feitas em branches específicas
 - Uma branch só deve ser mesclada na main quando:
-  - O desenvolvimento estiver finalizado
+- O desenvolvimento estiver finalizado
 
 ---
 
