@@ -99,6 +99,20 @@ As mensagens devem ser **claras, objetivas e descritivas**, indicando exatamente
   - Solicitar mudanças, se necessário
   - Garantir qualidade e boas práticas
 
+## 🔧 Configuração dos Git Hooks
+
+Antes de começar a desenvolver, execute o script de configuração dos hooks do Git:
+
+```bash
+./scripts/setup-hooks.sh
+```
+
+Esse comando configura o Git para utilizar os hooks versionados no repositório, garantindo que verificações automáticas sejam executadas antes de operações como `git push`.
+
+Após a execução, os hooks serão carregados a partir da pasta `.githooks`.
+
+> É necessário executar esse comando apenas uma vez após clonar o repositório.
+
 #### ✅ Boas Práticas Gerais
 
 - Escreva código limpo e organizado
