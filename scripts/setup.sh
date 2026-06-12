@@ -2,6 +2,6 @@
 
 git config core.hooksPath .githooks
 
-chmod +x .githooks/pre-push
+find .githooks -type f -exec chmod +x {} \; 2>/dev/null || true
 
 echo "Git hooks configurados."
