@@ -115,7 +115,7 @@ Após a execução, os hooks serão carregados a partir da pasta `.githooks`.
 
 #### ✅ Boas Práticas Gerais
 
-- Escreva código limpo e organizado
-- Documente sempre que necessário
-- Siga os padrões definidos neste documento
-- Mantenha comunicação clara com a equipe
+- Escreva código limpo e organizado;
+- Documente sempre que necessário;
+- Siga os padrões definidos neste documento;
+- Mantenha comunicação clara com a equipe.
