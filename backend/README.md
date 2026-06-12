@@ -200,6 +200,21 @@ A regra adotada no backend para esse fallback é usar a configuração mais anti
 Se a configuração não existir, a API responde com `404`.
 Se faltar campo obrigatório na criação, a API impede o salvamento e responde com erro de validação.
 
+## Testes unitários
+
+Os testes do backend ficam em `backend/tests`.
+
+Cobertura atual:
+
+- unitários para validações de `schemas` e regras de negócio de serviços
+- integração de endpoints usando cliente ASGI com `httpx`, com serviços e repositórios isolados por stubs
+
+Com as dependências do backend instaladas, execute:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
 ## Histórico da operação
 
 Arquivos envolvidos:
