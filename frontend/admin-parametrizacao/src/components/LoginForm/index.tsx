@@ -55,7 +55,8 @@ const LoginForm = ({ onSubmit, error, loading }: LoginFormProps) => {
         />
         <label htmlFor="adminPassword">Senha</label>
       </div>
-
+      {/*         
+        Ainda não implementado!
       <div className="d-flex justify-content-between align-items-center mb-4 small">
         <div className="form-check">
           <input className="form-check-input" type="checkbox" id="rememberMe" disabled={loading} />
@@ -63,10 +64,13 @@ const LoginForm = ({ onSubmit, error, loading }: LoginFormProps) => {
             Lembrar-me
           </label>
         </div>
+       
+
         <a href="#" className="text-primary text-decoration-none fw-semibold">
           Esqueceu a senha?
-        </a>
-      </div>
+        </a> 
+        </div>
+      */}
 
       <button className={`btn btn-primary w-100 py-3 ${styles.btnLogin}`} type="submit" disabled={loading}>
         {loading ? (
