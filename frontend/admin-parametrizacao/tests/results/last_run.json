@@ -1,0 +1,400 @@
+{
+  "app": "admin-parametrizacao",
+  "started_at": "2026-07-02T19:56:18.288Z",
+  "generated_at": "2026-07-02T19:56:24.658Z",
+  "tests": [
+    {
+      "name": "lista registros de log com data, participante e status",
+      "nodeid": "Gerente de Programa - Histórico da Operação > lista registros de log com data, participante e status",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "totalLogs": 1
+      },
+      "expected": {
+        "sessionId": "sess-001",
+        "participantEmail": "participante@example.com",
+        "statusText": "Concluído",
+        "occurredAt": "01 de julho de 2026 às 06:00"
+      },
+      "output": {
+        "renderedSessionId": "sess-001",
+        "renderedDate": "01 de julho de 2026 às 06:00",
+        "renderedStatus": "Concluído"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "deveria informar claramente quando não existem registros de log",
+      "nodeid": "Gerente de Programa - Histórico da Operação > deveria informar claramente quando não existem registros de log",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx",
+      "state": "fail",
+      "duration_ms": null,
+      "input": {
+        "totalLogs": 0,
+        "message": "Nenhum log encontrado."
+      },
+      "expected": {
+        "emptyStateMessage": "Nenhum log encontrado."
+      },
+      "output": {
+        "renderedText": "Log de SessõesHistórico de operações e gravações da Água-viva FiltrarID SessãoData / HoraDuraçãoParticipante (E-mail)StatusExibindo 4 registrosAnterior12Próxima"
+      },
+      "notes": [
+        "Teste alinhado ao critério de aceitação de informar claramente a ausência de histórico."
+      ],
+      "errors": [
+        {
+          "name": "TestingLibraryElementError",
+          "message": "Unable to find an element with the text: Nenhum log encontrado.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.\n\nIgnored nodes: comments, script, style\n\u001b[36m<body>\u001b[39m\n  \u001b[36m<div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-center mb-4\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div>\u001b[39m\n        \u001b[36m<h3\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"_headerTitle_96ed51\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mLog de Sessões\u001b[0m\n        \u001b[36m</h3>\u001b[39m\n        \u001b[36m<p\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-0\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mHistórico de operações e gravações da Água-viva\u001b[0m\n        \u001b[36m</p>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<button\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-outline-secondary rounded-pill btn-sm d-none d-md-flex align-items-center\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<i\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-funnel me-2\"\u001b[39m\n        \u001b[36m/>\u001b[39m\n        \u001b[0m Filtrar\u001b[0m\n      \u001b[36m</button>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"card _logCard_96ed51\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"card-body p-0\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"table-responsive\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<table\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"table table-hover mb-0 _responsiveTable_26f4d7\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<thead\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"table-light\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<tr>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"ps-4\"\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mID Sessão\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mData / Hora\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mDuração\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mParticipante (E-mail)\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mStatus\u001b[0m\n                \u001b[36m</th>\u001b[39m\n              \u001b[36m</tr>\u001b[39m\n            \u001b[36m</thead>\u001b[39m\n            \u001b[36m<tbody />\u001b[39m\n          \u001b[36m</table>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card-footer bg-white border-top p-3 d-flex justify-content-between align-items-center\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<span\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[0mExibindo 4 registros\u001b[0m\n          \u001b[36m</span>\u001b[39m\n          \u001b[36m<nav\u001b[39m\n            \u001b[33maria-label\u001b[39m=\u001b[32m\"Navegação de páginas de log\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<ul\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"pagination pagination-sm mb-0\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item disabled\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                  \u001b[33mtabindex\u001b[39m=\u001b[32m\"-1\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mAnterior\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item active\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m1\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m2\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mPróxima\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n            \u001b[36m</ul>\u001b[39m\n          \u001b[36m</nav>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n  \u001b[36m</div>\u001b[39m\n\u001b[36m</body>\u001b[39m",
+          "stack": "TestingLibraryElementError: Unable to find an element with the text: Nenhum log encontrado.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.\n\nIgnored nodes: comments, script, style\n\u001b[36m<body>\u001b[39m\n  \u001b[36m<div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-center mb-4\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div>\u001b[39m\n        \u001b[36m<h3\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"_headerTitle_96ed51\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mLog de Sessões\u001b[0m\n        \u001b[36m</h3>\u001b[39m\n        \u001b[36m<p\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-0\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mHistórico de operações e gravações da Água-viva\u001b[0m\n        \u001b[36m</p>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<button\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-outline-secondary rounded-pill btn-sm d-none d-md-flex align-items-center\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<i\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-funnel me-2\"\u001b[39m\n        \u001b[36m/>\u001b[39m\n        \u001b[0m Filtrar\u001b[0m\n      \u001b[36m</button>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"card _logCard_96ed51\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"card-body p-0\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"table-responsive\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<table\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"table table-hover mb-0 _responsiveTable_26f4d7\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<thead\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"table-light\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<tr>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"ps-4\"\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mID Sessão\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mData / Hora\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mDuração\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mParticipante (E-mail)\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mStatus\u001b[0m\n                \u001b[36m</th>\u001b[39m\n              \u001b[36m</tr>\u001b[39m\n            \u001b[36m</thead>\u001b[39m\n            \u001b[36m<tbody />\u001b[39m\n          \u001b[36m</table>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card-footer bg-white border-top p-3 d-flex justify-content-between align-items-center\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<span\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[0mExibindo 4 registros\u001b[0m\n          \u001b[36m</span>\u001b[39m\n          \u001b[36m<nav\u001b[39m\n            \u001b[33maria-label\u001b[39m=\u001b[32m\"Navegação de páginas de log\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<ul\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"pagination pagination-sm mb-0\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item disabled\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                  \u001b[33mtabindex\u001b[39m=\u001b[32m\"-1\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mAnterior\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item active\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m1\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m2\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mPróxima\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n            \u001b[36m</ul>\u001b[39m\n          \u001b[36m</nav>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n  \u001b[36m</div>\u001b[39m\n\u001b[36m</body>\u001b[39m\n    at Object.getElementError (/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/config.js:37:19)\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/query-helpers.js:76:38\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/query-helpers.js:52:17\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/query-helpers.js:95:19\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx:98:19\n    at file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+        }
+      ]
+    },
+    {
+      "name": "salva o token e navega para a home quando o login é bem-sucedido",
+      "nodeid": "Gerente de Programa - Página de Login > salva o token e navega para a home quando o login é bem-sucedido",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/login_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "email": "admin@example.com",
+        "password": "senha-segura"
+      },
+      "expected": {
+        "tokenSaved": "admin-token",
+        "navigateTo": "/home"
+      },
+      "output": {
+        "setTokenCalls": [
+          [
+            "admin-token"
+          ]
+        ],
+        "navigateCalls": [
+          [
+            "/home"
+          ]
+        ]
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra erro local quando o hook retorna usuário nulo",
+      "nodeid": "Gerente de Programa - Página de Login > mostra erro local quando o hook retorna usuário nulo",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/login_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "loginResult": null
+      },
+      "expected": {
+        "error": "Erro ao fazer login",
+        "navigateCalls": 0
+      },
+      "output": {
+        "renderedError": "Erro ao fazer login",
+        "navigateCalls": 0
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra erro de conexão quando o hook lança exceção",
+      "nodeid": "Gerente de Programa - Página de Login > mostra erro de conexão quando o hook lança exceção",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/login_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "loginThrows": "network down"
+      },
+      "expected": {
+        "error": "Erro de conexão tente novamente"
+      },
+      "output": {
+        "renderedError": "Erro de conexão tente novamente"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "impede o salvamento quando o nome obrigatório não foi informado",
+      "nodeid": "Gerente de Programa - Modal de Nova Configuração > impede o salvamento quando o nome obrigatório não foi informado",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/create_configuration_modal.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "name": "",
+        "description": ""
+      },
+      "expected": {
+        "saveDisabled": true
+      },
+      "output": {
+        "saveDisabled": true
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "envia os dados preenchidos da nova configuração para salvamento",
+      "nodeid": "Gerente de Programa - Modal de Nova Configuração > envia os dados preenchidos da nova configuração para salvamento",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/create_configuration_modal.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "name": "Modo Exposição Padrão",
+        "description": "Configuração criada pela interface web",
+        "movement_speed": 2.5,
+        "movement_duration_seconds": 45,
+        "video_capture_enabled": true
+      },
+      "expected": {
+        "submittedName": "Modo Exposição Padrão",
+        "submittedDuration": 45,
+        "closeCalled": true
+      },
+      "output": {
+        "submitPayload": {
+          "name": "Modo Exposição Padrão",
+          "description": "Configuração criada pela interface web",
+          "is_active": false,
+          "parameters": {
+            "movement_speed": 2.5,
+            "movement_duration_seconds": 45,
+            "video_capture_enabled": true,
+            "audio_capture_enabled": false
+          }
+        },
+        "closeCalls": 1
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "envia as credenciais digitadas",
+      "nodeid": "Gerente de Programa - LoginForm > envia as credenciais digitadas",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/login_form.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "email": "admin@example.com",
+        "password": "senha-segura",
+        "loading": false
+      },
+      "expected": {
+        "onSubmit": {
+          "email": "admin@example.com",
+          "password": "senha-segura"
+        }
+      },
+      "output": {
+        "submitCalls": [
+          [
+            {
+              "email": "admin@example.com",
+              "password": "senha-segura"
+            }
+          ]
+        ]
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "exibe a mensagem de erro recebida e marca os campos como inválidos",
+      "nodeid": "Gerente de Programa - LoginForm > exibe a mensagem de erro recebida e marca os campos como inválidos",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/login_form.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "error": "Credenciais inválidas"
+      },
+      "expected": {
+        "alert": "Credenciais inválidas",
+        "invalidFields": [
+          "Email",
+          "Senha"
+        ]
+      },
+      "output": {
+        "emailClass": "form-control _customRounded_e242dd is-invalid",
+        "passwordClass": "form-control _customRounded_e242dd is-invalid"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "desabilita os controles enquanto o login está carregando",
+      "nodeid": "Gerente de Programa - LoginForm > desabilita os controles enquanto o login está carregando",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/login_form.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "loading": true
+      },
+      "expected": {
+        "buttonLabel": "Acessando...",
+        "fieldsDisabled": true
+      },
+      "output": {
+        "buttonText": "Acessando...",
+        "emailDisabled": true,
+        "passwordDisabled": true
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "lista configurações, abre modal de criação e mostra detalhes da configuração selecionada",
+      "nodeid": "Gerente de Programa - Página de Parâmetros > lista configurações, abre modal de criação e mostra detalhes da configuração selecionada",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "totalConfigurations": 2
+      },
+      "expected": {
+        "activeBadge": "Ativa",
+        "inactiveBadge": "Inativa",
+        "createModalVisible": true,
+        "detailsVisible": "Inativa"
+      },
+      "output": {
+        "createModalVisible": true,
+        "detailsText": "InativaFechar detalhes"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra o loading modal enquanto a tela aguarda dados",
+      "nodeid": "Gerente de Programa - Página de Parâmetros > mostra o loading modal enquanto a tela aguarda dados",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "isLoading": true,
+        "isPending": false
+      },
+      "expected": {
+        "loadingVisible": true
+      },
+      "output": {
+        "loadingText": "Carregando..."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "deve classificar erro 4xx de ativação como erro interno da aplicação",
+      "nodeid": "Gerente de Programa - Página de Parâmetros > deve classificar erro 4xx de ativação como erro interno da aplicação",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "activateErrorStatus": 422
+      },
+      "expected": {
+        "errorMessage": "Erro no servidor interno da aplicação"
+      },
+      "output": {
+        "renderedMessage": "Erro no servidor interno da aplicação"
+      },
+      "notes": [
+        "Teste propositalmente alinhado ao comportamento esperado do requisito."
+      ],
+      "errors": []
+    },
+    {
+      "name": "mostra estado vazio quando não existe configuração ativa",
+      "nodeid": "Gerente de Programa - Card de Configuração Ativa > mostra estado vazio quando não existe configuração ativa",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/current_configuration_card.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "currentConfiguration": null
+      },
+      "expected": {
+        "message": "Nenhuma configuração ativa"
+      },
+      "output": {
+        "renderedMessage": "Nenhuma configuração ativa"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra o resumo dos parâmetros quando existe configuração ativa",
+      "nodeid": "Gerente de Programa - Card de Configuração Ativa > mostra o resumo dos parâmetros quando existe configuração ativa",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/current_configuration_card.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "id": "cfg-001",
+        "name": "Configuração Oceano",
+        "description": "Parâmetros para operação padrão",
+        "is_active": true,
+        "created_at": "2026-06-30T10:00:00Z",
+        "updated_at": "2026-06-30T12:00:00Z",
+        "parameters": {
+          "movement_speed": 4.2,
+          "movement_duration_seconds": 18,
+          "video_capture_enabled": true,
+          "audio_capture_enabled": false
+        }
+      },
+      "expected": {
+        "name": "Configuração Oceano",
+        "speed": 4.2,
+        "duration": 18
+      },
+      "output": {
+        "renderedName": "Configuração Oceano",
+        "renderedSpeed": "4.2",
+        "renderedDuration": "18s"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "redireciona para login quando não há token",
+      "nodeid": "Gerente de Programa - ProtectedRoute > redireciona para login quando não há token",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/protected_route.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "token": null
+      },
+      "expected": {
+        "redirectTo": "/auth"
+      },
+      "output": {
+        "redirectTarget": "/auth"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "renderiza o conteúdo interno quando o token existe",
+      "nodeid": "Gerente de Programa - ProtectedRoute > renderiza o conteúdo interno quando o token existe",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/protected_route.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "token": "admin-token"
+      },
+      "expected": {
+        "outletVisible": true
+      },
+      "output": {
+        "outletText": "Área protegida"
+      },
+      "notes": [],
+      "errors": []
+    }
+  ]
+}

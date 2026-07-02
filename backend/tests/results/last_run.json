@@ -1,0 +1,1155 @@
+{
+  "generated_at": "2026-07-02T19:54:55.453146Z",
+  "tests": [
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_configuration_create_request_rejects_invalid_payload[payload0-at least 1 character]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_configuration_create_request_rejects_invalid_payload[payload1-at least 1 character]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_configuration_create_request_rejects_invalid_payload[payload2-greater than 0]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_configuration_create_request_rejects_invalid_payload[payload3-greater than 0]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_configuration_repository_reads_and_persists_records",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_configuration_repository_rejects_non_list_payload",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_list_configurations_returns_empty_message_when_repository_has_no_items",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_list_configurations_warns_when_none_is_active",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_list_configurations_returns_success_message_when_an_active_item_exists",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_get_configuration_by_id_returns_none_for_unknown_identifier",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_get_configuration_by_id_returns_detail_when_identifier_exists",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_set_active_configuration_returns_none_when_identifier_does_not_exist",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_set_active_configuration_persists_single_active_item",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_get_effective_configuration_uses_default_oldest_when_none_is_active",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_get_effective_configuration_returns_active_configuration_when_present",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_get_effective_configuration_returns_none_source_when_repository_is_empty",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_create_configuration_generates_next_sequential_identifier",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_generate_next_id_ignores_non_numeric_cfg_suffixes",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_set_active_configuration_keeps_timestamps_when_state_does_not_change",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_parse_sortable_datetime_handles_invalid_values[2026-01-01T10:00:00-expected0]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_parse_sortable_datetime_handles_invalid_values[-expected1]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_parse_sortable_datetime_handles_invalid_values[not-a-date-expected2]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_parse_sortable_datetime_handles_invalid_values[None-expected3]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_activate_configuration_route_maps_missing_and_integration_error",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_activate_configuration_route_returns_success_payload",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_configuration_routes_return_serialized_payloads",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_programador_atuacao_service_requires_base_url",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_programador_atuacao_service_send_configuration_maps_request_error",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_programador_atuacao_service_send_configuration_rejects_non_200",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_programador_atuacao_service_send_configuration_accepts_success_response",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_monitoramento.py::test_operation_log_service_returns_empty_message_when_no_logs",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_monitoramento.py::test_operation_log_service_normalizes_status_from_payload[True-True-False-success-Conclu\\xeddo]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_monitoramento.py::test_operation_log_service_normalizes_status_from_payload[True-False-True-success-Conclu\\xeddo]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_monitoramento.py::test_operation_log_service_normalizes_status_from_payload[False-True-True-error-Inativo ou sem captura]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_monitoramento.py::test_operation_log_service_normalizes_status_from_payload[True-False-False-error-Inativo ou sem captura]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_monitoramento.py::test_operation_logs_route_maps_external_integration_error",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_monitoramento.py::test_operation_logs_route_returns_normalized_payload",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_monitoramento.py::test_programador_atuacao_service_fetch_logs_maps_request_error",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_monitoramento.py::test_programador_atuacao_service_fetch_logs_rejects_non_200",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/gerente_programa/test_monitoramento.py::test_programador_atuacao_service_fetch_logs_returns_json_payload",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_mark_will_participate_records_event_and_updates_status",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_mark_already_participated_links_only_available_recent_videos",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_mark_already_participated_reports_when_no_available_videos",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_register_status_rejects_invalid_value",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_mark_participation_requires_existing_participant",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_register_status_dispatches_to_supported_branches",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_current_participant_status_routes_require_existing_participant",
+      "status": "passed",
+      "input": {
+        "current_user_email": "missing@example.com",
+        "route": "/participantes/me/ainda-vou-participar"
+      },
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_current_participant_status_routes_forward_success_payload",
+      "status": "passed",
+      "input": {
+        "current_user_email": "participant@example.com",
+        "route": "/participantes/me/ja-participei",
+        "expected_event_type": "already_participated"
+      },
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_current_participant_will_participate_route_returns_success_payload",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_current_participant_already_participated_route_returns_missing_error",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_update_status_route_maps_invalid_and_missing_participant",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_update_status_route_returns_success_payload",
+      "status": "passed",
+      "input": {
+        "route": "/participantes/part-001/status",
+        "payload": {
+          "status_gravacao": "ja_participei"
+        },
+        "service_return_shape": "ParticipationEventResponse"
+      },
+      "output": {
+        "status_code": 200,
+        "body": "{\"message\":\"Status atualizado com sucesso!\",\"participante_id\":\"part-001\",\"novo_status\":\"ja_participei\",\"registrado_em\":\"2026-01-01T12:00:00Z\",\"videos_associados\":[\"vid-001\"]}"
+      },
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_accept_terms_route_validates_payload_and_missing_participant",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_accept_terms_route_records_audit_fields",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_normalize_utc_datetime_handles_supported_inputs[None-None]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_normalize_utc_datetime_handles_supported_inputs[-None]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_normalize_utc_datetime_handles_supported_inputs[2026-01-01T12:00:00-expected2]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_normalize_utc_datetime_handles_supported_inputs[2026-01-01T12:00:00Z-expected3]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_utc_isoformat_falls_back_to_current_time",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_upload_video_rejects_invalid_payloads[-video/mp4-bytes-nome v\\xe1lido]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_upload_video_rejects_invalid_payloads[video.mp4-video/mp4--est\\xe1 vazio]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_upload_video_rejects_invalid_payloads[video.mp4-text/plain-bytes-precisa ser um v\\xeddeo]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_upload_video_returns_message_when_no_recent_participants",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_upload_video_associates_recent_participants_and_schedules_email_tasks",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_upload_video_deletes_uploaded_file_when_video_creation_fails",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_send_video_email_safe_ignores_missing_participant",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_send_video_email_safe_ignores_invalid_email_and_missing_file",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_send_video_email_safe_ignores_missing_binary_file_for_valid_email",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_send_video_email_safe_records_dispatch_on_success",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_send_video_email_safe_swallows_sender_exceptions",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_attach_video_file_validates_all_preconditions[False-True-True-video.mp4-video/mp4-1234-Participante n\\xe3o encontrado.]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_attach_video_file_validates_all_preconditions[True-False-True-video.mp4-video/mp4-1234-V\\xeddeo n\\xe3o encontrado para o participante informado.]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_attach_video_file_validates_all_preconditions[True-True-False-video.mp4-video/mp4-1234-V\\xeddeo n\\xe3o encontrado no cat\\xe1logo principal.]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_attach_video_file_validates_all_preconditions[True-True-True--video/mp4-1234-nome v\\xe1lido]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_attach_video_file_validates_all_preconditions[True-True-True-video.mp4-video/mp4--est\\xe1 vazio]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_attach_video_file_validates_all_preconditions[True-True-True-video.mp4-text/plain-1234-precisa ser um v\\xeddeo]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_attach_video_file_raises_when_main_video_cannot_be_updated",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_attach_video_file_returns_updated_video_metadata",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_videos_router_returns_current_user_videos",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_videos_router_maps_invalid_upload_to_http_400",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_videos_router_returns_created_payload_for_valid_upload",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_participant_video_storage_route_maps_errors_and_success",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_auth_related_schemas_reject_invalid_payloads[ChangePasswordRequest-kwargs0-As senhas n\\xe3o coincidem.]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_auth_related_schemas_reject_invalid_payloads[ResetPasswordRequest-kwargs1-at least 6 characters]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_auth_related_schemas_reject_invalid_payloads[ResetPasswordRequest-kwargs2-As senhas n\\xe3o coincidem.]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_auth_related_schemas_reject_invalid_payloads[AdminCreateRequest-kwargs3-As senhas n\\xe3o coincidem.]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_auth_related_schemas_reject_invalid_payloads[LoginRequest-kwargs4-at least 1 character]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_auth_related_schemas_reject_invalid_payloads[GoogleLoginRequest-kwargs5-at least 1 character]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_auth_related_schemas_reject_invalid_payloads[ForgotPasswordRequest-kwargs6-email address]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_register_request_accepts_valid_payload",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_authenticate_returns_token_for_active_user",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_authenticate_returns_none_for_inactive_or_invalid_user",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_authenticate_returns_none_for_wrong_password",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_generate_reset_code_persists_code_for_active_user",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_generate_reset_code_returns_none_for_inactive_or_missing_user",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_change_password_updates_hash_only_when_current_password_matches",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_reset_password_rejects_missing_wrong_or_expired_code",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_reset_password_updates_hash_and_removes_code_when_valid",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_create_admin_returns_none_when_email_already_exists_and_payload_when_new",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_get_current_user_accepts_valid_token_and_rejects_invalid_one",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_send_password_reset_email_builds_and_sends_message",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_get_mailer_uses_expected_gmail_defaults",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_auth_routes_cover_success_error_and_validation_paths",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_google_auth_route_maps_service_errors",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_google_auth_route_creates_or_updates_participant_profile",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_legacy_user_service_register_and_login",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_legacy_users_router_uses_user_service",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_send_video_of_day_requires_existing_participant_and_valid_email",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_resolve_selected_video_validates_explicit_video_identifier",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_resolve_selected_video_handles_missing_canonical_video_and_date_mismatch",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_resolve_selected_video_for_day_handles_missing_and_unavailable_cases",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_resolve_selected_video_selects_latest_available_video_of_day",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_send_video_of_day_maps_unavailable_and_missing_file_scenarios",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_send_video_of_day_detects_missing_or_mismatched_binary_file",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_send_video_of_day_returns_dispatch_payload_for_smtp_and_outbox",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_queues_outbox_when_smtp_is_not_configured",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_uses_smtp_when_configured",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_can_queue_non_multipart_messages",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_send_via_smtp_supports_starttls_and_login",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_send_via_smtp_skips_starttls_and_login_when_not_configured",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_maps_smtp_errors",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_formats_recorded_at_values[None-Hor\\xe1rio n\\xe3o informado]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_formats_recorded_at_values[recorded_at1-05/01/2026 \\xe0s 10:30]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_formats_recorded_at_values[2026-01-05T10:30:00-05/01/2026 \\xe0s 10:30]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_formats_recorded_at_values[valor-invalido-valor-invalido]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_splits_content_type[video/mp4-expected0]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_splits_content_type[invalid-expected1]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_formats_sizes[512-512 B]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_formats_sizes[2048-2.0 KB]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_formats_sizes[2097152-2.0 MB]",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_settings_resolve_smtp_fallback_properties",
+      "status": "passed",
+      "input": {
+        "gmail_settings": {
+          "MAIL_FROM": "user@gmail.com"
+        },
+        "mail_settings": {
+          "MAIL_SERVER": "mail.example.com",
+          "MAIL_PORT": 2525,
+          "MAIL_USERNAME": "user",
+          "MAIL_PASSWORD": "pass",
+          "MAIL_FROM": "from@example.com",
+          "MAIL_STARTTLS": false
+        },
+        "blank_settings": {
+          "MONGODB_URL": "mongodb://localhost:27017"
+        }
+      },
+      "output": {
+        "resolved_smtp_host": null,
+        "resolved_smtp_port": 587,
+        "resolved_smtp_use_starttls": true
+      },
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_video_email_sender_resolves_participant_name_and_smtp_flag",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_email_routes_map_service_errors_and_success",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_current_user_email_route_maps_service_errors",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_google_service.py::test_authenticate_google_creates_new_user_when_email_is_not_found",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_google_service.py::test_authenticate_google_updates_existing_active_user_fields",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_google_service.py::test_authenticate_google_rejects_inactive_or_missing_email_profile",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_google_service.py::test_verify_google_credential_rejects_blank_credential",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_google_service.py::test_verify_google_credential_requires_google_client_id",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_google_service.py::test_verify_google_credential_maps_request_and_server_errors",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_google_service.py::test_verify_google_credential_rejects_invalid_google_payload",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_google_service.py::test_verify_google_credential_returns_payload_when_valid",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_list_user_videos_returns_empty_when_participant_is_missing",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_list_participant_videos_filters_duplicates_missing_videos_and_sorts_desc",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_list_user_videos_returns_participant_videos_when_participant_exists",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_list_participant_videos_returns_empty_when_no_links_exist",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_video_service_normalizes_fallback_datetime",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_videos_routes_proxy_listing_calls",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_current_participant_route_returns_profile_or_404",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_listar_videos_do_participante_route_maps_missing_participant_and_success",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_current_participant_video_file_route_handles_missing_participant",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_current_participant_video_file_route_handles_missing_link",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_current_participant_video_file_route_handles_missing_canonical_video",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_current_participant_video_file_route_handles_missing_file_metadata",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_current_participant_video_file_route_handles_missing_binary_file",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_current_participant_video_file_route_detects_mismatched_file_binding",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_current_participant_video_file_route_returns_binary_content",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_root_endpoint_returns_running_message",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    },
+    {
+      "nodeid": "tests/components/veja_seu_video/test_videos.py::test_time_utils_cover_additional_datetime_branches",
+      "status": "passed",
+      "input": null,
+      "output": null,
+      "notes": []
+    }
+  ],
+  "collection_errors": [],
+  "exitstatus": 0
+}
