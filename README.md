@@ -113,7 +113,7 @@ Após a execução, os hooks serão carregados a partir da pasta `.githooks`.
 
 > É necessário executar esse comando apenas uma vez após clonar o repositório.
 
-#### ✅ Boas Práticas Gerais
+#### ✅ Boas Práticas Gerais:::
 
 - Escreva código limpo e organizado;
 - Documente sempre que necessário;
