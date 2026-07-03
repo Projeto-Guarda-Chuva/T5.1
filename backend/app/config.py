@@ -1,7 +1,12 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore",
+    )
+
     MONGODB_URL: str
     DATABASE_NAME: str = "t51"
     VIDEO_GRIDFS_BUCKET_NAME: str = "videos"
@@ -65,10 +70,5 @@ class Settings(BaseSettings):
             return self.MAIL_STARTTLS
 
         return self.SMTP_USE_STARTTLS
-
-    class Config:
-        env_file = ".env"
-        extra = "ignore"
-
 
 settings = Settings()

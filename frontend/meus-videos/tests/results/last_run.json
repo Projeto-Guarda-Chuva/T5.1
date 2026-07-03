@@ -1,7 +1,7 @@
 {
   "app": "meus-videos",
-  "started_at": "2026-07-03T01:22:25.787Z",
-  "generated_at": "2026-07-03T01:22:30.978Z",
+  "started_at": "2026-07-03T13:18:31.147Z",
+  "generated_at": "2026-07-03T13:18:35.713Z",
   "tests": [
     {
       "name": "valida campos obrigatórios no login",
