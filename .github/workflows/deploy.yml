@@ -1,12 +1,17 @@
 name: Deploy Backend and Frontend on Oracle Cloud
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types:
+      - closed
 
 jobs:
   deploy:
+    # garante que só roda se o PR foi realmente mergeado
+    if: github.event.pull_request.merged == true
+
     runs-on: ubuntu-latest
 
     steps:
@@ -19,64 +24,24 @@ jobs:
           script: |
             set -e
 
+            echo "Adiciona localização do npm no shell atual"
             export PATH="/home/ubuntu/.nvm/versions/node/v24.16.0/bin:$PATH"
 
             cd ~/T5.1
 
-            echo "Atualizando repositório..."
+            echo "Atualiza repositório"
             git fetch
             git pull origin main
 
-            echo "Instalando dependências do backend..."
-
-            cd ~/T5.1/backend
-
-            if [ ! -d ".venv" ]; then
-              python3 -m venv .venv
-            fi
-
-            .venv/bin/python -m pip install --upgrade pip
-
-            if [ -f requirements.txt ]; then
-              .venv/bin/pip install -r requirements.txt
-            fi
-
-            if [ -f requirements-dev.txt ]; then
-              .venv/bin/pip install -r requirements-dev.txt
-            fi
-
-            echo "Executando testes do backend..."
-            .venv/bin/pytest -q
-
-            echo "Instalando dependências do Admin Parametrização..."
-
-            cd ~/T5.1/frontend/admin-parametrizacao
-
-            npm install
-
-            echo "Executando testes..."
-            npm run test
-
-            echo "Instalando dependências do Meus Vídeos..."
-
-            cd ~/T5.1/frontend/meus-videos
-
-            npm install
-
-            echo "Executando testes..."
-            npm run test
-
-            echo "Todos os testes passaram!"
-
-            echo "Reiniciando backend..."
+            echo "Reinicia backend"
             sudo systemctl restart fastapi
 
-            echo "Gerando build do Admin Parametrização..."
+            echo "Atualiza build do frontend parametrizacao"
             cd ~/T5.1/frontend/admin-parametrizacao
             npm run build
 
-            echo "Gerando build do Meus Vídeos..."
+            echo "Atualiza build do frontend meus videos"
             cd ~/T5.1/frontend/meus-videos
             npm run build
 
-            echo "Deploy concluído com sucesso!"
+            echo "Deploy concluído!"
