@@ -1,0 +1,20 @@
+[run]
+branch = True
+source = app
+omit =
+    app/__init__.py
+    app/database.py
+    app/repositories/email_outbox_repository.py
+    app/repositories/participant_recording_event_repository.py
+    app/repositories/participant_repository.py
+    app/repositories/participant_video_repository.py
+    app/repositories/user_repository.py
+    app/repositories/video_email_dispatch_repository.py
+    app/repositories/video_file_repository.py
+    app/repositories/video_repository.py
+    app/startup_seed.py
+
+[report]
+show_missing = True
+skip_covered = False
+

@@ -1,0 +1,680 @@
+{
+  "app": "meus-videos",
+  "started_at": "2026-07-03T01:22:25.787Z",
+  "generated_at": "2026-07-03T01:22:30.978Z",
+  "tests": [
+    {
+      "name": "valida campos obrigatórios no login",
+      "nodeid": "Aplicação Veja seu Vídeo - Autenticação > valida campos obrigatórios no login",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/auth_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "activeTab": "login",
+        "formData": {
+          "email": "",
+          "password": ""
+        }
+      },
+      "expected": {
+        "errors": [
+          "O e-mail é obrigatório.",
+          "A senha é obrigatória."
+        ]
+      },
+      "output": {
+        "renderedErrors": [
+          "O e-mail é obrigatório.",
+          "A senha é obrigatória."
+        ]
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "realiza login, salva token e navega para a home",
+      "nodeid": "Aplicação Veja seu Vídeo - Autenticação > realiza login, salva token e navega para a home",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/auth_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "email": "participante@example.com",
+        "password": "segredo"
+      },
+      "expected": {
+        "accessToken": "jwt-token",
+        "navigateTo": "/Home"
+      },
+      "output": {
+        "accessToken": "jwt-token",
+        "loggedUser": {
+          "email": "participante@example.com"
+        },
+        "navigateCalls": [
+          [
+            "/Home"
+          ]
+        ]
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra mensagem da API quando o login falha",
+      "nodeid": "Aplicação Veja seu Vídeo - Autenticação > mostra mensagem da API quando o login falha",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/auth_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "email": "participante@example.com",
+        "password": "segredo",
+        "apiDetail": "Credenciais inválidas"
+      },
+      "expected": {
+        "error": "Credenciais inválidas"
+      },
+      "output": {
+        "renderedError": "Credenciais inválidas"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "valida nome, email, senha e consentimento no cadastro",
+      "nodeid": "Aplicação Veja seu Vídeo - Autenticação > valida nome, email, senha e consentimento no cadastro",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/auth_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "activeTab": "cadastro",
+        "formData": {
+          "nome": "",
+          "email": "",
+          "password": "",
+          "consentimento": false
+        }
+      },
+      "expected": {
+        "errors": [
+          "O nome é obrigatório.",
+          "O e-mail é obrigatório.",
+          "A senha é obrigatória.",
+          "Você deve aceitar o termo de consentimento."
+        ]
+      },
+      "output": {
+        "renderedErrors": [
+          "O nome é obrigatório.",
+          "O e-mail é obrigatório.",
+          "A senha é obrigatória.",
+          "Você deve aceitar o termo de consentimento."
+        ]
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "encadeia cadastro, login e aceite de termo quando o cadastro é bem-sucedido",
+      "nodeid": "Aplicação Veja seu Vídeo - Autenticação > encadeia cadastro, login e aceite de termo quando o cadastro é bem-sucedido",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/auth_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "nome": "Novo Usuário",
+        "email": "novo@example.com",
+        "password": "senha-forte",
+        "consentimento": true
+      },
+      "expected": {
+        "accessToken": "novo-token",
+        "participantId": "part-001",
+        "navigateTo": "/status-gravacao"
+      },
+      "output": {
+        "accessToken": "novo-token",
+        "loggedUser": {
+          "email": "novo@example.com",
+          "nome": "Novo Usuário",
+          "participantId": "part-001"
+        },
+        "navigateCalls": [
+          [
+            "/status-gravacao"
+          ]
+        ]
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra erro quando o Google retorna sucesso sem credential",
+      "nodeid": "Aplicação Veja seu Vídeo - Autenticação > mostra erro quando o Google retorna sucesso sem credential",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/auth_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "credential": null
+      },
+      "expected": {
+        "error": "Login com Google falhou. Tente novamente."
+      },
+      "output": {
+        "renderedError": "Login com Google falhou. Tente novamente."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "realiza login com Google e navega para status quando o usuário é novo",
+      "nodeid": "Aplicação Veja seu Vídeo - Autenticação > realiza login com Google e navega para status quando o usuário é novo",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/auth_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "credential": "google-token"
+      },
+      "expected": {
+        "accessToken": "google-jwt",
+        "navigateTo": "/status-gravacao"
+      },
+      "output": {
+        "accessToken": "google-jwt",
+        "loggedUser": {
+          "email": "google@example.com",
+          "nome": "Usuário Google",
+          "participantId": "part-google",
+          "authProvider": "google"
+        },
+        "navigateCalls": [
+          [
+            "/status-gravacao"
+          ]
+        ]
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra estado de carregamento enquanto os vídeos ainda não chegaram",
+      "nodeid": "Aplicação Veja seu Vídeo - Home > mostra estado de carregamento enquanto os vídeos ainda não chegaram",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/home_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "isLoading": true
+      },
+      "expected": {
+        "text": "Carregando seus vídeos..."
+      },
+      "output": {
+        "renderedText": "Carregando seus vídeos..."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra CTA quando não existem vídeos e navega para o fluxo de participação",
+      "nodeid": "Aplicação Veja seu Vídeo - Home > mostra CTA quando não existem vídeos e navega para o fluxo de participação",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/home_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "videos": []
+      },
+      "expected": {
+        "emptyState": "Nenhum vídeo por aqui",
+        "navigateTo": "/status-gravacao"
+      },
+      "output": {
+        "navigateCalls": [
+          [
+            "/status-gravacao"
+          ]
+        ]
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "bloqueia o envio por email quando o vídeo não possui data de referência",
+      "nodeid": "Aplicação Veja seu Vídeo - Home > bloqueia o envio por email quando o vídeo não possui data de referência",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/home_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "referenceDate": "",
+        "participantVideoId": "mongo-001"
+      },
+      "expected": {
+        "feedback": "Este vídeo ainda não possui uma data de referência compatível com o backend."
+      },
+      "output": {
+        "feedback": "Este vídeo ainda não possui uma data de referência compatível com o backend."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "bloqueia o envio por email quando o vídeo exibido não está vinculado ao backend",
+      "nodeid": "Aplicação Veja seu Vídeo - Home > bloqueia o envio por email quando o vídeo exibido não está vinculado ao backend",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/home_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "referenceDate": "2026-07-01",
+        "participantVideoId": null
+      },
+      "expected": {
+        "feedback": "Este vídeo exibido ainda não está vinculado ao arquivo correspondente no backend."
+      },
+      "output": {
+        "feedback": "Este vídeo exibido ainda não está vinculado ao arquivo correspondente no backend."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "destaca o vídeo mais recente e permite selecionar outro vídeo da lista",
+      "nodeid": "Aplicação Veja seu Vídeo - Home > destaca o vídeo mais recente e permite selecionar outro vídeo da lista",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/home_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "videos": [
+          "video-mais-recente",
+          "video-anterior"
+        ]
+      },
+      "expected": {
+        "initialFeaturedDate": "02/07/2026 às 14:30",
+        "selectedFeaturedDate": "01/07/2026 às 08:15"
+      },
+      "output": {
+        "featuredDateBeforeClick": "01/07/2026 às 08:15",
+        "featuredDateAfterClick": "01/07/2026 às 08:15"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "informa indisponibilidade quando o arquivo do vídeo não pode ser carregado",
+      "nodeid": "Aplicação Veja seu Vídeo - Home > informa indisponibilidade quando o arquivo do vídeo não pode ser carregado",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/home_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "participantVideoId": "mongo-003",
+        "playbackUrlError": "blob missing"
+      },
+      "expected": {
+        "feedback": "Não foi possível carregar o arquivo deste vídeo salvo no MongoDB."
+      },
+      "output": {
+        "renderedMessage": "Não foi possível carregar o arquivo deste vídeo salvo no MongoDB."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "informa que o vídeo em destaque ainda não está vinculado ao arquivo salvo no MongoDB",
+      "nodeid": "Aplicação Veja seu Vídeo - Home > informa que o vídeo em destaque ainda não está vinculado ao arquivo salvo no MongoDB",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/home_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "latestVideoId": "video-sem-arquivo",
+        "participantVideoId": null
+      },
+      "expected": {
+        "feedback": "Este vídeo ainda não está vinculado ao arquivo salvo no MongoDB."
+      },
+      "output": {
+        "feedback": "Este vídeo ainda não está vinculado ao arquivo salvo no MongoDB."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "envia o vídeo por e-mail e mostra a mensagem de sucesso retornada pelo backend",
+      "nodeid": "Aplicação Veja seu Vídeo - Home > envia o vídeo por e-mail e mostra a mensagem de sucesso retornada pelo backend",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/home_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "referenceDate": "2026-07-04",
+        "participantVideoId": "mongo-004"
+      },
+      "expected": {
+        "serviceCall": [
+          "2026-07-04",
+          "mongo-004"
+        ],
+        "feedback": "Vídeo enviado com sucesso para o e-mail cadastrado."
+      },
+      "output": {
+        "serviceCalls": [
+          [
+            "2026-07-04",
+            "mongo-004"
+          ]
+        ],
+        "feedback": "Vídeo enviado com sucesso para o e-mail cadastrado."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra a mensagem padrão quando o envio por e-mail falha sem detalhe útil",
+      "nodeid": "Aplicação Veja seu Vídeo - Home > mostra a mensagem padrão quando o envio por e-mail falha sem detalhe útil",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/home_page.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "referenceDate": "2026-07-05",
+        "participantVideoId": "mongo-005",
+        "error": {}
+      },
+      "expected": {
+        "feedback": "Não foi possível enviar o vídeo por e-mail."
+      },
+      "output": {
+        "feedback": "Não foi possível enviar o vídeo por e-mail."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "impede envio sem seleção de status",
+      "nodeid": "Aplicação Veja seu Vídeo - Status de Gravação > impede envio sem seleção de status",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/status_gravacao.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "selectedStatus": null
+      },
+      "expected": {
+        "alert": "Por favor, selecione uma opção!"
+      },
+      "output": {
+        "alertCalls": [
+          [
+            "Por favor, selecione uma opção!"
+          ]
+        ]
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "registra o caminho de quem já participou, atualiza o localStorage e navega para a home",
+      "nodeid": "Aplicação Veja seu Vídeo - Status de Gravação > registra o caminho de quem já participou, atualiza o localStorage e navega para a home",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/status_gravacao.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "selectedStatus": "ja_participei"
+      },
+      "expected": {
+        "service": "marcarQueJaParticipou",
+        "navigateTo": "/Home"
+      },
+      "output": {
+        "loggedUser": {
+          "email": "participante@example.com",
+          "status_gravacao": "ja_participei",
+          "status_gravacao_registrado_em": "2026-07-01T12:15:00Z"
+        },
+        "navigateCalls": [
+          [
+            "/Home"
+          ]
+        ],
+        "alertCalls": [
+          [
+            "Status atualizado com sucesso."
+          ]
+        ]
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "registra o caminho de quem ainda vai participar",
+      "nodeid": "Aplicação Veja seu Vídeo - Status de Gravação > registra o caminho de quem ainda vai participar",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/status_gravacao.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "selectedStatus": "ainda_participarei"
+      },
+      "expected": {
+        "service": "marcarQueVaiParticipar"
+      },
+      "output": {
+        "jaParticipouCalls": 0,
+        "aindaVaiCalls": 1
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra detalhe de erro da API quando a atualização falha",
+      "nodeid": "Aplicação Veja seu Vídeo - Status de Gravação > mostra detalhe de erro da API quando a atualização falha",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/status_gravacao.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "selectedStatus": "ja_participei",
+        "apiDetail": "Participante não encontrado"
+      },
+      "expected": {
+        "alert": "Participante não encontrado"
+      },
+      "output": {
+        "alertCalls": [
+          [
+            "Participante não encontrado"
+          ]
+        ],
+        "navigateCalls": []
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "usa a mensagem genérica quando a falha não traz detail da API",
+      "nodeid": "Aplicação Veja seu Vídeo - Status de Gravação > usa a mensagem genérica quando a falha não traz detail da API",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/status_gravacao.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "selectedStatus": "ainda_participarei",
+        "error": "network down"
+      },
+      "expected": {
+        "alert": "Erro ao registrar status. Tente novamente."
+      },
+      "output": {
+        "alertCalls": [
+          [
+            "Erro ao registrar status. Tente novamente."
+          ]
+        ],
+        "navigateCalls": []
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "não renderiza nada quando o modal está fechado",
+      "nodeid": "Aplicação Veja seu Vídeo - Formulário de Registro de Participação > não renderiza nada quando o modal está fechado",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/participation_form.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "isOpen": false
+      },
+      "expected": {
+        "root": null
+      },
+      "output": {
+        "firstChild": null
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra erro quando o usuário tenta confirmar sem horário",
+      "nodeid": "Aplicação Veja seu Vídeo - Formulário de Registro de Participação > mostra erro quando o usuário tenta confirmar sem horário",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/participation_form.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "time": ""
+      },
+      "expected": {
+        "error": "Por favor, selecione uma hora."
+      },
+      "output": {
+        "renderedError": "Por favor, selecione uma hora."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "bloqueia horário no futuro",
+      "nodeid": "Aplicação Veja seu Vídeo - Formulário de Registro de Participação > bloqueia horário no futuro",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/participation_form.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "currentTime": "2026-07-01T12:00:00",
+        "selectedTime": "12:30"
+      },
+      "expected": {
+        "error": "O horário da participação não pode estar no futuro."
+      },
+      "output": {
+        "renderedError": "O horário da participação não pode estar no futuro."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "bloqueia participação com mais de uma hora",
+      "nodeid": "Aplicação Veja seu Vídeo - Formulário de Registro de Participação > bloqueia participação com mais de uma hora",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/participation_form.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "currentTime": "2026-07-01T12:00:00",
+        "selectedTime": "10:30"
+      },
+      "expected": {
+        "error": "A participação deve ter ocorrido no máximo há 1 hora."
+      },
+      "output": {
+        "renderedError": "A participação deve ter ocorrido no máximo há 1 hora."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "aceita horário recente válido e limpa o campo após envio",
+      "nodeid": "Aplicação Veja seu Vídeo - Formulário de Registro de Participação > aceita horário recente válido e limpa o campo após envio",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/participation_form.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "currentTime": "2026-07-01T12:00:00",
+        "selectedTime": "11:30"
+      },
+      "expected": {
+        "onSubmit": "11:30"
+      },
+      "output": {
+        "submitCalls": [
+          [
+            "11:30"
+          ]
+        ],
+        "finalTimeValue": ""
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "aceita horário da noite anterior quando a diferença cruza a virada do dia",
+      "nodeid": "Aplicação Veja seu Vídeo - Formulário de Registro de Participação > aceita horário da noite anterior quando a diferença cruza a virada do dia",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/participation_form.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "currentTime": "2026-07-01T00:15:00",
+        "selectedTime": "23:30"
+      },
+      "expected": {
+        "onSubmit": "23:30"
+      },
+      "output": {
+        "submitCalls": [
+          [
+            "23:30"
+          ]
+        ]
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "transforma o payload do backend e usa thumbnail padrão quando necessário",
+      "nodeid": "Aplicação Veja seu Vídeo - Serviço de Vídeos > transforma o payload do backend e usa thumbnail padrão quando necessário",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/videos_service.spec.js",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "backendItems": 1
+      },
+      "expected": {
+        "id": "video-001",
+        "participantVideoId": "mongo-001",
+        "referenceDate": "2026-07-01",
+        "fallbackThumbnailPrefix": "data:image/svg+xml"
+      },
+      "output": [
+        {
+          "id": "video-001",
+          "participantVideoId": "mongo-001",
+          "date": "01/07/2026 às 07:45",
+          "thumbnail": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201280%20720%22%3E%0A%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%3ClinearGradient%20id%3D%22bg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23111827%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231f2937%22%2F%3E%0A%20%20%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%3C%2Fdefs%3E%0A%20%20%20%20%3Crect%20width%3D%221280%22%20height%3D%22720%22%20fill%3D%22url(%23bg)%22%2F%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22640%22%20cy%3D%22360%22%20r%3D%2292%22%20fill%3D%22rgba(255%2C255%2C255%2C0.16)%22%2F%3E%0A%20%20%20%20%3Cpolygon%20points%3D%22610%2C305%20610%2C415%20710%2C360%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%3Ctext%20x%3D%22640%22%20y%3D%22470%22%20text-anchor%3D%22middle%22%20fill%3D%22%23e5e7eb%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2234%22%3E%0A%20%20%20%20%20%20V%C3%ADdeo%20salvo%20no%20MongoDB%0A%20%20%20%20%3C%2Ftext%3E%0A%20%20%3C%2Fsvg%3E",
+          "src": "https://cdn.example.com/video.mp4",
+          "referenceDate": "2026-07-01"
+        }
+      ],
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "preserva a string original quando created_at é inválido",
+      "nodeid": "Aplicação Veja seu Vídeo - Serviço de Vídeos > preserva a string original quando created_at é inválido",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/meus-videos/tests/components/veja_seu_video/videos_service.spec.js",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "created_at": "data-invalida"
+      },
+      "expected": {
+        "date": "data-invalida"
+      },
+      "output": {
+        "id": "video-002",
+        "date": "data-invalida",
+        "thumbnail": "https://cdn.example.com/thumb.jpg",
+        "src": "",
+        "referenceDate": "data-inval"
+      },
+      "notes": [],
+      "errors": []
+    }
+  ]
+}
