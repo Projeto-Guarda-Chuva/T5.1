@@ -2,10 +2,31 @@
 
 set -e
 
-echo "Executando testes..."
+echo "=== Executando testes do backend ==="
 
 cd backend
 
-.venv/bin/python -m unittest discover -s tests -v
+if [ ! -d ".venv" ]; then
+    echo "Ambiente virtual (.venv) não encontrado."
+    exit 1
+fi
 
-echo "Testes passaram."
+.venv/bin/pytest -q
+
+cd ..
+
+echo "=== Executando testes do frontend (Admin Parametrização) ==="
+
+cd frontend/admin-parametrizacao
+npm run test
+
+cd ../..
+
+echo "=== Executando testes do frontend (Meus Vídeos) ==="
+
+cd frontend/meus-videos
+npm run test
+
+cd ../..
+
+echo "✅ Todos os testes passaram!"
