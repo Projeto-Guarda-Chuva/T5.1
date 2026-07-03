@@ -8,7 +8,9 @@ interface OperationLogsTableProps {
 }
 
 const OperationLogsTable = ({ operationLogs }: OperationLogsTableProps) => {
-  const items = operationLogs?.items;
+  const items = operationLogs?.items ?? [];
+  const emptyStateMessage = operationLogs?.message || "Nenhum log encontrado.";
+  const hasItems = items.length > 0;
 
   return (
     <table className={`table table-hover mb-0 ${styles.responsiveTable}`}>
@@ -23,7 +25,17 @@ const OperationLogsTable = ({ operationLogs }: OperationLogsTableProps) => {
           <th scope="col">Status</th>
         </tr>
       </thead>
-      <tbody>{items && items.map((log) => <OperationLogsRow key={log.id} log={log} />)}</tbody>
+      <tbody>
+        {hasItems ? (
+          items.map((log) => <OperationLogsRow key={log.id} log={log} />)
+        ) : (
+          <tr>
+            <td colSpan={5} className="text-center text-muted py-4">
+              {emptyStateMessage}
+            </td>
+          </tr>
+        )}
+      </tbody>
     </table>
   );
 };

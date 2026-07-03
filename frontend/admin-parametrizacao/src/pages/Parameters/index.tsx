@@ -12,7 +12,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import useActivateConfiguration from "../../hooks/useActivateConfiguration";
 import LoadingModal from "../../components/LoadingModal";
 import ErrorModal from "../../components/ErrorModal";
-import type { AxiosError } from "axios";
 
 const Parameters = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -41,17 +40,8 @@ const Parameters = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [CONFIGURATIONS_KEY] });
     },
-    onError: (error) => {
-      const axiosError = error as AxiosError;
-
-      const statusError = axiosError?.status;
-
-      if (statusError && statusError >= 400 && statusError <= 500) {
-        setErrorMessage("Erro no servidor interno da aplicação");
-      } else {
-        setErrorMessage("Erro no servidor externo da aplicação");
-      }
-
+    onError: () => {
+      setErrorMessage("Erro no servidor externo da aplicação");
       setIsError(true);
     },
   });

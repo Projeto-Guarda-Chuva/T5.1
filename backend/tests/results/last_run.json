@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-03T01:21:15.603655Z",
+  "generated_at": "2026-07-03T13:18:10.986666Z",
   "tests": [
     {
       "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_configuration_create_request_rejects_invalid_payload[payload0-at least 1 character]",
@@ -185,7 +185,7 @@
     },
     {
       "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_create_configuration_route_should_reject_whitespace_only_text_fields",
-      "status": "failed",
+      "status": "passed",
       "input": {
         "route": "/configurations",
         "payload": {
@@ -200,15 +200,12 @@
         }
       },
       "output": {
-        "status_code": 201,
-        "body": "{\"id\":\"cfg-001\",\"name\":\"   \",\"description\":\"   \",\"is_active\":false,\"created_at\":\"2026-07-03T01:21:09\",\"updated_at\":\"2026-07-03T01:21:09\",\"parameters\":{\"movement_speed\":0.8,\"movement_duration_seconds\":30,\"video_capture_enabled\":true,\"audio_capture_enabled\":false}}"
+        "status_code": 422,
+        "body": "{\"detail\":[{\"type\":\"value_error\",\"loc\":[\"body\",\"name\"],\"msg\":\"Value error, must contain at least 1 character\",\"input\":\"   \",\"ctx\":{\"error\":{}}},{\"type\":\"value_error\",\"loc\":[\"body\",\"description\"],\"msg\":\"Value error, must contain at least 1 character\",\"input\":\"   \",\"ctx\":{\"error\":{}}}]}"
       },
       "notes": [
         "Contrato esperado: campos textuais obrigatórios não devem aceitar apenas espaços em branco."
-      ],
-      "error_type": "AssertionError",
-      "error": "assert 201 in {400, 422}\n +  where 201 = <Response [201 Created]>.status_code",
-      "traceback": "monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f8bbb85f7f0>\ncase_log = {'nodeid': 'tests/components/gerente_programa/test_configuracoes.py::test_create_configuration_route_should_reject_whi...d\":false}}'}, 'notes': ['Contrato esperado: campos textuais obrigatórios não devem aceitar apenas espaços em branco.']}\n\n    @pytest.mark.asyncio\n    async def test_create_configuration_route_should_reject_whitespace_only_text_fields(\n        monkeypatch,\n        case_log,\n    ) -> None:\n        payload = {\n            \"name\": \"   \",\n            \"description\": \"   \",\n            \"parameters\": {\n                \"movement_speed\": 0.8,\n                \"movement_duration_seconds\": 30,\n                \"video_capture_enabled\": True,\n                \"audio_capture_enabled\": False,\n            },\n        }\n        case_log[\"input\"] = {\n            \"route\": \"/configurations\",\n            \"payload\": payload,\n        }\n        case_log[\"notes\"] = [\n            \"Contrato esperado: campos textuais obrigatórios não devem aceitar apenas espaços em branco.\",\n        ]\n    \n        monkeypatch.setattr(\n            configurations_router_module,\n            \"configuration_service\",\n            ConfigurationService(\n                FakeConfigurationRepository(),\n                FakeProgramadorAtuacaoService(),\n            ),\n        )\n        app = build_app(configurations_router_module.router)\n    \n        response = await request(\n            app,\n            \"POST\",\n            \"/configurations\",\n            json=payload,\n        )\n    \n        case_log[\"output\"] = {\n            \"status_code\": response.status_code,\n            \"body\": response.text,\n        }\n    \n>       assert response.status_code in {400, 422}\nE       assert 201 in {400, 422}\nE        +  where 201 = <Response [201 Created]>.status_code\n\ntests/components/gerente_programa/test_configuracoes.py:502: AssertionError"
+      ]
     },
     {
       "nodeid": "tests/components/gerente_programa/test_configuracoes.py::test_programador_atuacao_service_requires_base_url",
@@ -424,7 +421,7 @@
     },
     {
       "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_accept_terms_route_should_reject_blank_term_version",
-      "status": "failed",
+      "status": "passed",
       "input": {
         "route": "/participantes/part-001/aceite-termo",
         "payload": {
@@ -433,15 +430,12 @@
         }
       },
       "output": {
-        "status_code": 200,
-        "body": "{\"message\":\"Aceite do termo registrado com sucesso!\",\"participante_id\":\"part-001\",\"auditoria\":{\"aceitou\":true,\"data_hora_aceite\":\"2026-01-01T12:00:00+00:00\",\"versao_termo\":\"   \"}}"
+        "status_code": 400,
+        "body": "{\"detail\":\"A versão do termo precisa ser informada.\"}"
       },
       "notes": [
         "Contrato esperado: o aceite precisa registrar uma versão não vazia do termo."
-      ],
-      "error_type": "AssertionError",
-      "error": "assert 200 == 400\n +  where 200 = <Response [200 OK]>.status_code",
-      "traceback": "monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f8bbc5cf430>\ncase_log = {'nodeid': 'tests/components/registrador_monitor/test_registro_participacao.py::test_accept_terms_route_should_reject_...0\",\"versao_termo\":\"   \"}}'}, 'notes': ['Contrato esperado: o aceite precisa registrar uma versão não vazia do termo.']}\n\n    @pytest.mark.asyncio\n    async def test_accept_terms_route_should_reject_blank_term_version(monkeypatch, case_log) -> None:\n        case_log[\"input\"] = {\n            \"route\": \"/participantes/part-001/aceite-termo\",\n            \"payload\": {\"aceitou\": True, \"versao_termo\": \"   \"},\n        }\n        case_log[\"notes\"] = [\n            \"Contrato esperado: o aceite precisa registrar uma versão não vazia do termo.\",\n        ]\n    \n        monkeypatch.setattr(\n            participantes_router_module,\n            \"participant_repository\",\n            FakeParticipantRepository([_participant()]),\n        )\n        monkeypatch.setattr(participantes_router_module, \"utc_now\", lambda: FIXED_NOW)\n        app = build_app(participantes_router_module.router)\n    \n        response = await request(\n            app,\n            \"PATCH\",\n            \"/participantes/part-001/aceite-termo\",\n            json={\"aceitou\": True, \"versao_termo\": \"   \"},\n        )\n    \n        case_log[\"output\"] = {\n            \"status_code\": response.status_code,\n            \"body\": response.text,\n        }\n    \n>       assert response.status_code == 400\nE       assert 200 == 400\nE        +  where 200 = <Response [200 OK]>.status_code\n\ntests/components/registrador_monitor/test_registro_participacao.py:488: AssertionError"
+      ]
     },
     {
       "nodeid": "tests/components/registrador_monitor/test_registro_participacao.py::test_normalize_utc_datetime_handles_supported_inputs[None-None]",
@@ -508,13 +502,10 @@
     },
     {
       "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_upload_video_should_fallback_to_generated_title_when_title_is_whitespace",
-      "status": "failed",
+      "status": "passed",
       "input": null,
       "output": null,
-      "notes": [],
-      "error_type": "AssertionError",
-      "error": "assert False\n +  where False = <built-in method startswith of str object at 0x7f8bbfb00030>('Vídeo da participação - ')\n +    where <built-in method startswith of str object at 0x7f8bbfb00030> = ''.startswith\n +      where '' = VideoUploadResponse(id='vid-a8038baf', title='', recorded_at=datetime.datetime(2026, 1, 2, 9, 30, tzinfo=datetime.time...ucesso. Nenhum participante com intenção registrada nos últimos 30 minutos foi encontrado para associação automática.').title",
-      "traceback": "monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f8bbb653e20>\n\n    @pytest.mark.asyncio\n    async def test_upload_video_should_fallback_to_generated_title_when_title_is_whitespace(\n        monkeypatch,\n    ) -> None:\n        service = VideoUploadService(\n            video_repository=FakeVideoRepository(),\n            video_file_repository=FakeVideoFileRepository(),\n            participant_recording_event_repository=FakeEventRepository(),\n            participant_video_repository=FakeParticipantVideoRepository(),\n            participant_repository=FakeParticipantRepository(),\n            dispatch_repository=FakeDispatchRepository(),\n            email_sender=FakeEmailSender(),\n        )\n        monkeypatch.setattr(\"app.services.video_upload_service.utc_now\", lambda: FIXED_NOW)\n    \n        response = await service.upload_video(\n            filename=\"video.mp4\",\n            content_type=\"video/mp4\",\n            file_bytes=b\"1234\",\n            title=\"   \",\n        )\n    \n>       assert response.title.startswith(\"Vídeo da participação - \")\nE       AssertionError: assert False\nE        +  where False = <built-in method startswith of str object at 0x7f8bbfb00030>('Vídeo da participação - ')\nE        +    where <built-in method startswith of str object at 0x7f8bbfb00030> = ''.startswith\nE        +      where '' = VideoUploadResponse(id='vid-a8038baf', title='', recorded_at=datetime.datetime(2026, 1, 2, 9, 30, tzinfo=datetime.time...ucesso. Nenhum participante com intenção registrada nos últimos 30 minutos foi encontrado para associação automática.').title\n\ntests/components/registrador_monitor/test_upload_video.py:119: AssertionError"
+      "notes": []
     },
     {
       "nodeid": "tests/components/registrador_monitor/test_upload_video.py::test_upload_video_associates_recent_participants_and_schedules_email_tasks",
@@ -826,7 +817,7 @@
     },
     {
       "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_public_registration_route_should_reject_whitespace_only_name_or_password[payload0]",
-      "status": "failed",
+      "status": "passed",
       "input": {
         "route": "/auth/register-participante",
         "payload": {
@@ -836,19 +827,16 @@
         }
       },
       "output": {
-        "status_code": 201,
-        "body": "{\"participant_id\":\"part-5c623277\",\"email\":\"whitespace-name@example.com\",\"nome\":\"   \",\"message\":\"Cadastro realizado com sucesso!\"}"
+        "status_code": 422,
+        "body": "{\"detail\":[{\"type\":\"value_error\",\"loc\":[\"body\",\"nome\"],\"msg\":\"Value error, must contain at least 1 character\",\"input\":\"   \",\"ctx\":{\"error\":{}}}]}"
       },
       "notes": [
         "Contrato esperado: cadastro público não deve aceitar nome ou senha compostos apenas por espaços."
-      ],
-      "error_type": "AssertionError",
-      "error": "assert 201 in {400, 422}\n +  where 201 = <Response [201 Created]>.status_code",
-      "traceback": "monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f8bbb6523e0>\npayload = {'nome': '   ', 'email': 'whitespace-name@example.com', 'password': 'segredo123'}\ncase_log = {'nodeid': 'tests/components/veja_seu_video/test_autenticacao.py::test_public_registration_route_should_reject_whitesp...so!\"}'}, 'notes': ['Contrato esperado: cadastro público não deve aceitar nome ou senha compostos apenas por espaços.']}\n\n    @pytest.mark.parametrize(\n        \"payload\",\n        [\n            {\n                \"nome\": \"   \",\n                \"email\": \"whitespace-name@example.com\",\n                \"password\": \"segredo123\",\n            },\n            {\n                \"nome\": \"Participante\",\n                \"email\": \"whitespace-password@example.com\",\n                \"password\": \"   \",\n            },\n        ],\n    )\n    @pytest.mark.asyncio\n    async def test_public_registration_route_should_reject_whitespace_only_name_or_password(\n        monkeypatch,\n        payload: dict,\n        case_log,\n    ) -> None:\n        case_log[\"input\"] = {\n            \"route\": \"/auth/register-participante\",\n            \"payload\": payload,\n        }\n        case_log[\"notes\"] = [\n            \"Contrato esperado: cadastro público não deve aceitar nome ou senha compostos apenas por espaços.\",\n        ]\n    \n        monkeypatch.setattr(auth_router_module, \"_user_repo\", FakeUserRepository())\n        monkeypatch.setattr(auth_router_module, \"_participant_repo\", FakeParticipantRepository())\n        app = build_app(auth_router_module.router)\n    \n        response = await request(\n            app,\n            \"POST\",\n            \"/auth/register-participante\",\n            json=payload,\n        )\n    \n        case_log[\"output\"] = {\n            \"status_code\": response.status_code,\n            \"body\": response.text,\n        }\n    \n>       assert response.status_code in {400, 422}\nE       assert 201 in {400, 422}\nE        +  where 201 = <Response [201 Created]>.status_code\n\ntests/components/veja_seu_video/test_autenticacao.py:699: AssertionError"
+      ]
     },
     {
       "nodeid": "tests/components/veja_seu_video/test_autenticacao.py::test_public_registration_route_should_reject_whitespace_only_name_or_password[payload1]",
-      "status": "failed",
+      "status": "passed",
       "input": {
         "route": "/auth/register-participante",
         "payload": {
@@ -858,15 +846,12 @@
         }
       },
       "output": {
-        "status_code": 201,
-        "body": "{\"participant_id\":\"part-dfdf056b\",\"email\":\"whitespace-password@example.com\",\"nome\":\"Participante\",\"message\":\"Cadastro realizado com sucesso!\"}"
+        "status_code": 422,
+        "body": "{\"detail\":[{\"type\":\"value_error\",\"loc\":[\"body\",\"password\"],\"msg\":\"Value error, must contain at least 1 character\",\"input\":\"   \",\"ctx\":{\"error\":{}}}]}"
       },
       "notes": [
         "Contrato esperado: cadastro público não deve aceitar nome ou senha compostos apenas por espaços."
-      ],
-      "error_type": "AssertionError",
-      "error": "assert 201 in {400, 422}\n +  where 201 = <Response [201 Created]>.status_code",
-      "traceback": "monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f8bbb767520>\npayload = {'nome': 'Participante', 'email': 'whitespace-password@example.com', 'password': '   '}\ncase_log = {'nodeid': 'tests/components/veja_seu_video/test_autenticacao.py::test_public_registration_route_should_reject_whitesp...so!\"}'}, 'notes': ['Contrato esperado: cadastro público não deve aceitar nome ou senha compostos apenas por espaços.']}\n\n    @pytest.mark.parametrize(\n        \"payload\",\n        [\n            {\n                \"nome\": \"   \",\n                \"email\": \"whitespace-name@example.com\",\n                \"password\": \"segredo123\",\n            },\n            {\n                \"nome\": \"Participante\",\n                \"email\": \"whitespace-password@example.com\",\n                \"password\": \"   \",\n            },\n        ],\n    )\n    @pytest.mark.asyncio\n    async def test_public_registration_route_should_reject_whitespace_only_name_or_password(\n        monkeypatch,\n        payload: dict,\n        case_log,\n    ) -> None:\n        case_log[\"input\"] = {\n            \"route\": \"/auth/register-participante\",\n            \"payload\": payload,\n        }\n        case_log[\"notes\"] = [\n            \"Contrato esperado: cadastro público não deve aceitar nome ou senha compostos apenas por espaços.\",\n        ]\n    \n        monkeypatch.setattr(auth_router_module, \"_user_repo\", FakeUserRepository())\n        monkeypatch.setattr(auth_router_module, \"_participant_repo\", FakeParticipantRepository())\n        app = build_app(auth_router_module.router)\n    \n        response = await request(\n            app,\n            \"POST\",\n            \"/auth/register-participante\",\n            json=payload,\n        )\n    \n        case_log[\"output\"] = {\n            \"status_code\": response.status_code,\n            \"body\": response.text,\n        }\n    \n>       assert response.status_code in {400, 422}\nE       assert 201 in {400, 422}\nE        +  where 201 = <Response [201 Created]>.status_code\n\ntests/components/veja_seu_video/test_autenticacao.py:699: AssertionError"
+      ]
     },
     {
       "nodeid": "tests/components/veja_seu_video/test_envio_email.py::test_send_video_of_day_requires_existing_participant_and_valid_email",
@@ -1253,5 +1238,5 @@
     }
   ],
   "collection_errors": [],
-  "exitstatus": 1
+  "exitstatus": 0
 }

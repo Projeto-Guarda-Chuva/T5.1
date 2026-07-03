@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class ConfigurationSummary(BaseModel):
@@ -28,6 +28,16 @@ class ConfigurationCreateRequest(BaseModel):
     name: str = Field(..., min_length=1)
     description: str = Field(..., min_length=1)
     parameters: ConfigurationCreateParameters
+
+    @field_validator("name", "description")
+    @classmethod
+    def validate_text_fields(cls, value: str) -> str:
+        normalized_value = value.strip()
+
+        if not normalized_value:
+            raise ValueError("must contain at least 1 character")
+
+        return normalized_value
 
 
 class ConfigurationListResponse(BaseModel):

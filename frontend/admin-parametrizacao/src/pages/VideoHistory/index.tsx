@@ -4,6 +4,8 @@ import styles from "./styles.module.css";
 
 const VideoHistory = () => {
   const { operationLogs } = useOperationLog();
+  const totalLogs = operationLogs?.total ?? operationLogs?.items?.length ?? 0;
+  const totalLogsLabel = totalLogs === 1 ? "registro" : "registros";
 
   return (
     <>
@@ -25,7 +27,9 @@ const VideoHistory = () => {
           </div>
 
           <div className="card-footer bg-white border-top p-3 d-flex justify-content-between align-items-center">
-            <span className="text-muted small">Exibindo 4 registros</span>
+            <span className="text-muted small">
+              Exibindo {totalLogs} {totalLogsLabel}
+            </span>
             <nav aria-label="Navegação de páginas de log">
               <ul className="pagination pagination-sm mb-0">
                 <li className="page-item disabled">

@@ -114,6 +114,7 @@ class VideoUploadService:
         upload_timestamp = utc_now()
         normalized_recorded_at = normalize_utc_datetime(recorded_at) or upload_timestamp
         video_id = f"vid-{uuid4().hex[:8]}"
+        normalized_title = (title or "").strip()
 
         file_data = await self._video_file_repository.replace_file_for_video(
             video_id=video_id,
@@ -124,7 +125,7 @@ class VideoUploadService:
 
         video_document = {
             "id": video_id,
-            "title": (title or f"Vídeo da participação - {normalized_recorded_at.strftime('%d/%m/%Y %H:%M')}").strip(),
+            "title": normalized_title or f"Vídeo da participação - {normalized_recorded_at.strftime('%d/%m/%Y %H:%M')}",
             "status": "available",
             "recorded_at": normalized_recorded_at,
             "uploaded_at": upload_timestamp,

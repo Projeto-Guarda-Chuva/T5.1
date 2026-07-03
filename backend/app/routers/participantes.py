@@ -253,6 +253,14 @@ async def registrar_aceite_termo(participante_id: str, aceite: AceiteTermo):
             detail="O participante deve aceitar o termo para prosseguir.",
         )
 
+    normalized_term_version = aceite.versao_termo.strip()
+
+    if not normalized_term_version:
+        raise HTTPException(
+            status_code=400,
+            detail="A versão do termo precisa ser informada.",
+        )
+
     participant = await participant_repository.update_fields(
         participante_id,
         {
@@ -260,7 +268,7 @@ async def registrar_aceite_termo(participante_id: str, aceite: AceiteTermo):
             "consent": {
                 "aceitou": aceite.aceitou,
                 "data_hora_aceite": utc_now().isoformat(),
-                "versao_termo": aceite.versao_termo,
+                "versao_termo": normalized_term_version,
             },
         },
     )

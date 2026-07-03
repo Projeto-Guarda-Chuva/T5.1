@@ -1,262 +1,8 @@
 {
   "app": "admin-parametrizacao",
-  "started_at": "2026-07-03T01:22:25.900Z",
-  "generated_at": "2026-07-03T01:22:34.077Z",
+  "started_at": "2026-07-03T13:18:15.496Z",
+  "generated_at": "2026-07-03T13:18:21.735Z",
   "tests": [
-    {
-      "name": "lista configurações, abre modal de criação e mostra detalhes da configuração selecionada",
-      "nodeid": "Gerente de Programa - Página de Parâmetros > lista configurações, abre modal de criação e mostra detalhes da configuração selecionada",
-      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
-      "state": "pass",
-      "duration_ms": null,
-      "input": {
-        "totalConfigurations": 2
-      },
-      "expected": {
-        "activeBadge": "Ativa",
-        "inactiveBadge": "Inativa",
-        "createModalVisible": true,
-        "detailsVisible": "Inativa"
-      },
-      "output": {
-        "createModalVisible": true,
-        "detailsText": "InativaFechar detalhes"
-      },
-      "notes": [],
-      "errors": []
-    },
-    {
-      "name": "mostra o loading modal enquanto a tela aguarda dados",
-      "nodeid": "Gerente de Programa - Página de Parâmetros > mostra o loading modal enquanto a tela aguarda dados",
-      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
-      "state": "pass",
-      "duration_ms": null,
-      "input": {
-        "isLoading": true,
-        "isPending": false
-      },
-      "expected": {
-        "loadingVisible": true
-      },
-      "output": {
-        "loadingText": "Carregando..."
-      },
-      "notes": [],
-      "errors": []
-    },
-    {
-      "name": "deve classificar erro 4xx de ativação como erro no servidor externo da aplicação",
-      "nodeid": "Gerente de Programa - Página de Parâmetros > deve classificar erro 4xx de ativação como erro no servidor externo da aplicação",
-      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
-      "state": "fail",
-      "duration_ms": null,
-      "input": {
-        "activateErrorStatus": 422
-      },
-      "expected": {
-        "errorMessage": "Erro no servidor externo da aplicação"
-      },
-      "output": null,
-      "notes": [
-        "Contrato esperado: rejeição 4xx da integração inferior deve ser comunicada como falha da aplicação externa."
-      ],
-      "errors": [
-        {
-          "name": "TestingLibraryElementError",
-          "message": "Unable to find an element with the text: Erro no servidor externo da aplicação. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.\n\nIgnored nodes: comments, script, style\n\u001b[36m<body>\u001b[39m\n  \u001b[36m<div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"_modalBackdrop_407725\"\u001b[39m\n    \u001b[36m/>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33maria-hidden\u001b[39m=\u001b[32m\"true\"\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"modal fade show _modalContainer_407725\"\u001b[39m\n      \u001b[33mtabindex\u001b[39m=\u001b[32m\"-1\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"modal-dialog modal-dialog-centered\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"modal-content text-center p-3 p-md-4 _modalCard_407725\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<div\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"modal-body pt-4\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<i\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-exclamation-octagon-fill text-danger d-block mb-3 _iconWrapper_407725\"\u001b[39m\n            \u001b[36m/>\u001b[39m\n            \u001b[36m<h4\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"fw-bold mb-2\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mOcorreu um Erro\u001b[0m\n            \u001b[36m</h4>\u001b[39m\n            \u001b[36m<p\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted mb-4\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mErro no servidor interno da aplicação\u001b[0m\n            \u001b[36m</p>\u001b[39m\n            \u001b[36m<button\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-danger w-100 rounded-pill py-2 fw-semibold\"\u001b[39m\n              \u001b[33mtype\u001b[39m=\u001b[32m\"button\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mTentar Novamente\u001b[0m\n            \u001b[36m</button>\u001b[39m\n          \u001b[36m</div>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-center mb-4\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div>\u001b[39m\n        \u001b[36m<h3\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"_headerTitle_2aa2ba\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mConfigurações\u001b[0m\n        \u001b[36m</h3>\u001b[39m\n        \u001b[36m<p\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-0\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mGerencie e aplique configurações de operação do robô\u001b[0m\n        \u001b[36m</p>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<button\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-primary rounded-pill px-4 fw-semibold _desktopBtn_2aa2ba\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<i\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-plus-lg me-2\"\u001b[39m\n        \u001b[36m/>\u001b[39m\n        \u001b[0m Nova Configuração\u001b[0m\n      \u001b[36m</button>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"row g-3\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"col-12 col-md-6 col-lg-4\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card _paramCard_2aa2ba _activeCard_2aa2ba\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<div\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"card-body d-flex flex-column\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-start mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"_idBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[0mcfg-active\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"badge rounded-pill d-flex align-items-center px-2 py-1 _activeBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-check-circle-fill me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Ativa\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<h6\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"fw-bold mb-1 _cardTitle_2aa2ba\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mAtiva\u001b[0m\n            \u001b[36m</h6>\u001b[39m\n            \u001b[36m<p\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-3 flex-grow-1\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mConfiguração ativa\u001b[0m\n            \u001b[36m</p>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"_dateMeta_2aa2ba mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-calendar-plus me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mCriada em \u001b[0m\n                \u001b[0m30 de junho de 2026 às 07:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-pencil me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mAtualizada em \u001b[0m\n                \u001b[0m30 de junho de 2026 às 09:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex gap-2 mt-auto\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<button\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-sm fw-semibold flex-grow-1 _viewBtn_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-eye me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Ver Detalhes\u001b[0m\n              \u001b[36m</button>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n          \u001b[36m</div>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"col-12 col-md-6 col-lg-4\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card _paramCard_2aa2ba \"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<div\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"card-body d-flex flex-column\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-start mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"_idBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[0mcfg-inactive\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"badge rounded-pill _inactiveBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[0mInativa\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<h6\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"fw-bold mb-1 _cardTitle_2aa2ba\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mInativa\u001b[0m\n            \u001b[36m</h6>\u001b[39m\n            \u001b[36m<p\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-3 flex-grow-1\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mConfiguração pronta para aplicar\u001b[0m\n            \u001b[36m</p>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"_dateMeta_2aa2ba mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-calendar-plus me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mCriada em \u001b[0m\n                \u001b[0m29 de junho de 2026 às 07:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-pencil me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mAtualizada em \u001b[0m\n                \u001b[0m29 de junho de 2026 às 09:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex gap-2 mt-auto\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<button\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-sm fw-semibold flex-grow-1 _viewBtn_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-eye me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Ver Detalhes\u001b[0m\n              \u001b[36m</button>\u001b[39m\n              \u001b[36m<button\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-sm fw-semibold flex-grow-1 btn-primary\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-play-fill me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Aplicar\u001b[0m\n              \u001b[36m</button>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n          \u001b[36m</div>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<button\u001b[39m\n      \u001b[33maria-label\u001b[39m=\u001b[32m\"Nova configuração\"\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-primary _fab_2aa2ba\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<i\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-plus-lg\"\u001b[39m\n      \u001b[36m/>\u001b[39m\n    \u001b[36m</button>\u001b[39m\n  \u001b[36m</div>\u001b[39m\n\u001b[36m</body>\u001b[39m\n\nIgnored nodes: comments, script, style\n\u001b[36m<body>\u001b[39m\n  \u001b[36m<div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"_modalBackdrop_407725\"\u001b[39m\n    \u001b[36m/>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33maria-hidden\u001b[39m=\u001b[32m\"true\"\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"modal fade show _modalContainer_407725\"\u001b[39m\n      \u001b[33mtabindex\u001b[39m=\u001b[32m\"-1\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"modal-dialog modal-dialog-centered\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"modal-content text-center p-3 p-md-4 _modalCard_407725\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<div\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"modal-body pt-4\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<i\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-exclamation-octagon-fill text-danger d-block mb-3 _iconWrapper_407725\"\u001b[39m\n            \u001b[36m/>\u001b[39m\n            \u001b[36m<h4\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"fw-bold mb-2\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mOcorreu um Erro\u001b[0m\n            \u001b[36m</h4>\u001b[39m\n            \u001b[36m<p\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted mb-4\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mErro no servidor interno da aplicação\u001b[0m\n            \u001b[36m</p>\u001b[39m\n            \u001b[36m<button\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-danger w-100 rounded-pill py-2 fw-semibold\"\u001b[39m\n              \u001b[33mtype\u001b[39m=\u001b[32m\"button\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mTentar Novamente\u001b[0m\n            \u001b[36m</button>\u001b[39m\n          \u001b[36m</div>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-center mb-4\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div>\u001b[39m\n        \u001b[36m<h3\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"_headerTitle_2aa2ba\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mConfigurações\u001b[0m\n        \u001b[36m</h3>\u001b[39m\n        \u001b[36m<p\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-0\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mGerencie e aplique configurações de operação do robô\u001b[0m\n        \u001b[36m</p>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<button\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-primary rounded-pill px-4 fw-semibold _desktopBtn_2aa2ba\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<i\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-plus-lg me-2\"\u001b[39m\n        \u001b[36m/>\u001b[39m\n        \u001b[0m Nova Configuração\u001b[0m\n      \u001b[36m</button>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"row g-3\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"col-12 col-md-6 col-lg-4\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card _paramCard_2aa2ba _activeCard_2aa2ba\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<div\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"card-body d-flex flex-column\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-start mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"_idBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[0mcfg-active\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"badge rounded-pill d-flex align-items-center px-2 py-1 _activeBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-check-circle-fill me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Ativa\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<h6\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"fw-bold mb-1 _cardTitle_2aa2ba\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mAtiva\u001b[0m\n            \u001b[36m</h6>\u001b[39m\n            \u001b[36m<p\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-3 flex-grow-1\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mConfiguração ativa\u001b[0m\n            \u001b[36m</p>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"_dateMeta_2aa2ba mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-calendar-plus me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mCriada em \u001b[0m\n                \u001b[0m30 de junho de 2026 às 07:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-pencil me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mAtualizada em \u001b[0m\n                \u001b[0m30 de junho de 2026 às 09:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex gap-2 mt-auto\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<button\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-sm fw-semibold flex-grow-1 _viewBtn_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-eye me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Ver Detalhes\u001b[0m\n              \u001b[36m</button>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n          \u001b[36m</div>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"col-12 col-md-6 col-lg-4\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card _paramCard_2aa2ba \"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<div\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"card-body d-flex flex-column\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-start mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"_idBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[0mcfg-inactive\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"badge rounded-pill _inactiveBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[0mInativa\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<h6\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"fw-bold mb-1 _cardTitle_2aa2ba\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mInativa\u001b[0m\n            \u001b[36m</h6>\u001b[39m\n            \u001b[36m<p\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-3 flex-grow-1\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mConfiguração pronta para aplicar\u001b[0m\n            \u001b[36m</p>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"_dateMeta_2aa2ba mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-calendar-plus me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mCriada em \u001b[0m\n                \u001b[0m29 de junho de 2026 às 07:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-pencil me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mAtualizada em \u001b[0m\n                \u001b[0m29 de junho de 2026 às 09:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex gap-2 mt-auto\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<button\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-sm fw-semibold flex-grow-1 _viewBtn_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-eye me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Ver Detalhes\u001b[0m\n              \u001b[36m</button>\u001b[39m\n              \u001b[36m<button\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-sm fw-semibold flex-grow-1 btn-primary\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-play-fill me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Aplicar\u001b[0m\n              \u001b[36m</button>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n          \u001b[36m</div>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<button\u001b[39m\n      \u001b[33maria-label\u001b[39m=\u001b[32m\"Nova configuração\"\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-primary _fab_2aa2ba\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<i\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-plus-lg\"\u001b[39m\n      \u001b[36m/>\u001b[39m\n    \u001b[36m</button>\u001b[39m\n  \u001b[36m</div>\u001b[39m\n\u001b[36m</body>\u001b[39m",
-          "stack": "Error: Unable to find an element with the text: Erro no servidor externo da aplicação. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.\n\nIgnored nodes: comments, script, style\n\u001b[36m<body>\u001b[39m\n  \u001b[36m<div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"_modalBackdrop_407725\"\u001b[39m\n    \u001b[36m/>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33maria-hidden\u001b[39m=\u001b[32m\"true\"\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"modal fade show _modalContainer_407725\"\u001b[39m\n      \u001b[33mtabindex\u001b[39m=\u001b[32m\"-1\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"modal-dialog modal-dialog-centered\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"modal-content text-center p-3 p-md-4 _modalCard_407725\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<div\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"modal-body pt-4\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<i\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-exclamation-octagon-fill text-danger d-block mb-3 _iconWrapper_407725\"\u001b[39m\n            \u001b[36m/>\u001b[39m\n            \u001b[36m<h4\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"fw-bold mb-2\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mOcorreu um Erro\u001b[0m\n            \u001b[36m</h4>\u001b[39m\n            \u001b[36m<p\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted mb-4\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mErro no servidor interno da aplicação\u001b[0m\n            \u001b[36m</p>\u001b[39m\n            \u001b[36m<button\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-danger w-100 rounded-pill py-2 fw-semibold\"\u001b[39m\n              \u001b[33mtype\u001b[39m=\u001b[32m\"button\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mTentar Novamente\u001b[0m\n            \u001b[36m</button>\u001b[39m\n          \u001b[36m</div>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-center mb-4\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div>\u001b[39m\n        \u001b[36m<h3\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"_headerTitle_2aa2ba\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mConfigurações\u001b[0m\n        \u001b[36m</h3>\u001b[39m\n        \u001b[36m<p\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-0\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mGerencie e aplique configurações de operação do robô\u001b[0m\n        \u001b[36m</p>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<button\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-primary rounded-pill px-4 fw-semibold _desktopBtn_2aa2ba\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<i\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-plus-lg me-2\"\u001b[39m\n        \u001b[36m/>\u001b[39m\n        \u001b[0m Nova Configuração\u001b[0m\n      \u001b[36m</button>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"row g-3\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"col-12 col-md-6 col-lg-4\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card _paramCard_2aa2ba _activeCard_2aa2ba\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<div\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"card-body d-flex flex-column\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-start mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"_idBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[0mcfg-active\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"badge rounded-pill d-flex align-items-center px-2 py-1 _activeBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-check-circle-fill me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Ativa\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<h6\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"fw-bold mb-1 _cardTitle_2aa2ba\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mAtiva\u001b[0m\n            \u001b[36m</h6>\u001b[39m\n            \u001b[36m<p\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-3 flex-grow-1\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mConfiguração ativa\u001b[0m\n            \u001b[36m</p>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"_dateMeta_2aa2ba mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-calendar-plus me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mCriada em \u001b[0m\n                \u001b[0m30 de junho de 2026 às 07:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-pencil me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mAtualizada em \u001b[0m\n                \u001b[0m30 de junho de 2026 às 09:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex gap-2 mt-auto\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<button\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-sm fw-semibold flex-grow-1 _viewBtn_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-eye me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Ver Detalhes\u001b[0m\n              \u001b[36m</button>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n          \u001b[36m</div>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"col-12 col-md-6 col-lg-4\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card _paramCard_2aa2ba \"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<div\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"card-body d-flex flex-column\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-start mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"_idBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[0mcfg-inactive\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"badge rounded-pill _inactiveBadge_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[0mInativa\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<h6\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"fw-bold mb-1 _cardTitle_2aa2ba\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mInativa\u001b[0m\n            \u001b[36m</h6>\u001b[39m\n            \u001b[36m<p\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-3 flex-grow-1\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[0mConfiguração pronta para aplicar\u001b[0m\n            \u001b[36m</p>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"_dateMeta_2aa2ba mb-3\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-calendar-plus me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mCriada em \u001b[0m\n                \u001b[0m29 de junho de 2026 às 07:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n              \u001b[36m<span>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-pencil me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0mAtualizada em \u001b[0m\n                \u001b[0m29 de junho de 2026 às 09:00\u001b[0m\n              \u001b[36m</span>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n            \u001b[36m<div\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex gap-2 mt-auto\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<button\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-sm fw-semibold flex-grow-1 _viewBtn_2aa2ba\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-eye me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Ver Detalhes\u001b[0m\n              \u001b[36m</button>\u001b[39m\n              \u001b[36m<button\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-sm fw-semibold flex-grow-1 btn-primary\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<i\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-play-fill me-1\"\u001b[39m\n                \u001b[36m/>\u001b[39m\n                \u001b[0m Aplicar\u001b[0m\n              \u001b[36m</button>\u001b[39m\n            \u001b[36m</div>\u001b[39m\n          \u001b[36m</div>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<button\u001b[39m\n      \u001b[33maria-label\u001b[39m=\u001b[32m\"Nova configuração\"\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-primary _fab_2aa2ba\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<i\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-plus-lg\"\u001b[39m\n      \u001b[36m/>\u001b[39m\n    \u001b[36m</button>\u001b[39m\n  \u001b[36m</div>\u001b[39m\n\u001b[36m</body>\u001b[39m\n    at waitForWrapper (/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/wait-for.js:163:27)\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/query-helpers.js:86:33\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx:227:42\n    at file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
-        }
-      ]
-    },
-    {
-      "name": "deve classificar erro não 4xx de ativação como erro no servidor externo da aplicação",
-      "nodeid": "Gerente de Programa - Página de Parâmetros > deve classificar erro não 4xx de ativação como erro no servidor externo da aplicação",
-      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
-      "state": "pass",
-      "duration_ms": null,
-      "input": {
-        "activateErrorStatus": 503
-      },
-      "expected": {
-        "errorMessage": "Erro no servidor externo da aplicação"
-      },
-      "output": {
-        "renderedMessage": "Erro no servidor externo da aplicação"
-      },
-      "notes": [],
-      "errors": []
-    },
-    {
-      "name": "mostra erro interno quando a criação de configuração falha",
-      "nodeid": "Gerente de Programa - Página de Parâmetros > mostra erro interno quando a criação de configuração falha",
-      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
-      "state": "pass",
-      "duration_ms": null,
-      "input": {
-        "createConfigurationThrows": "create failed"
-      },
-      "expected": {
-        "errorMessage": "Ocorreu um erro no servidor interno"
-      },
-      "output": {
-        "renderedMessage": "Ocorreu um erro no servidor interno"
-      },
-      "notes": [],
-      "errors": []
-    },
-    {
-      "name": "lista registros de log com data, participante e status",
-      "nodeid": "Gerente de Programa - Histórico da Operação > lista registros de log com data, participante e status",
-      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx",
-      "state": "pass",
-      "duration_ms": null,
-      "input": {
-        "totalLogs": 1
-      },
-      "expected": {
-        "sessionId": "sess-001",
-        "participantEmail": "participante@example.com",
-        "statusText": "Concluído",
-        "occurredAt": "01 de julho de 2026 às 06:00"
-      },
-      "output": {
-        "renderedSessionId": "sess-001",
-        "renderedDate": "01 de julho de 2026 às 06:00",
-        "renderedStatus": "Concluído"
-      },
-      "notes": [],
-      "errors": []
-    },
-    {
-      "name": "deve informar claramente quando não existem registros de log",
-      "nodeid": "Gerente de Programa - Histórico da Operação > deve informar claramente quando não existem registros de log",
-      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx",
-      "state": "fail",
-      "duration_ms": null,
-      "input": {
-        "totalLogs": 0,
-        "message": "Nenhum log encontrado."
-      },
-      "expected": {
-        "emptyStateMessage": "Nenhum log encontrado."
-      },
-      "output": {
-        "renderedText": "Log de SessõesHistórico de operações e gravações da Água-viva FiltrarID SessãoData / HoraDuraçãoParticipante (E-mail)StatusExibindo 4 registrosAnterior12Próxima"
-      },
-      "notes": [
-        "Contrato de usabilidade: a ausência de histórico deve ser explicitamente comunicada."
-      ],
-      "errors": [
-        {
-          "name": "TestingLibraryElementError",
-          "message": "Unable to find an element with the text: Nenhum log encontrado.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.\n\nIgnored nodes: comments, script, style\n\u001b[36m<body>\u001b[39m\n  \u001b[36m<div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-center mb-4\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div>\u001b[39m\n        \u001b[36m<h3\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"_headerTitle_96ed51\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mLog de Sessões\u001b[0m\n        \u001b[36m</h3>\u001b[39m\n        \u001b[36m<p\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-0\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mHistórico de operações e gravações da Água-viva\u001b[0m\n        \u001b[36m</p>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<button\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-outline-secondary rounded-pill btn-sm d-none d-md-flex align-items-center\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<i\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-funnel me-2\"\u001b[39m\n        \u001b[36m/>\u001b[39m\n        \u001b[0m Filtrar\u001b[0m\n      \u001b[36m</button>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"card _logCard_96ed51\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"card-body p-0\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"table-responsive\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<table\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"table table-hover mb-0 _responsiveTable_26f4d7\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<thead\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"table-light\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<tr>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"ps-4\"\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mID Sessão\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mData / Hora\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mDuração\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mParticipante (E-mail)\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mStatus\u001b[0m\n                \u001b[36m</th>\u001b[39m\n              \u001b[36m</tr>\u001b[39m\n            \u001b[36m</thead>\u001b[39m\n            \u001b[36m<tbody />\u001b[39m\n          \u001b[36m</table>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card-footer bg-white border-top p-3 d-flex justify-content-between align-items-center\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<span\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[0mExibindo 4 registros\u001b[0m\n          \u001b[36m</span>\u001b[39m\n          \u001b[36m<nav\u001b[39m\n            \u001b[33maria-label\u001b[39m=\u001b[32m\"Navegação de páginas de log\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<ul\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"pagination pagination-sm mb-0\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item disabled\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                  \u001b[33mtabindex\u001b[39m=\u001b[32m\"-1\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mAnterior\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item active\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m1\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m2\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mPróxima\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n            \u001b[36m</ul>\u001b[39m\n          \u001b[36m</nav>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n  \u001b[36m</div>\u001b[39m\n\u001b[36m</body>\u001b[39m",
-          "stack": "TestingLibraryElementError: Unable to find an element with the text: Nenhum log encontrado.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.\n\nIgnored nodes: comments, script, style\n\u001b[36m<body>\u001b[39m\n  \u001b[36m<div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-center mb-4\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div>\u001b[39m\n        \u001b[36m<h3\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"_headerTitle_96ed51\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mLog de Sessões\u001b[0m\n        \u001b[36m</h3>\u001b[39m\n        \u001b[36m<p\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-0\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mHistórico de operações e gravações da Água-viva\u001b[0m\n        \u001b[36m</p>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<button\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-outline-secondary rounded-pill btn-sm d-none d-md-flex align-items-center\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<i\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-funnel me-2\"\u001b[39m\n        \u001b[36m/>\u001b[39m\n        \u001b[0m Filtrar\u001b[0m\n      \u001b[36m</button>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"card _logCard_96ed51\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"card-body p-0\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"table-responsive\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<table\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"table table-hover mb-0 _responsiveTable_26f4d7\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<thead\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"table-light\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<tr>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"ps-4\"\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mID Sessão\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mData / Hora\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mDuração\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mParticipante (E-mail)\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mStatus\u001b[0m\n                \u001b[36m</th>\u001b[39m\n              \u001b[36m</tr>\u001b[39m\n            \u001b[36m</thead>\u001b[39m\n            \u001b[36m<tbody />\u001b[39m\n          \u001b[36m</table>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card-footer bg-white border-top p-3 d-flex justify-content-between align-items-center\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<span\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[0mExibindo 4 registros\u001b[0m\n          \u001b[36m</span>\u001b[39m\n          \u001b[36m<nav\u001b[39m\n            \u001b[33maria-label\u001b[39m=\u001b[32m\"Navegação de páginas de log\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<ul\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"pagination pagination-sm mb-0\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item disabled\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                  \u001b[33mtabindex\u001b[39m=\u001b[32m\"-1\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mAnterior\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item active\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m1\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m2\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mPróxima\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n            \u001b[36m</ul>\u001b[39m\n          \u001b[36m</nav>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n  \u001b[36m</div>\u001b[39m\n\u001b[36m</body>\u001b[39m\n    at Object.getElementError (/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/config.js:37:19)\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/query-helpers.js:76:38\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/query-helpers.js:52:17\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/query-helpers.js:95:19\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx:98:19\n    at file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
-        }
-      ]
-    },
-    {
-      "name": "renderiza o ramo visual de erro quando o status do log não é success",
-      "nodeid": "Gerente de Programa - Histórico da Operação > renderiza o ramo visual de erro quando o status do log não é success",
-      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx",
-      "state": "pass",
-      "duration_ms": null,
-      "input": {
-        "totalLogs": 1,
-        "status": "error"
-      },
-      "expected": {
-        "sessionId": "sess-002",
-        "statusText": "Falhou",
-        "statusClass": "text-danger"
-      },
-      "output": {
-        "renderedStatus": "Falhou",
-        "statusClass": "fw-semibold text-danger d-none d-md-inline",
-        "hasDangerWrapper": true
-      },
-      "notes": [],
-      "errors": []
-    },
-    {
-      "name": "deve refletir no rodapé a quantidade real de registros retornados",
-      "nodeid": "Gerente de Programa - Histórico da Operação > deve refletir no rodapé a quantidade real de registros retornados",
-      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx",
-      "state": "fail",
-      "duration_ms": null,
-      "input": {
-        "totalLogs": 1
-      },
-      "expected": {
-        "footerText": "Exibindo 1 registro"
-      },
-      "output": {
-        "pageText": "Log de SessõesHistórico de operações e gravações da Água-viva FiltrarID SessãoData / HoraDuraçãoParticipante (E-mail)Statussess-00301 de julho de 2026 às 08:0010um@example.comConcluídoConcluídoExibindo 4 registrosAnterior12Próxima"
-      },
-      "notes": [
-        "Contrato esperado: o rodapé deve refletir a quantidade retornada pelo backend, sem valor fixo hardcoded."
-      ],
-      "errors": [
-        {
-          "name": "TestingLibraryElementError",
-          "message": "Unable to find an element with the text: /Exibindo 1 registro/. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.\n\nIgnored nodes: comments, script, style\n\u001b[36m<body>\u001b[39m\n  \u001b[36m<div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-center mb-4\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div>\u001b[39m\n        \u001b[36m<h3\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"_headerTitle_96ed51\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mLog de Sessões\u001b[0m\n        \u001b[36m</h3>\u001b[39m\n        \u001b[36m<p\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-0\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mHistórico de operações e gravações da Água-viva\u001b[0m\n        \u001b[36m</p>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<button\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-outline-secondary rounded-pill btn-sm d-none d-md-flex align-items-center\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<i\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-funnel me-2\"\u001b[39m\n        \u001b[36m/>\u001b[39m\n        \u001b[0m Filtrar\u001b[0m\n      \u001b[36m</button>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"card _logCard_96ed51\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"card-body p-0\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"table-responsive\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<table\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"table table-hover mb-0 _responsiveTable_26f4d7\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<thead\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"table-light\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<tr>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"ps-4\"\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mID Sessão\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mData / Hora\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mDuração\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mParticipante (E-mail)\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mStatus\u001b[0m\n                \u001b[36m</th>\u001b[39m\n              \u001b[36m</tr>\u001b[39m\n            \u001b[36m</thead>\u001b[39m\n            \u001b[36m<tbody>\u001b[39m\n              \u001b[36m<tr>\u001b[39m\n                \u001b[36m<td\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"ps-md-4 fw-semibold text-primary\"\u001b[39m\n                  \u001b[33mdata-label\u001b[39m=\u001b[32m\"ID Sessão\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0msess-003\u001b[0m\n                \u001b[36m</td>\u001b[39m\n                \u001b[36m<td\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted\"\u001b[39m\n                  \u001b[33mdata-label\u001b[39m=\u001b[32m\"Data / Hora\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m01 de julho de 2026 às 08:00\u001b[0m\n                \u001b[36m</td>\u001b[39m\n                \u001b[36m<td\u001b[39m\n                  \u001b[33mdata-label\u001b[39m=\u001b[32m\"Duração\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m10\u001b[0m\n                \u001b[36m</td>\u001b[39m\n                \u001b[36m<td\u001b[39m\n                  \u001b[33mdata-label\u001b[39m=\u001b[32m\"Participante\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mum@example.com\u001b[0m\n                \u001b[36m</td>\u001b[39m\n                \u001b[36m<td\u001b[39m\n                  \u001b[33mdata-label\u001b[39m=\u001b[32m\"Status\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[36m<div\u001b[39m\n                    \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex align-items-center justify-content-end justify-content-md-start\"\u001b[39m\n                  \u001b[36m>\u001b[39m\n                    \u001b[36m<div\u001b[39m\n                      \u001b[33mclass\u001b[39m=\u001b[32m\"bg-success bg-opacity-10 text-success me-2 _statusIcon_26f4d7\"\u001b[39m\n                    \u001b[36m>\u001b[39m\n                      \u001b[36m<i\u001b[39m\n                        \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-check-lg\"\u001b[39m\n                      \u001b[36m/>\u001b[39m\n                    \u001b[36m</div>\u001b[39m\n                    \u001b[36m<span\u001b[39m\n                      \u001b[33mclass\u001b[39m=\u001b[32m\"fw-semibold text-success d-none d-md-inline\"\u001b[39m\n                    \u001b[36m>\u001b[39m\n                      \u001b[0mConcluído\u001b[0m\n                    \u001b[36m</span>\u001b[39m\n                    \u001b[36m<span\u001b[39m\n                      \u001b[33mclass\u001b[39m=\u001b[32m\"fw-semibold d-md-none ms-2 text-success\"\u001b[39m\n                    \u001b[36m>\u001b[39m\n                      \u001b[0mConcluído\u001b[0m\n                    \u001b[36m</span>\u001b[39m\n                  \u001b[36m</div>\u001b[39m\n                \u001b[36m</td>\u001b[39m\n              \u001b[36m</tr>\u001b[39m\n            \u001b[36m</tbody>\u001b[39m\n          \u001b[36m</table>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card-footer bg-white border-top p-3 d-flex justify-content-between align-items-center\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<span\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[0mExibindo 4 registros\u001b[0m\n          \u001b[36m</span>\u001b[39m\n          \u001b[36m<nav\u001b[39m\n            \u001b[33maria-label\u001b[39m=\u001b[32m\"Navegação de páginas de log\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<ul\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"pagination pagination-sm mb-0\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item disabled\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                  \u001b[33mtabindex\u001b[39m=\u001b[32m\"-1\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mAnterior\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item active\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m1\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m2\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mPróxima\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n            \u001b[36m</ul>\u001b[39m\n          \u001b[36m</nav>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n  \u001b[36m</div>\u001b[39m\n\u001b[36m</body>\u001b[39m",
-          "stack": "TestingLibraryElementError: Unable to find an element with the text: /Exibindo 1 registro/. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.\n\nIgnored nodes: comments, script, style\n\u001b[36m<body>\u001b[39m\n  \u001b[36m<div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex justify-content-between align-items-center mb-4\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div>\u001b[39m\n        \u001b[36m<h3\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"_headerTitle_96ed51\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mLog de Sessões\u001b[0m\n        \u001b[36m</h3>\u001b[39m\n        \u001b[36m<p\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small mb-0\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[0mHistórico de operações e gravações da Água-viva\u001b[0m\n        \u001b[36m</p>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n      \u001b[36m<button\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"btn btn-outline-secondary rounded-pill btn-sm d-none d-md-flex align-items-center\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<i\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-funnel me-2\"\u001b[39m\n        \u001b[36m/>\u001b[39m\n        \u001b[0m Filtrar\u001b[0m\n      \u001b[36m</button>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n    \u001b[36m<div\u001b[39m\n      \u001b[33mclass\u001b[39m=\u001b[32m\"card _logCard_96ed51\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<div\u001b[39m\n        \u001b[33mclass\u001b[39m=\u001b[32m\"card-body p-0\"\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"table-responsive\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<table\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"table table-hover mb-0 _responsiveTable_26f4d7\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<thead\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"table-light\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<tr>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"ps-4\"\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mID Sessão\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mData / Hora\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mDuração\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mParticipante (E-mail)\u001b[0m\n                \u001b[36m</th>\u001b[39m\n                \u001b[36m<th\u001b[39m\n                  \u001b[33mscope\u001b[39m=\u001b[32m\"col\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mStatus\u001b[0m\n                \u001b[36m</th>\u001b[39m\n              \u001b[36m</tr>\u001b[39m\n            \u001b[36m</thead>\u001b[39m\n            \u001b[36m<tbody>\u001b[39m\n              \u001b[36m<tr>\u001b[39m\n                \u001b[36m<td\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"ps-md-4 fw-semibold text-primary\"\u001b[39m\n                  \u001b[33mdata-label\u001b[39m=\u001b[32m\"ID Sessão\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0msess-003\u001b[0m\n                \u001b[36m</td>\u001b[39m\n                \u001b[36m<td\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted\"\u001b[39m\n                  \u001b[33mdata-label\u001b[39m=\u001b[32m\"Data / Hora\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m01 de julho de 2026 às 08:00\u001b[0m\n                \u001b[36m</td>\u001b[39m\n                \u001b[36m<td\u001b[39m\n                  \u001b[33mdata-label\u001b[39m=\u001b[32m\"Duração\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m10\u001b[0m\n                \u001b[36m</td>\u001b[39m\n                \u001b[36m<td\u001b[39m\n                  \u001b[33mdata-label\u001b[39m=\u001b[32m\"Participante\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mum@example.com\u001b[0m\n                \u001b[36m</td>\u001b[39m\n                \u001b[36m<td\u001b[39m\n                  \u001b[33mdata-label\u001b[39m=\u001b[32m\"Status\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[36m<div\u001b[39m\n                    \u001b[33mclass\u001b[39m=\u001b[32m\"d-flex align-items-center justify-content-end justify-content-md-start\"\u001b[39m\n                  \u001b[36m>\u001b[39m\n                    \u001b[36m<div\u001b[39m\n                      \u001b[33mclass\u001b[39m=\u001b[32m\"bg-success bg-opacity-10 text-success me-2 _statusIcon_26f4d7\"\u001b[39m\n                    \u001b[36m>\u001b[39m\n                      \u001b[36m<i\u001b[39m\n                        \u001b[33mclass\u001b[39m=\u001b[32m\"bi bi-check-lg\"\u001b[39m\n                      \u001b[36m/>\u001b[39m\n                    \u001b[36m</div>\u001b[39m\n                    \u001b[36m<span\u001b[39m\n                      \u001b[33mclass\u001b[39m=\u001b[32m\"fw-semibold text-success d-none d-md-inline\"\u001b[39m\n                    \u001b[36m>\u001b[39m\n                      \u001b[0mConcluído\u001b[0m\n                    \u001b[36m</span>\u001b[39m\n                    \u001b[36m<span\u001b[39m\n                      \u001b[33mclass\u001b[39m=\u001b[32m\"fw-semibold d-md-none ms-2 text-success\"\u001b[39m\n                    \u001b[36m>\u001b[39m\n                      \u001b[0mConcluído\u001b[0m\n                    \u001b[36m</span>\u001b[39m\n                  \u001b[36m</div>\u001b[39m\n                \u001b[36m</td>\u001b[39m\n              \u001b[36m</tr>\u001b[39m\n            \u001b[36m</tbody>\u001b[39m\n          \u001b[36m</table>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n        \u001b[36m<div\u001b[39m\n          \u001b[33mclass\u001b[39m=\u001b[32m\"card-footer bg-white border-top p-3 d-flex justify-content-between align-items-center\"\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<span\u001b[39m\n            \u001b[33mclass\u001b[39m=\u001b[32m\"text-muted small\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[0mExibindo 4 registros\u001b[0m\n          \u001b[36m</span>\u001b[39m\n          \u001b[36m<nav\u001b[39m\n            \u001b[33maria-label\u001b[39m=\u001b[32m\"Navegação de páginas de log\"\u001b[39m\n          \u001b[36m>\u001b[39m\n            \u001b[36m<ul\u001b[39m\n              \u001b[33mclass\u001b[39m=\u001b[32m\"pagination pagination-sm mb-0\"\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item disabled\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                  \u001b[33mtabindex\u001b[39m=\u001b[32m\"-1\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mAnterior\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item active\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m1\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0m2\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n              \u001b[36m<li\u001b[39m\n                \u001b[33mclass\u001b[39m=\u001b[32m\"page-item\"\u001b[39m\n              \u001b[36m>\u001b[39m\n                \u001b[36m<a\u001b[39m\n                  \u001b[33mclass\u001b[39m=\u001b[32m\"page-link\"\u001b[39m\n                  \u001b[33mhref\u001b[39m=\u001b[32m\"#\"\u001b[39m\n                \u001b[36m>\u001b[39m\n                  \u001b[0mPróxima\u001b[0m\n                \u001b[36m</a>\u001b[39m\n              \u001b[36m</li>\u001b[39m\n            \u001b[36m</ul>\u001b[39m\n          \u001b[36m</nav>\u001b[39m\n        \u001b[36m</div>\u001b[39m\n      \u001b[36m</div>\u001b[39m\n    \u001b[36m</div>\u001b[39m\n  \u001b[36m</div>\u001b[39m\n\u001b[36m</body>\u001b[39m\n    at Object.getElementError (/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/config.js:37:19)\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/query-helpers.js:76:38\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/query-helpers.js:52:17\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@testing-library/dom/dist/query-helpers.js:95:19\n    at /home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx:190:19\n    at file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///home/gabriel/Faculdade/Mat%C3%A9rias/ods/T5.1/frontend/admin-parametrizacao/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
-        }
-      ]
-    },
-    {
-      "name": "impede o salvamento quando o nome obrigatório não foi informado",
-      "nodeid": "Gerente de Programa - Modal de Nova Configuração > impede o salvamento quando o nome obrigatório não foi informado",
-      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/create_configuration_modal.spec.jsx",
-      "state": "pass",
-      "duration_ms": null,
-      "input": {
-        "name": "",
-        "description": ""
-      },
-      "expected": {
-        "saveDisabled": true
-      },
-      "output": {
-        "saveDisabled": true
-      },
-      "notes": [],
-      "errors": []
-    },
-    {
-      "name": "envia os dados preenchidos da nova configuração para salvamento",
-      "nodeid": "Gerente de Programa - Modal de Nova Configuração > envia os dados preenchidos da nova configuração para salvamento",
-      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/create_configuration_modal.spec.jsx",
-      "state": "pass",
-      "duration_ms": null,
-      "input": {
-        "name": "Modo Exposição Padrão",
-        "description": "Configuração criada pela interface web",
-        "movement_speed": 2.5,
-        "movement_duration_seconds": 45,
-        "video_capture_enabled": true
-      },
-      "expected": {
-        "submittedName": "Modo Exposição Padrão",
-        "submittedDuration": 45,
-        "closeCalled": true
-      },
-      "output": {
-        "submitPayload": {
-          "name": "Modo Exposição Padrão",
-          "description": "Configuração criada pela interface web",
-          "is_active": false,
-          "parameters": {
-            "movement_speed": 2.5,
-            "movement_duration_seconds": 45,
-            "video_capture_enabled": true,
-            "audio_capture_enabled": false
-          }
-        },
-        "closeCalls": 1
-      },
-      "notes": [],
-      "errors": []
-    },
     {
       "name": "salva o token e navega para a home quando o login é bem-sucedido",
       "nodeid": "Gerente de Programa - Página de Login > salva o token e navega para a home quando o login é bem-sucedido",
@@ -320,6 +66,157 @@
       },
       "output": {
         "renderedError": "Erro de conexão tente novamente"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "impede o salvamento quando o nome obrigatório não foi informado",
+      "nodeid": "Gerente de Programa - Modal de Nova Configuração > impede o salvamento quando o nome obrigatório não foi informado",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/create_configuration_modal.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "name": "",
+        "description": ""
+      },
+      "expected": {
+        "saveDisabled": true
+      },
+      "output": {
+        "saveDisabled": true
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "envia os dados preenchidos da nova configuração para salvamento",
+      "nodeid": "Gerente de Programa - Modal de Nova Configuração > envia os dados preenchidos da nova configuração para salvamento",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/create_configuration_modal.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "name": "Modo Exposição Padrão",
+        "description": "Configuração criada pela interface web",
+        "movement_speed": 2.5,
+        "movement_duration_seconds": 45,
+        "video_capture_enabled": true
+      },
+      "expected": {
+        "submittedName": "Modo Exposição Padrão",
+        "submittedDuration": 45,
+        "closeCalled": true
+      },
+      "output": {
+        "submitPayload": {
+          "name": "Modo Exposição Padrão",
+          "description": "Configuração criada pela interface web",
+          "is_active": false,
+          "parameters": {
+            "movement_speed": 2.5,
+            "movement_duration_seconds": 45,
+            "video_capture_enabled": true,
+            "audio_capture_enabled": false
+          }
+        },
+        "closeCalls": 1
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "lista configurações, abre modal de criação e mostra detalhes da configuração selecionada",
+      "nodeid": "Gerente de Programa - Página de Parâmetros > lista configurações, abre modal de criação e mostra detalhes da configuração selecionada",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "totalConfigurations": 2
+      },
+      "expected": {
+        "activeBadge": "Ativa",
+        "inactiveBadge": "Inativa",
+        "createModalVisible": true,
+        "detailsVisible": "Inativa"
+      },
+      "output": {
+        "createModalVisible": true,
+        "detailsText": "InativaFechar detalhes"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra o loading modal enquanto a tela aguarda dados",
+      "nodeid": "Gerente de Programa - Página de Parâmetros > mostra o loading modal enquanto a tela aguarda dados",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "isLoading": true,
+        "isPending": false
+      },
+      "expected": {
+        "loadingVisible": true
+      },
+      "output": {
+        "loadingText": "Carregando..."
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "deve classificar erro 4xx de ativação como erro no servidor externo da aplicação",
+      "nodeid": "Gerente de Programa - Página de Parâmetros > deve classificar erro 4xx de ativação como erro no servidor externo da aplicação",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "activateErrorStatus": 422
+      },
+      "expected": {
+        "errorMessage": "Erro no servidor externo da aplicação"
+      },
+      "output": {
+        "renderedMessage": "Erro no servidor externo da aplicação"
+      },
+      "notes": [
+        "Contrato esperado: rejeição 4xx da integração inferior deve ser comunicada como falha da aplicação externa."
+      ],
+      "errors": []
+    },
+    {
+      "name": "deve classificar erro não 4xx de ativação como erro no servidor externo da aplicação",
+      "nodeid": "Gerente de Programa - Página de Parâmetros > deve classificar erro não 4xx de ativação como erro no servidor externo da aplicação",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "activateErrorStatus": 503
+      },
+      "expected": {
+        "errorMessage": "Erro no servidor externo da aplicação"
+      },
+      "output": {
+        "renderedMessage": "Erro no servidor externo da aplicação"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "mostra erro interno quando a criação de configuração falha",
+      "nodeid": "Gerente de Programa - Página de Parâmetros > mostra erro interno quando a criação de configuração falha",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/parameters.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "createConfigurationThrows": "create failed"
+      },
+      "expected": {
+        "errorMessage": "Ocorreu um erro no servidor interno"
+      },
+      "output": {
+        "renderedMessage": "Ocorreu um erro no servidor interno"
       },
       "notes": [],
       "errors": []
@@ -396,6 +293,93 @@
         "passwordDisabled": true
       },
       "notes": [],
+      "errors": []
+    },
+    {
+      "name": "lista registros de log com data, participante e status",
+      "nodeid": "Gerente de Programa - Histórico da Operação > lista registros de log com data, participante e status",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "totalLogs": 1
+      },
+      "expected": {
+        "sessionId": "sess-001",
+        "participantEmail": "participante@example.com",
+        "statusText": "Concluído",
+        "occurredAt": "01 de julho de 2026 às 06:00"
+      },
+      "output": {
+        "renderedSessionId": "sess-001",
+        "renderedDate": "01 de julho de 2026 às 06:00",
+        "renderedStatus": "Concluído"
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "deve informar claramente quando não existem registros de log",
+      "nodeid": "Gerente de Programa - Histórico da Operação > deve informar claramente quando não existem registros de log",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "totalLogs": 0,
+        "message": "Nenhum log encontrado."
+      },
+      "expected": {
+        "emptyStateMessage": "Nenhum log encontrado."
+      },
+      "output": {
+        "renderedText": "Log de SessõesHistórico de operações e gravações da Água-viva FiltrarID SessãoData / HoraDuraçãoParticipante (E-mail)StatusNenhum log encontrado.Exibindo 0 registrosAnterior12Próxima"
+      },
+      "notes": [
+        "Contrato de usabilidade: a ausência de histórico deve ser explicitamente comunicada."
+      ],
+      "errors": []
+    },
+    {
+      "name": "renderiza o ramo visual de erro quando o status do log não é success",
+      "nodeid": "Gerente de Programa - Histórico da Operação > renderiza o ramo visual de erro quando o status do log não é success",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "totalLogs": 1,
+        "status": "error"
+      },
+      "expected": {
+        "sessionId": "sess-002",
+        "statusText": "Falhou",
+        "statusClass": "text-danger"
+      },
+      "output": {
+        "renderedStatus": "Falhou",
+        "statusClass": "fw-semibold text-danger d-none d-md-inline",
+        "hasDangerWrapper": true
+      },
+      "notes": [],
+      "errors": []
+    },
+    {
+      "name": "deve refletir no rodapé a quantidade real de registros retornados",
+      "nodeid": "Gerente de Programa - Histórico da Operação > deve refletir no rodapé a quantidade real de registros retornados",
+      "file": "/home/gabriel/Faculdade/Matérias/ods/T5.1/frontend/admin-parametrizacao/tests/components/gerente_programa/video_history.spec.jsx",
+      "state": "pass",
+      "duration_ms": null,
+      "input": {
+        "totalLogs": 1
+      },
+      "expected": {
+        "footerText": "Exibindo 1 registro"
+      },
+      "output": {
+        "pageText": "Log de SessõesHistórico de operações e gravações da Água-viva FiltrarID SessãoData / HoraDuraçãoParticipante (E-mail)Statussess-00301 de julho de 2026 às 08:0010um@example.comConcluídoConcluídoExibindo 1 registroAnterior12Próxima"
+      },
+      "notes": [
+        "Contrato esperado: o rodapé deve refletir a quantidade retornada pelo backend, sem valor fixo hardcoded."
+      ],
       "errors": []
     },
     {
