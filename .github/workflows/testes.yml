@@ -10,19 +10,19 @@ on:
       - main
 
 jobs:
-  testes:
+  backend:
+    name: Backend
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do repositório
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - name: Instalar dependências do Backend
+      - name: Instalar dependências
         run: |
           cd backend
 
@@ -37,24 +37,51 @@ jobs:
             .venv/bin/pip install -r requirements-dev.txt
           fi
 
-      - name: Executar testes do Backend
+      - name: Executar testes
         run: |
           cd backend
           .venv/bin/pytest -q
+
+  admin-parametrizacao:
+    name: Frontend - Admin Parametrização
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Instalar dependências e testar Admin Parametrização
+      - name: Instalar dependências
         run: |
           cd frontend/admin-parametrizacao
           npm install
+
+      - name: Executar testes
+        run: |
+          cd frontend/admin-parametrizacao
           npm run test
 
-      - name: Instalar dependências e testar Meus Vídeos
+  meus-videos:
+    name: Frontend - Meus Vídeos
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
         run: |
           cd frontend/meus-videos
           npm install
+
+      - name: Executar testes
+        run: |
+          cd frontend/meus-videos
           npm run test
