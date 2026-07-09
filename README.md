@@ -1,14 +1,5 @@
 # 🌂 Projeto Guarda-Chuva 
 
-# Resultado dos testes
-
-[![Status do QA Central](https://github.com/Projeto-Guarda-Chuva/.github/actions/workflows/qa-t51.yml/badge.svg)](https://github.com/Projeto-Guarda-Chuva/.github/actions/workflows/qa-t51.yml)
-
-Repositório oficial do projeto:  
-🔗 https://github.com/Projeto-Guarda-Chuva
-
----
-
 ## 📌 Regras de Utilização do GitHub
 
 Este documento define as boas práticas para organização e colaboração no repositório.
