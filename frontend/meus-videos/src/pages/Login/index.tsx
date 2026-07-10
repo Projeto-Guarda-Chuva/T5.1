@@ -9,6 +9,7 @@ import {
 import { jwtDecode } from "jwt-decode";
 import authService from "../../services/authService";
 import participantesService from "../../services/participantesService";
+import InfoModal from "../../components/InfoModal";
 
 interface GoogleDecodedToken {
   name: string;
@@ -30,6 +31,13 @@ export default function AuthPage() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+  const [modalInfo, setModalInfo] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    type: "success" | "error";
+    onClose?: () => void;
+  } | null>(null);
 
   const handleTabSwitch = (tab: "login" | "cadastro") => {
     setActiveTab(tab);
@@ -56,8 +64,16 @@ export default function AuthPage() {
           "logged_user",
           JSON.stringify({ email: loginEmail }),
         );
-        alert("Login realizado com sucesso!");
-        navigate(ROUTES.HOME);
+        setModalInfo({
+          isOpen: true,
+          title: "Sucesso!",
+          message: "Login realizado com sucesso!",
+          type: "success",
+          onClose: () => {
+            setModalInfo(null);
+            navigate(ROUTES.HOME);
+          },
+        });
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.detail || "E-mail ou senha incorretos.";
@@ -101,10 +117,13 @@ export default function AuthPage() {
 
         // Depois aceita o termo
         if (regConsentimento) {
-          await participantesService.aceitarTermo(registerResponse.participant_id, {
-            aceitou: true,
-            versao_termo: "v1.0",
-          });
+          await participantesService.aceitarTermo(
+            registerResponse.participant_id,
+            {
+              aceitou: true,
+              versao_termo: "v1.0",
+            },
+          );
         }
 
         localStorage.setItem(
@@ -115,8 +134,16 @@ export default function AuthPage() {
             participantId: registerResponse.participant_id,
           }),
         );
-        alert("Cadastro realizado com sucesso!");
-        navigate("/status-gravacao");
+        setModalInfo({
+          isOpen: true,
+          title: "Cadastro Concluído!",
+          message: "Seu cadastro foi realizado com sucesso. Bem-vindo(a)!",
+          type: "success",
+          onClose: () => {
+            setModalInfo(null);
+            navigate("/status-gravacao");
+          },
+        });
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.detail ||
@@ -160,8 +187,18 @@ export default function AuthPage() {
         }),
       );
 
-      alert(`Bem-vindo(a), ${nome}!`);
-      navigate(loginResponse.is_new_user ? ROUTES.STATUS_GRAVACAO : ROUTES.HOME);
+      setModalInfo({
+        isOpen: true,
+        title: `Bem-vindo(a), ${nome}!`,
+        message: "Login com Google realizado com sucesso.",
+        type: "success",
+        onClose: () => {
+          setModalInfo(null);
+          navigate(
+            loginResponse.is_new_user ? ROUTES.STATUS_GRAVACAO : ROUTES.HOME,
+          );
+        },
+      });
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.detail ||
@@ -176,8 +213,18 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="container d-flex align-items-center justify-content-center flex-grow-1">
-      <style>{`
+    <>
+      {modalInfo?.isOpen && (
+        <InfoModal
+          isOpen={modalInfo.isOpen}
+          title={modalInfo.title}
+          message={modalInfo.message}
+          type={modalInfo.type}
+          onClose={modalInfo.onClose || (() => setModalInfo(null))}
+        />
+      )}
+      <div className="container d-flex align-items-center justify-content-center flex-grow-1">
+        <style>{`
         .fade-in {
           animation: fadeIn 0.3s ease-in-out;
         }
@@ -187,222 +234,227 @@ export default function AuthPage() {
         }
       `}</style>
 
-      <div
-        className="card shadow-sm w-100"
-        style={{ maxWidth: "420px", borderRadius: "16px" }}
-      >
-        <div className="card-body p-4">
-          <ul className="nav nav-tabs mb-4">
-            <li className="nav-item w-50">
-              <button
-                className={`nav-link w-100 ${
-                  activeTab === "login" ? "active" : ""
-                }`}
-                onClick={() => handleTabSwitch("login")}
-              >
-                Login
-              </button>
-            </li>
-            <li className="nav-item w-50">
-              <button
-                className={`nav-link w-100 ${
-                  activeTab === "cadastro" ? "active" : ""
-                }`}
-                onClick={() => handleTabSwitch("cadastro")}
-              >
-                Cadastro
-              </button>
-            </li>
-          </ul>
+        <div
+          className="card shadow-sm w-100"
+          style={{ maxWidth: "420px", borderRadius: "16px" }}
+        >
+          <div className="card-body p-4">
+            <ul className="nav nav-tabs mb-4">
+              <li className="nav-item w-50">
+                <button
+                  className={`nav-link w-100 ${
+                    activeTab === "login" ? "active" : ""
+                  }`}
+                  onClick={() => handleTabSwitch("login")}
+                >
+                  Login
+                </button>
+              </li>
+              <li className="nav-item w-50">
+                <button
+                  className={`nav-link w-100 ${
+                    activeTab === "cadastro" ? "active" : ""
+                  }`}
+                  onClick={() => handleTabSwitch("cadastro")}
+                >
+                  Cadastro
+                </button>
+              </li>
+            </ul>
 
-          <div key={activeTab} className="fade-in">
-            {activeTab === "login" ? (
-              <>
-                <form onSubmit={handleLogin}>
-                  <div className="mb-3">
-                    <label className="form-label">Email</label>
-                    <input
-                      type="email"
-                      className={`form-control ${errors.loginEmail ? "is-invalid" : ""}`}
-                      placeholder="seu@email.com"
-                      value={loginEmail}
-                      onChange={(e) => {
-                        setLoginEmail(e.target.value);
-                        if (errors.loginEmail)
-                          setErrors({ ...errors, loginEmail: "" });
-                      }}
-                    />
-                    {errors.loginEmail && (
-                      <div className="invalid-feedback">
-                        {errors.loginEmail}
-                      </div>
-                    )}
-                  </div>
+            <div key={activeTab} className="fade-in">
+              {activeTab === "login" ? (
+                <>
+                  <form onSubmit={handleLogin}>
+                    <div className="mb-3">
+                      <label className="form-label">Email</label>
+                      <input
+                        type="email"
+                        className={`form-control ${errors.loginEmail ? "is-invalid" : ""}`}
+                        placeholder="seu@email.com"
+                        value={loginEmail}
+                        onChange={(e) => {
+                          setLoginEmail(e.target.value);
+                          if (errors.loginEmail)
+                            setErrors({ ...errors, loginEmail: "" });
+                        }}
+                      />
+                      {errors.loginEmail && (
+                        <div className="invalid-feedback">
+                          {errors.loginEmail}
+                        </div>
+                      )}
+                    </div>
 
-                  <div className="mb-3">
-                    <label className="form-label">Senha</label>
-                    <input
-                      type="password"
-                      className={`form-control ${errors.loginPassword ? "is-invalid" : ""}`}
-                      placeholder="*******"
-                      value={loginPassword}
-                      onChange={(e) => {
-                        setLoginPassword(e.target.value);
-                        if (errors.loginPassword)
-                          setErrors({ ...errors, loginPassword: "" });
-                      }}
-                    />
-                    {errors.loginPassword && (
-                      <div className="invalid-feedback">
-                        {errors.loginPassword}
-                      </div>
-                    )}
-                  </div>
+                    <div className="mb-3">
+                      <label className="form-label">Senha</label>
+                      <input
+                        type="password"
+                        className={`form-control ${errors.loginPassword ? "is-invalid" : ""}`}
+                        placeholder="*******"
+                        value={loginPassword}
+                        onChange={(e) => {
+                          setLoginPassword(e.target.value);
+                          if (errors.loginPassword)
+                            setErrors({ ...errors, loginPassword: "" });
+                        }}
+                      />
+                      {errors.loginPassword && (
+                        <div className="invalid-feedback">
+                          {errors.loginPassword}
+                        </div>
+                      )}
+                    </div>
 
-                  <button
-                    type="submit"
-                    className="btn btn-primary w-100"
-                    disabled={loading}
-                  >
-                    {loading ? "Entrando..." : "Entrar"}
-                  </button>
-                </form>
-              </>
-            ) : (
-              <>
-                <form onSubmit={handleCadastro}>
-                  <div className="mb-3">
-                    <label className="form-label">Nome</label>
-                    <input
-                      type="text"
-                      className={`form-control ${errors.regNome ? "is-invalid" : ""}`}
-                      placeholder="João"
-                      value={regNome}
-                      onChange={(e) => {
-                        setRegNome(e.target.value);
-                        if (errors.regNome)
-                          setErrors({ ...errors, regNome: "" });
-                      }}
-                    />
-                    {errors.regNome && (
-                      <div className="invalid-feedback">{errors.regNome}</div>
-                    )}
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Email</label>
-                    <input
-                      type="email"
-                      className={`form-control ${errors.regEmail ? "is-invalid" : ""}`}
-                      placeholder="seu@email.com"
-                      value={regEmail}
-                      onChange={(e) => {
-                        setRegEmail(e.target.value);
-                        if (errors.regEmail)
-                          setErrors({ ...errors, regEmail: "" });
-                      }}
-                    />
-                    {errors.regEmail && (
-                      <div className="invalid-feedback">{errors.regEmail}</div>
-                    )}
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Senha</label>
-                    <input
-                      type="password"
-                      className={`form-control ${errors.regPassword ? "is-invalid" : ""}`}
-                      placeholder="*******"
-                      value={regPassword}
-                      onChange={(e) => {
-                        setRegPassword(e.target.value);
-                        if (errors.regPassword)
-                          setErrors({ ...errors, regPassword: "" });
-                      }}
-                    />
-                    {errors.regPassword && (
-                      <div className="invalid-feedback">
-                        {errors.regPassword}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="form-check mb-3">
-                    <input
-                      type="checkbox"
-                      className={`form-check-input ${errors.regConsentimento ? "is-invalid" : ""}`}
-                      id="consentimento"
-                      checked={regConsentimento}
-                      onChange={(e) => {
-                        setRegConsentimento(e.target.checked);
-                        if (errors.regConsentimento)
-                          setErrors({ ...errors, regConsentimento: "" });
-                      }}
-                    />
-                    <label className="form-check-label" htmlFor="consentimento">
-                      Aceito o{" "}
-                      <Link
-                        to={ROUTES.TERMS}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        termo de consentimento
-                      </Link>
-                    </label>
-                    {errors.regConsentimento && (
-                      <div className="invalid-feedback">
-                        {errors.regConsentimento}
-                      </div>
-                    )}
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn btn-success w-100"
-                    disabled={loading}
-                  >
-                    {loading ? "Cadastrando..." : "Cadastrar"}
-                  </button>
-                </form>
-              </>
-            )}
-
-            <div className="d-flex align-items-center my-3">
-              <hr className="flex-grow-1 text-muted" />
-              <span className="mx-3 text-muted small">ou</span>
-              <hr className="flex-grow-1 text-muted" />
-            </div>
-
-            <div className="d-flex justify-content-center">
-              {googleClientId ? (
-                <GoogleOAuthProvider clientId={googleClientId}>
-                  <GoogleLogin
-                    onSuccess={handleGoogleLogin}
-                    onError={() => {
-                      setErrors((current) => ({
-                        ...current,
-                        google: "Falha no login com Google. Tente novamente.",
-                      }));
-                    }}
-                    useOneTap
-                  />
-                </GoogleOAuthProvider>
+                    <button
+                      type="submit"
+                      className="btn btn-primary w-100"
+                      disabled={loading}
+                    >
+                      {loading ? "Entrando..." : "Entrar"}
+                    </button>
+                  </form>
+                </>
               ) : (
-                <div className="text-muted text-center small">
-                  Login com Google indisponível: configure
-                  {" "}
-                  <code>VITE_GOOGLE_CLIENT_ID</code>.
+                <>
+                  <form onSubmit={handleCadastro}>
+                    <div className="mb-3">
+                      <label className="form-label">Nome</label>
+                      <input
+                        type="text"
+                        className={`form-control ${errors.regNome ? "is-invalid" : ""}`}
+                        placeholder="João"
+                        value={regNome}
+                        onChange={(e) => {
+                          setRegNome(e.target.value);
+                          if (errors.regNome)
+                            setErrors({ ...errors, regNome: "" });
+                        }}
+                      />
+                      {errors.regNome && (
+                        <div className="invalid-feedback">{errors.regNome}</div>
+                      )}
+                    </div>
+
+                    <div className="mb-3">
+                      <label className="form-label">Email</label>
+                      <input
+                        type="email"
+                        className={`form-control ${errors.regEmail ? "is-invalid" : ""}`}
+                        placeholder="seu@email.com"
+                        value={regEmail}
+                        onChange={(e) => {
+                          setRegEmail(e.target.value);
+                          if (errors.regEmail)
+                            setErrors({ ...errors, regEmail: "" });
+                        }}
+                      />
+                      {errors.regEmail && (
+                        <div className="invalid-feedback">
+                          {errors.regEmail}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="mb-3">
+                      <label className="form-label">Senha</label>
+                      <input
+                        type="password"
+                        className={`form-control ${errors.regPassword ? "is-invalid" : ""}`}
+                        placeholder="*******"
+                        value={regPassword}
+                        onChange={(e) => {
+                          setRegPassword(e.target.value);
+                          if (errors.regPassword)
+                            setErrors({ ...errors, regPassword: "" });
+                        }}
+                      />
+                      {errors.regPassword && (
+                        <div className="invalid-feedback">
+                          {errors.regPassword}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="form-check mb-3">
+                      <input
+                        type="checkbox"
+                        className={`form-check-input ${errors.regConsentimento ? "is-invalid" : ""}`}
+                        id="consentimento"
+                        checked={regConsentimento}
+                        onChange={(e) => {
+                          setRegConsentimento(e.target.checked);
+                          if (errors.regConsentimento)
+                            setErrors({ ...errors, regConsentimento: "" });
+                        }}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="consentimento"
+                      >
+                        Aceito o{" "}
+                        <Link
+                          to={ROUTES.TERMS}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          termo de consentimento
+                        </Link>
+                      </label>
+                      {errors.regConsentimento && (
+                        <div className="invalid-feedback">
+                          {errors.regConsentimento}
+                        </div>
+                      )}
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="btn btn-success w-100"
+                      disabled={loading}
+                    >
+                      {loading ? "Cadastrando..." : "Cadastrar"}
+                    </button>
+                  </form>
+                </>
+              )}
+
+              <div className="d-flex align-items-center my-3">
+                <hr className="flex-grow-1 text-muted" />
+                <span className="mx-3 text-muted small">ou</span>
+                <hr className="flex-grow-1 text-muted" />
+              </div>
+
+              <div className="d-flex justify-content-center">
+                {googleClientId ? (
+                  <GoogleOAuthProvider clientId={googleClientId}>
+                    <GoogleLogin
+                      onSuccess={handleGoogleLogin}
+                      onError={() => {
+                        setErrors((current) => ({
+                          ...current,
+                          google: "Falha no login com Google. Tente novamente.",
+                        }));
+                      }}
+                      useOneTap
+                    />
+                  </GoogleOAuthProvider>
+                ) : (
+                  <div className="text-muted text-center small">
+                    Login com Google indisponível: configure{" "}
+                    <code>VITE_GOOGLE_CLIENT_ID</code>.
+                  </div>
+                )}
+              </div>
+              {errors.google && (
+                <div className="text-danger text-center mt-2 small">
+                  {errors.google}
                 </div>
               )}
             </div>
-            {errors.google && (
-              <div className="text-danger text-center mt-2 small">
-                {errors.google}
-              </div>
-            )}
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

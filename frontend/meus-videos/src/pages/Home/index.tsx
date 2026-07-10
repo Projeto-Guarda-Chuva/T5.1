@@ -8,11 +8,7 @@ import {
 } from "../../services/participantVideos";
 import { ROUTES } from "../../utils/routes";
 import { useVideos } from "../../hooks/useVideos";
-
-interface EmailFeedback {
-  type: "success" | "danger";
-  message: string;
-}
+import InfoModal from "../../components/InfoModal";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -23,9 +19,12 @@ export default function Home() {
   const initialLatestIdRef = useRef<string | null>(null);
 
   const [isSendingEmail, setIsSendingEmail] = useState(false);
-  const [emailFeedback, setEmailFeedback] = useState<EmailFeedback | null>(
-    null,
-  );
+  const [modalInfo, setModalInfo] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
   const [featuredVideoSrc, setFeaturedVideoSrc] = useState<string>("");
   const [featuredVideoPoster, setFeaturedVideoPoster] = useState<string>("");
   const [isFeaturedVideoLoading, setIsFeaturedVideoLoading] = useState(false);
@@ -191,39 +190,46 @@ export default function Home() {
 
   const handleSendVideoByEmail = async () => {
     if (!latestVideo?.referenceDate) {
-      setEmailFeedback({
-        type: "danger",
+      setModalInfo({
+        isOpen: true,
+        title: "Erro",
         message:
           "Este vídeo ainda não possui uma data de referência compatível com o backend.",
+        type: "error",
       });
       return;
     }
 
     if (!latestVideo?.participantVideoId) {
-      setEmailFeedback({
-        type: "danger",
+      setModalInfo({
+        isOpen: true,
+        title: "Erro",
         message:
           "Este vídeo exibido ainda não está vinculado ao arquivo correspondente no backend.",
+        type: "error",
       });
       return;
     }
 
     try {
       setIsSendingEmail(true);
-      setEmailFeedback(null);
+      setModalInfo(null);
 
       const response = await sendParticipantVideoEmail(
         latestVideo.referenceDate,
         latestVideo.participantVideoId,
       );
 
-      setEmailFeedback({
-        type: "success",
+      setModalInfo({
+        isOpen: true,
+        title: "Sucesso!",
         message: response.message,
+        type: "success",
       });
     } catch (error: any) {
-      setEmailFeedback({
-        type: "danger",
+      setModalInfo({
+        isOpen: true,
+        title: "Erro ao Enviar",
         message:
           error?.response?.data?.detail ||
           error?.message ||
@@ -285,6 +291,15 @@ export default function Home() {
 
   return (
     <div className="video-page">
+      {modalInfo?.isOpen && (
+        <InfoModal
+          isOpen={modalInfo.isOpen}
+          title={modalInfo.title}
+          message={modalInfo.message}
+          type={modalInfo.type}
+          onClose={() => setModalInfo(null)}
+        />
+      )}
       <div className="container-fluid px-3 px-lg-4">
         <section className="featured-section">
           <div className="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center align-items-md-center mb-3 gap-3">
@@ -313,15 +328,6 @@ export default function Home() {
               </button>
             </div>
           </div>
-
-          {emailFeedback ? (
-            <div
-              className={`alert alert-${emailFeedback.type} video-email-feedback`}
-              role="alert"
-            >
-              {emailFeedback.message}
-            </div>
-          ) : null}
 
           <div className="featured-player">
             {isFeaturedVideoLoading ? (
